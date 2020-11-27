@@ -1,5 +1,5 @@
 {
-  "name": "gestor-de-accs-fronten",
+  "name": "gestor-de-accs-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
