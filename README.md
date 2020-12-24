@@ -2,6 +2,9 @@
 
 O projeto nasceu de uma necessidade da Faculdade de Computação e Engenharia Elétrica da UNIFESSPA de se informatizar a gestão das Atividades Curriculares Complementares dos cursos ofertados por ela.
 
+## O Projeto
+- [Figma](https://www.figma.com/file/28fcRaEdbWgQkIAw6Pnfwh/ACCGen-Web?node-id=0%3A1)
+
 ![](https://github.com/gustavocrvls/gestor-de-accs-frontend/blob/main/public/screenshots/login_screen_v2.png)
 
 ## Comandos do Projeto
