@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Card as CardTipoDeAcc } from '../../components/AccTypes';
+import { Card as CardTipoDeAcc } from '../../../components/AccTypes';
 import { FiArrowLeft } from 'react-icons/fi';
 
 import '../../styles/Home.scss'
-import api from '../../services/api';
+import api from '../../../services/api';
 
 interface IProps {
 }
