@@ -3,7 +3,7 @@ import React from 'react';
 import { Card as CardTipoDeAcc } from '../../../components/AccTypes';
 import { FiArrowLeft } from 'react-icons/fi';
 
-import '../../styles/Home.scss'
+import '../../../styles/modules/discente/TiposDeAcc.scss'
 import api from '../../../services/api';
 
 interface IProps {
