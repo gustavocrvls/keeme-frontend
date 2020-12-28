@@ -1,10 +1,10 @@
 import React from 'react';
-import Home from './pages/modules/Home';
+import Routes from './routes';
 
 function App() {
   return (
     <div>
-      <Home/>
+      <Routes />
     </div>
   );
 }
