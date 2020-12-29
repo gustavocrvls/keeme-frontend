@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const ProgressBar = styled.div`
   position: relative;
-  top: 10px;
+  padding-top: 10px;
 `;
 
 const TotalProgress = styled.div`
