@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { LinkButton } from '../../../components/Button';
 
 export default class Home extends React.Component {
   render () {
@@ -8,7 +8,8 @@ export default class Home extends React.Component {
         <h2>Minha Pontuação</h2>
 
         <div>
-          <Link to="/discente/tipos-de-acc" className="btn btn-success">Tipos de ACC</Link>
+          <LinkButton to="/discente/tipos-de-acc" color="#31878C">Tipos de ACC</LinkButton>
+          <LinkButton to="/discente/cadastrar-acc" color="#31878C">Cadastrar Acc</LinkButton>
         </div>
       </div>
     );

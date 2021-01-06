@@ -5,6 +5,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 
 import '../../../styles/modules/discente/TiposDeAcc.scss'
 import api from '../../../services/api';
+import { Link } from 'react-router-dom';
 
 interface IProps {
 }
@@ -34,7 +35,7 @@ export default class Home extends React.Component<IProps, IState> {
   }
 
   async componentDidMount() {
-    const response = await api.get('tipos-de-acc/usuario/5');
+    const response = await api.get('tipos-de-acc');
     this.setState({ tiposDeAcc : response.data })
   }
 
@@ -46,7 +47,7 @@ export default class Home extends React.Component<IProps, IState> {
     return (
       <div className="container">
         <div className="page-title">
-          <button className="btn back-button"><FiArrowLeft style={{ strokeWidth: 2 }}/></button>
+          <Link to="/home" className="btn back-button"><FiArrowLeft style={{ strokeWidth: 2 }}/></Link>
           <div className="title">
             Tipos de ACC
           </div>
@@ -58,7 +59,7 @@ export default class Home extends React.Component<IProps, IState> {
                   <CardTipoDeAcc
                     name={tipo.nome}
                     limit={tipo.limite_de_pontos}
-                    completed={tipo.pontuacao}
+                    completed={tipo.pontuacao ? tipo.pontuacao : 0}
                     measurementUnity={tipo.unidade_de_medida.nome}
                     pointsPerUnity={tipo.pontos_por_unidade}
                   />

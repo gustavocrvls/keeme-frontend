@@ -1,6 +1,8 @@
 import React from 'react';
-import Header from './components/Header';
 import Routes from './routes';
+
+import "../node_modules/noty/lib/noty.css";  
+import "noty/lib/themes/nest.css";  
 
 import './styles/global.scss'
 
