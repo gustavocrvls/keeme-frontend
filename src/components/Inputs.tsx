@@ -1,16 +1,18 @@
-// import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { darken } from "polished";
+
+const border_color = '#8FA7B2';
 
 const Input = styled.input`
   height: 35px;
   
-  background: #EBF2F5;
-  border: none;
+  border: 1px solid ${border_color};
   border-radius: 5px;
   padding: 5px;
   transition: outline 2s;
+
+  :hover {
+    outline: #4D6F80 auto 1px;
+  }
 
   :focus {
     outline: #4D6F80 auto 1px;
@@ -20,22 +22,29 @@ const Input = styled.input`
 const Option = styled.option`
   height: 35px;
   
-  background-color: #EBF2F5;
-  border: none;
+  border: 1px solid ${border_color};
   padding: 5px;
 
   :hover {
-    background-color: #4D6F80;
+    outline: #4D6F80 auto 1px;
+  }
+
+  :focus {
+    outline: #4D6F80 auto 1px;
   }
 `;
 
 const Select = styled.select`
   height: 35px;
   
-  background: #EBF2F5;
-  border: none;
+  border: 1px solid ${border_color};
+
   border-radius: 5px;
   padding: 5px;
+
+  :hover {
+    outline: #4D6F80 auto 1px;
+  }
 
   :focus {
     outline: #4D6F80 auto 1px;
@@ -43,10 +52,13 @@ const Select = styled.select`
 `;
 
 const TextArea = styled.textarea`
-  background: #EBF2F5;
-  border: none;
+  border: 1px solid ${border_color};
   border-radius: 5px;
   padding: 5px;
+
+  :hover {
+    outline: #4D6F80 auto 1px;
+  }
 
   :focus {
     outline: #4D6F80 auto 1px;
@@ -58,20 +70,12 @@ const File = styled.input`
     visibility: hidden;
   }
 
-  ::before {
-    content: 'Select some files';
-    display: inline-block;
-    background: linear-gradient(top, #f9f9f9, #e3e3e3);
-    border: 1px solid #999;
-    border-radius: 3px;
-    padding: 5px 8px;
-    outline: none;
-    white-space: nowrap;
-    -webkit-user-select: none;
-    cursor: pointer;
-    text-shadow: 1px 1px #fff;
-    font-weight: 700;
-    font-size: 10pt;
+  :hover {
+    outline: #4D6F80 auto 1px;
+  }
+
+  :focus {
+    outline: #4D6F80 auto 1px;
   }
 `;
 

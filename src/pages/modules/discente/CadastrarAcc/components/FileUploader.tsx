@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
-import { darken } from "polished";
 import Noty from 'noty';
 
 import { FiFile } from "react-icons/fi";
@@ -8,15 +7,14 @@ import { FiFile } from "react-icons/fi";
 import * as fileConstants from '../../../../../constants/files';
 
 const Button = styled.button`
-  border: 0;
-  padding: 10px;
+  height: 35px;
+
+  background-color: transparent;
   border-radius: 5px;
-  border: none;
+  border: 1px solid #8FA7B2;
 
   display: flex;
   align-items: center;
-
-  background-color: #EBF2F5;
 
   font-size: 14px;
   text-decoration: none;
@@ -26,8 +24,12 @@ const Button = styled.button`
 
   cursor: pointer;
 
-  &:hover {
-    background-color: ${() => darken(0.1, '#EBF2F5')};
+  :hover {
+    outline: #4D6F80 auto 5px;
+  }
+
+  :focus {
+    outline: #4D6F80 auto 5px;
   }
 `;
 
