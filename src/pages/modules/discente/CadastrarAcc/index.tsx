@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 
 import api from '../../../../services/api';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Card } from '../../../../components/Card';
 import { Input, Select, Option, TextArea, File } from '../../../../components/Inputs';
 import styled from 'styled-components';
@@ -10,6 +10,8 @@ import FileUploader from './components/FileUploader';
 import { Button } from '../../../../components/Button';
 
 import * as unidadesDeMedidaConstants from '../../../../constants/unidadesDeMedida';
+import { notifySuccess } from '../../../../utils/Notifications';
+import apiCalls from '../../../../services/apiCalls';
 
 interface TipoDeAcc {
   id: number,
@@ -33,12 +35,13 @@ const Flex = styled.div`
 
 export default function CadastrarAcc() {
   const [tiposDeAcc, setTiposDeAcc] = useState(new Array<TipoDeAcc>());
-  
   const [idTipoDeAcc, setIdTipoDeAcc] = useState<string>("");
   const [quantidade, setQuantidade] = useState<string>("");
   const [descricao, setDescricao] = useState<string>("");
   const [certificado, setCertificado] = useState<Blob>();
   
+  let history = useHistory();
+
   const handleFile = (files: Blob) => {
     setCertificado(files);
   }
@@ -79,24 +82,33 @@ export default function CadastrarAcc() {
     }
   }
 
-  const cadastrarAcc = () => {
+  const cadastrarAcc = async () => {
     let formData = new FormData();
 
     let file = certificado || new Blob();
+    let userID = localStorage.getItem('USER_ID') || '';
     
     formData.append("sobre", descricao);
     formData.append("quantidade", quantidade);
-    formData.append("idUsuario", "3");
+    formData.append("idUsuario", userID);
     formData.append("tipoDeAcc", idTipoDeAcc);
     formData.append("certificado", file);
     
-    api.post('accs/create', formData, {
-      headers: {'Content-Type': 'multipart/form-data' }
+    let response = await api.post('accs/create', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${localStorage.getItem('TOKEN')}`
+      }
     });
+
+    if (response.status == 201) {
+      notifySuccess('ACC cadastrada com sucesso!');
+      history.push('/home');
+    }
   }
 
   const loadTiposDeAcc = async () => {
-    const response = await api.get('tipos-de-acc');
+    const response = await apiCalls.discente.getTiposDeAcc();
     setTiposDeAcc(response.data);
   }
 

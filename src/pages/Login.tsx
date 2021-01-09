@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import styled, { CSSProperties } from 'styled-components';
 import { useHistory } from "react-router-dom";
 
@@ -6,6 +6,7 @@ import loginVector1 from '../assets/images/login__vector_1.svg';
 import loginVector2 from '../assets/images/login__vector_2.svg';
 import { Input } from '../components/Inputs';
 import { Button } from '../components/Button';
+import api from '../services/api';
 
 const vStyles1: CSSProperties = {
   position: 'absolute',
@@ -52,11 +53,32 @@ const LoginForm = styled.form`
 `;
 
 export default function Login () {
+  const [username, setUsername] = useState('');
+  const [senha, setSenha] = useState('');
+
+  const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  }
+
+  const handleSenha = (e: ChangeEvent<HTMLInputElement>) => {
+    setSenha(e.target.value);
+  }
+
   let history = useHistory();
 
-  const login = (e: React.FormEvent<HTMLFormElement>) => {
+  const login = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    history.push("/home");
+    let result = await api.post('usuarios/login', {
+      username,
+      senha
+    });
+    
+    if(result.data.auth) {
+      history.push("/home");
+      localStorage.setItem('TOKEN', result.data.token);
+      localStorage.setItem('USER_ID', result.data.usuario.id);
+      localStorage.setItem('USER_NAME', result.data.usuario.nome);
+    }
   }
 
   return (
@@ -68,11 +90,11 @@ export default function Login () {
         <LoginForm onSubmit={login}>
           <div>
             <label>usuário</label>
-            <Input id="login" type="text" placeholder="usuário" />
+            <Input id="username" type="text" placeholder="usuário" value={username} onChange={handleUsername} />
           </div>
           <div>
             <label>senha</label>
-            <Input id="password" type="text" placeholder="******" />
+            <Input id="password" type="password" placeholder="******" value={senha} onChange={handleSenha} />
           </div>
           <div>
             <Button color="#31878C" type="submit" style={{ width: '100%' }}>Entrar</Button>

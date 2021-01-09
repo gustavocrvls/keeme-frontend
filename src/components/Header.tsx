@@ -9,8 +9,14 @@ export default class Header extends React.Component {
         <div className="header-title">
           <Link to="/">Gestor de ACCs</Link>
         </div>
-        <div className="header-avatar">
-          <FiUser />
+
+        <div style={{display: 'flex', alignItems: 'center'}}>
+          <div style={{marginRight: 10}}>
+            Olá, {localStorage.getItem('USER_NAME')}!
+          </div>
+          <div className="header-avatar">
+            <FiUser />
+          </div>
         </div>
       </header>
     );

@@ -6,6 +6,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 import '../../../styles/modules/discente/TiposDeAcc.scss'
 import api from '../../../services/api';
 import { Link } from 'react-router-dom';
+import apiCalls from '../../../services/apiCalls';
 
 interface IProps {
 }
@@ -35,8 +36,8 @@ export default class Home extends React.Component<IProps, IState> {
   }
 
   async componentDidMount() {
-    const response = await api.get('tipos-de-acc');
-    this.setState({ tiposDeAcc : response.data })
+    const response = await apiCalls.discente.getTiposDeAcc();
+    this.setState({ tiposDeAcc : response.data });
   }
 
   render () {
