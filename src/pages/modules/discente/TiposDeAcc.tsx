@@ -28,7 +28,7 @@ interface IState {
 }
 
 export default class Home extends React.Component<IProps, IState> {
-  constructor(props : IProps) {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       tiposDeAcc: [],
@@ -37,10 +37,10 @@ export default class Home extends React.Component<IProps, IState> {
 
   async componentDidMount() {
     const response = await apiCalls.discente.getTiposDeAcc();
-    this.setState({ tiposDeAcc : response.data });
+    this.setState({ tiposDeAcc: response.data });
   }
 
-  render () {
+  render() {
     const {
       tiposDeAcc
     } = this.state;
@@ -48,26 +48,26 @@ export default class Home extends React.Component<IProps, IState> {
     return (
       <div className="container">
         <div className="page-title">
-          <Link to="/home" className="btn back-button"><FiArrowLeft style={{ strokeWidth: 2 }}/></Link>
+          <Link to="/home" className="btn back-button"><FiArrowLeft style={{ strokeWidth: 2 }} /></Link>
           <div className="title">
             Tipos de ACC
           </div>
         </div>
-          <ul className="card-list">
-            {
-              tiposDeAcc.map(tipo => (
-                <li key={tipo.id} className="card-list-item">
-                  <CardTipoDeAcc
-                    name={tipo.nome}
-                    limit={tipo.limite_de_pontos}
-                    completed={tipo.pontuacao ? tipo.pontuacao : 0}
-                    measurementUnity={tipo.unidade_de_medida.nome}
-                    pointsPerUnity={tipo.pontos_por_unidade}
-                  />
-                </li>
-              ))
-            }
-          </ul>
+        <ul className="card-list">
+          {
+            tiposDeAcc.map(tipo => (
+              <li key={tipo.id} className="card-list-item">
+                <CardTipoDeAcc
+                  name={tipo.nome}
+                  limit={tipo.limite_de_pontos}
+                  completed={tipo.pontuacao ? tipo.pontuacao : 0}
+                  measurementUnity={tipo.unidade_de_medida.nome}
+                  pointsPerUnity={tipo.pontos_por_unidade}
+                />
+              </li>
+            ))
+          }
+        </ul>
       </div>
     )
   }

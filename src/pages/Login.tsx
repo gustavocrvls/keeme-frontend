@@ -75,6 +75,7 @@ export default function Login () {
     
     if(result.data.auth) {
       history.push("/home");
+      localStorage.clear();
       localStorage.setItem('TOKEN', result.data.token);
       localStorage.setItem('USER_ID', result.data.usuario.id);
       localStorage.setItem('USER_NAME', result.data.usuario.nome);

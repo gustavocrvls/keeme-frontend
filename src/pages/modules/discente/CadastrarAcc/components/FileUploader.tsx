@@ -5,9 +5,10 @@ import Noty from 'noty';
 import { FiFile } from "react-icons/fi";
 
 import * as fileConstants from '../../../../../constants/files';
+import stylesConsts from '../../../../../constants/styles';
 
 const Button = styled.button`
-  height: 35px;
+  height: ${stylesConsts.inputHeight};
 
   background-color: transparent;
   border-radius: 5px;
@@ -19,6 +20,7 @@ const Button = styled.button`
   font-size: 14px;
   text-decoration: none;
   text-align: left;
+  color: #4D6F80;
 
   width: 100%;
 

@@ -5,6 +5,8 @@ import Header from './components/Header';
 
 import CadastrarAcc from './pages/modules/discente/CadastrarAcc/';
 import Dashboard from './pages/modules/discente/Dashboard';
+import DetalhesDaAcc from './pages/modules/discente/DetalhesDaAcc';
+import DetalhesDaPontuacao from './pages/modules/discente/DetalhesDaPontuacao';
 import TiposDeAcc from './pages/modules/discente/TiposDeAcc';
 
 import Login from './pages/Login';
@@ -40,6 +42,8 @@ const Routes = () => {
         <PrivateRoute path="/home" component={Dashboard} />
         <PrivateRoute path="/discente/tipos-de-acc" component={TiposDeAcc} />
         <PrivateRoute path="/discente/cadastrar-acc" component={CadastrarAcc} />
+        <PrivateRoute path="/discente/detalhes-da-pontuacao" exact component={DetalhesDaPontuacao} />
+        <PrivateRoute path="/discente/detalhes-da-pontuacao/acc/:id" component={DetalhesDaAcc} />
 
         <Redirect to="/login" />
       </Switch>

@@ -18,6 +18,22 @@ body {
   box-sizing: border-box;
 }
 
+label {
+  color: #4D6F80;
+}
+
+::-webkit-input-placeholder { /* Edge */
+  color: #ababab;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #ababab;
+}
+
+::placeholder {
+  color: #ababab;
+}
+
 // START - HEADER
 
 header {
@@ -59,6 +75,5 @@ header {
   border: none;
   cursor: pointer;
 }
-
 
 // END - HEADER
