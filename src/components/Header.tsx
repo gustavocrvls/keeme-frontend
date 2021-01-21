@@ -12,7 +12,7 @@ export default class Header extends React.Component {
 
         <div style={{display: 'flex', alignItems: 'center'}}>
           <div style={{marginRight: 10}}>
-            Olá, {localStorage.getItem('USER_NAME')}!
+            Olá!
           </div>
           <div className="header-avatar">
             <FiUser />

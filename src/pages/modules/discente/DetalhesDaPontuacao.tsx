@@ -5,6 +5,7 @@ import apiCalls from '../../../services/apiCalls';
 import styled from 'styled-components';
 import { Col } from 'reactstrap';
 import statusDaAccConsts from '../../../constants/statusDaAcc';
+import { Container } from '../../../components/Containers';
 
 interface Acc {
   id: number,
@@ -50,7 +51,7 @@ interface ICardAcc {
   },
 }
 
-function CardAcc(props: ICardAcc) {
+export function CardAcc(props: ICardAcc) {
   const Card = styled.div`
     box-sizing: border-box;
 
@@ -110,15 +111,15 @@ function CardAcc(props: ICardAcc) {
       switch (status.id) {
         case statusDaAccConsts.EM_ANALISE:
           color = '#8FA7B2';
-          Icon = <FiCircle style={{marginRight: 5}} />
+          Icon = <FiCircle style={{ marginRight: 5 }} />
           break;
         case statusDaAccConsts.APROVADA:
           color = '#31878C';
-          Icon = <FiCheckCircle style={{marginRight: 5}} />
+          Icon = <FiCheckCircle style={{ marginRight: 5 }} />
           break;
-          case statusDaAccConsts.NEGADA:
-            color = '#DE4079';
-            Icon = <FiXCircle style={{marginRight: 5}} />
+        case statusDaAccConsts.NEGADA:
+          color = '#DE4079';
+          Icon = <FiXCircle style={{ marginRight: 5 }} />
           break;
 
         default:
@@ -126,7 +127,7 @@ function CardAcc(props: ICardAcc) {
       }
 
     return (
-      <span style={{ backgroundColor: color, padding: '2px 5px', color: '#fff', borderRadius: 3, display: 'flex', alignItems: 'center', width: 120, justifyContent: 'center' }}>
+      <span style={{ fontSize: 12, backgroundColor: color, padding: '2px 5px', color: '#fff', borderRadius: 3, display: 'flex', alignItems: 'center', width: 120, justifyContent: 'center' }}>
         {Icon}{status.nome}
       </span>
     );
@@ -140,8 +141,8 @@ function CardAcc(props: ICardAcc) {
         </CardTitle>
         <CardContent>
           <ul style={{ width: "100%" }}>
-            <li style={{ width: "20%" }}>{props.tipoDeAcc.unidade_de_medida.nome}s: <strong>{props.quantidade}</strong></li>
-            <li style={{display: 'flex', alignItems: 'center'}}><span style={{marginRight: 5}}>Status: </span>{handleStatusColor({ id: props.status_da_acc.id, nome: props.status_da_acc.nome })}</li>
+            <li style={{ minWidth: "20%" }}>{props.tipoDeAcc.unidade_de_medida.nome}s: <strong>{props.quantidade}</strong></li>
+            <li style={{ display: 'flex', alignItems: 'center' }}><span style={{ marginRight: 5 }}>Status: </span>{handleStatusColor({ id: props.status_da_acc.id, nome: props.status_da_acc.nome })}</li>
           </ul>
         </CardContent>
       </div>
@@ -175,7 +176,7 @@ export default class DetalhesDaPontuacao extends React.Component<IProps, IState>
     } = this.state;
 
     return (
-      <div className="container">
+      <Container>
         <div className="page-title">
           <Link to="/home" className="btn back-button"><FiArrowLeft style={{ strokeWidth: 2 }} /></Link>
           <div className="title">
@@ -198,7 +199,7 @@ export default class DetalhesDaPontuacao extends React.Component<IProps, IState>
             ))
           }
         </ul>
-      </div>
+      </Container>
     )
   }
 }

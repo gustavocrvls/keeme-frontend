@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { FiArrowLeft, FiCircle, FiXCircle } from 'react-icons/fi';
+import { FiArrowLeft, FiCircle, FiDownload, FiXCircle } from 'react-icons/fi';
 import apiCalls from '../../../services/apiCalls';
 import statusDaAccConsts from '../../../constants/statusDaAcc';
 import { FiCheckCircle } from 'react-icons/fi';
+import styled from 'styled-components';
+import { AnchorButton, Button } from '../../../components/Button';
+import { Container } from '../../../components/Containers';
 
 interface IParams {
   id: string
@@ -32,6 +35,14 @@ interface IStatus {
   id: number,
   nome: string
 }
+
+const Details = styled.div`
+  margin-top: 10px;
+
+  div {
+    margin-bottom: 5px;
+  }
+`;
 
 export default function DetalhesDaAcc() {
   const [acc, setAcc] = useState<IAcc>();
@@ -66,7 +77,7 @@ export default function DetalhesDaAcc() {
       }
 
     return (
-      <span style={{ backgroundColor: color, padding: '2px 5px', color: '#fff', borderRadius: 3, display: 'flex', alignItems: 'center', width: 120, justifyContent: 'center' }}>
+      <span style={{ fontSize: 12, backgroundColor: color, padding: '2px 5px', color: '#fff', borderRadius: 3, display: 'flex', alignItems: 'center', width: 120, justifyContent: 'center' }}>
         {Icon}{status?.nome}
       </span>
     );
@@ -78,40 +89,40 @@ export default function DetalhesDaAcc() {
   },[]);
 
   return (
-    <div className="container">
+    <Container>
       <div className="page-title">
         <Link to="/home" className="btn back-button"><FiArrowLeft style={{ strokeWidth: 2 }} /></Link>
         <div className="title">
           Detalhes da Acc
         </div>
       </div>
-      <div>
+      <Details>
         <div>
           <label>Tipo de Acc</label>
-          <div>{acc?.tipo_de_acc.nome}</div>
+          <p>{acc?.tipo_de_acc.nome}</p>
         </div>
         <div>
           <label>Status</label>
-          <div>{acc?.status_da_acc.nome}</div>
+          <p>{handleStatusColor(acc?.status_da_acc)}</p>
         </div>
-        <div>
-          <label>Status</label>
-          <div>{handleStatusColor(acc?.status_da_acc)}</div>
-        </div>
-        <div>
-          <label>{acc?.tipo_de_acc.unidade_de_medida.nome}s</label>
-          <div>{acc?.quantidade}</div>
-          <label>Pontuação</label>
-          <div>{acc?.pontos}</div>
+        <div style={{ display: 'flex' }}>
+          <div style={{ width: '30%' }}>
+            <label>{acc?.tipo_de_acc.unidade_de_medida.nome}s</label>
+            <p>{acc?.quantidade}</p>
+          </div>
+          <div>
+            <label>Pontuação</label>
+            <p>{acc?.pontos}</p>
+          </div>
         </div>
         <div>
           <label>Descrição</label>
-          <div>{acc?.sobre}</div>
+          <p>{acc?.sobre}</p>
         </div>
-        <div>
-          <a href={`http://localhost:3333/certificados/${id}`}>Baixar Certificado</a>
+        <div style={{ marginTop: 30, textAlign: 'center' }}>
+          <AnchorButton color="primary" className="btn" href={`http://localhost:3333/certificados/${id}`}><FiDownload /> Baixar Certificado</AnchorButton>
         </div>
-      </div>
-    </div>
+      </Details>
+    </Container>
   )
 }

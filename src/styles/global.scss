@@ -8,6 +8,19 @@
 body {
   margin: 0;
   background: #fff;
+  font-size: 10px;
+}
+
+a {
+  color: initial;
+  
+  &:visited {
+    color: initial;
+  }
+}
+
+p {
+  font-size: .9rem;
 }
 
 .container {
@@ -19,7 +32,8 @@ body {
 }
 
 label {
-  color: #4D6F80;
+  font-size: 1rem;
+  color: #777777;
 }
 
 ::-webkit-input-placeholder { /* Edge */
@@ -48,6 +62,8 @@ header {
   align-items: center;
 
   color: #fff;
+
+  z-index: 5000;
 }
 
 .header-title {

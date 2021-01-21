@@ -7,6 +7,7 @@ import '../../../styles/modules/discente/TiposDeAcc.scss'
 import api from '../../../services/api';
 import { Link } from 'react-router-dom';
 import apiCalls from '../../../services/apiCalls';
+import { Container } from '../../../components/Containers';
 
 interface IProps {
 }
@@ -46,7 +47,7 @@ export default class Home extends React.Component<IProps, IState> {
     } = this.state;
 
     return (
-      <div className="container">
+      <Container>
         <div className="page-title">
           <Link to="/home" className="btn back-button"><FiArrowLeft style={{ strokeWidth: 2 }} /></Link>
           <div className="title">
@@ -68,7 +69,7 @@ export default class Home extends React.Component<IProps, IState> {
             ))
           }
         </ul>
-      </div>
+      </Container>
     )
   }
 }

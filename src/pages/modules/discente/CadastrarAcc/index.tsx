@@ -12,6 +12,7 @@ import { Button } from '../../../../components/Button';
 import * as unidadesDeMedidaConstants from '../../../../constants/unidadesDeMedida';
 import { notifySuccess } from '../../../../utils/Notifications';
 import apiCalls from '../../../../services/apiCalls';
+import { Container } from '../../../../components/Containers';
 
 interface TipoDeAcc {
   id: number,
@@ -39,7 +40,7 @@ export default function CadastrarAcc() {
   const [quantidade, setQuantidade] = useState<string>("");
   const [descricao, setDescricao] = useState<string>("");
   const [certificado, setCertificado] = useState<Blob>();
-  
+
   let history = useHistory();
 
   const handleFile = (files: Blob) => {
@@ -87,13 +88,13 @@ export default function CadastrarAcc() {
 
     let file = certificado || new Blob();
     let userID = localStorage.getItem('USER_ID') || '';
-    
+
     formData.append("sobre", descricao);
     formData.append("quantidade", quantidade);
     formData.append("idUsuario", userID);
     formData.append("tipoDeAcc", idTipoDeAcc);
     formData.append("certificado", file);
-    
+
     let response = await api.post('accs/create', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -117,46 +118,45 @@ export default function CadastrarAcc() {
   }, []);
 
   return (
-    <div className="container">
-      <div className="page-title" style={{ marginBottom: '10px' }}>
+    <Container>
+      <div className="page-title">
         <Link to="/home" className="btn back-button"><FiArrowLeft style={{ strokeWidth: 2 }} /></Link>
         <div className="title">
-          Cadastrar ACC
-          </div>
+          Detalhes da Acc
+        </div>
       </div>
-        <Flex>
-          <div style={{ width: '80%', marginRight: '10px' }}>
-            <label htmlFor="tipo-de-acc">Tipo de Acc</label>
-            <Select value={idTipoDeAcc} onChange={handleIdTipoDeAcc} id="tipo-de-acc" style={{ width: '100%' }}>
-              <Option>Selecione...</Option>
-              {
-                tiposDeAcc.map(tipoDeAcc => (
-                  <Option value={tipoDeAcc.id} key={tipoDeAcc.id}>{tipoDeAcc.nome}</Option>
-                ))
-              }
-            </Select>
-          </div>
-          <div style={{ width: '20%' }}>
-            <label htmlFor="quantidade">{verifyTipoDeAcc()}</label>
-            <Input id="quantidade" placeholder={verifyTipoDeAcc()} style={{ width: '100%' }} value={quantidade} onChange={handleCargaHoraria} />
-          </div>
-        </Flex>
-        <Flex>
-          <div style={{ width: '100%' }}>
-            <label htmlFor="descricao">Descrição:</label>
-            <TextArea style={{ width: '100%' }} rows={10} value={descricao} onChange={handleDescricao}></TextArea>
-          </div>
-        </Flex>
-        <Flex>
-          <div style={{ width: '100%' }}>
-            <label htmlFor="certificado">Certificado:</label>
-            <FileUploader handleFile={handleFile} />
-          </div>
-        </Flex>
-        <Flex style={{ justifyContent: 'flex-end' }}>
-          <Button color="#31878C" onClick={cadastrarAcc}>Cadastrar</Button>
-        </Flex>
-    </div>
+      <Flex>
+        <div style={{ width: '100%' }}>
+          <label htmlFor="tipo-de-acc">Tipo de Acc</label>
+          <Select value={idTipoDeAcc} onChange={handleIdTipoDeAcc} id="tipo-de-acc" style={{ width: '100%' }}>
+            <Option>Selecione...</Option>
+            {
+              tiposDeAcc.map(tipoDeAcc => (
+                <Option value={tipoDeAcc.id} key={tipoDeAcc.id}>{tipoDeAcc.nome}</Option>
+              ))
+            }
+          </Select>
+        </div>
+      </Flex>
+      <div style={{ width: '50%' }}>
+        <label htmlFor="quantidade">{verifyTipoDeAcc()}</label>
+        <Input id="quantidade" placeholder={verifyTipoDeAcc()} style={{ width: '100%' }} value={quantidade} onChange={handleCargaHoraria} />
+      </div>
+      <Flex>
+        <div style={{ width: '100%' }}>
+          <label htmlFor="descricao">Descrição:</label>
+          <TextArea style={{ width: '100%' }} rows={10} value={descricao} onChange={handleDescricao}></TextArea>
+        </div>
+      </Flex>
+      <Flex>
+        <div style={{ width: '100%' }}>
+          <label htmlFor="certificado">Certificado:</label>
+          <FileUploader handleFile={handleFile} />
+        </div>
+      </Flex>
+      <Flex style={{ justifyContent: 'center' }}>
+        <Button color="primary" onClick={cadastrarAcc}>Cadastrar</Button>
+      </Flex>
+    </Container >
   )
-
 }

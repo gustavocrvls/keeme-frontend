@@ -98,7 +98,7 @@ export default function Login () {
             <Input id="password" type="password" placeholder="******" value={senha} onChange={handleSenha} />
           </div>
           <div>
-            <Button color="#31878C" type="submit" style={{ width: '100%' }}>Entrar</Button>
+            <Button color="primary" type="submit" style={{ width: '100%' }}>Entrar</Button>
           </div>
         </LoginForm>
       </LoginCard>
