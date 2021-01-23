@@ -4,7 +4,7 @@ import styled from 'styled-components';
 interface IProps {
   radius: number,
   stroke: number,
-  progress: number
+  progress: number,
 }
 
 interface IState {
@@ -83,7 +83,7 @@ export default class ProgressRing extends React.Component<IProps, IState> {
             dominant-baseline="middle"
             text-anchor="middle"
           >
-            {progress}
+            {this.props.children}
           </text>
         </svg>
       </ProgressRingContainer>

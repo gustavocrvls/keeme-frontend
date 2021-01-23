@@ -2,13 +2,13 @@ import React from 'react';
 import { FiFile, FiPackage, FiPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { LinkButton } from '../../../components/Button';
 import { Card } from '../../../components/Card';
 import ProgressRing from '../../../components/ProgressRing';
 import { darken } from "polished";
 import { Container } from '../../../components/Containers';
 import { CardAcc } from './DetalhesDaPontuacao';
-import apiCalls from '../../../services/apiCalls';
+import api from '../../../services/api';
+import { USERID_KEY } from '../../../services/auth';
 
 
 const CardLink = styled.div`
@@ -61,9 +61,17 @@ interface Acc {
 interface IProps {
 }
 
+interface IResumoDaPontuacao {
+  pontosAprovados: number,
+  pontosEmAnalise: number,
+  pontosNegados: number
+}
+
 interface IState {
   progress: number,
   lastAccs: Array<Acc>,
+  resumo: IResumoDaPontuacao,
+  progresso: number,
 }
 
 
@@ -75,6 +83,12 @@ export default class Home extends React.Component<IProps, IState> {
     this.state = {
       progress: 0,
       lastAccs: [],
+      resumo: {
+        pontosAprovados: 0,
+        pontosEmAnalise: 0,
+        pontosNegados: 0,
+      },
+      progresso: 0
     }
   }
 
@@ -85,42 +99,50 @@ export default class Home extends React.Component<IProps, IState> {
       })
     }, 500);
 
-    let response = await apiCalls.discente.getAccsDiscente();
+    let response = await api.get(`accs/user/${sessionStorage.getItem(USERID_KEY)}/completo`);
+
+    let progresso = Number((100 * response.data.resumo.pontosAprovados) / 51).toFixed(0)
 
     this.setState({
       lastAccs: response.data.accs,
+      resumo: response.data.resumo,
+      progresso: Number(progresso),
     });
   }
 
-  render () {
+  render() {
 
     const {
-      lastAccs
+      lastAccs,
+      resumo,
+      progresso,
     } = this.state;
 
     return (
       <Container>
         <div className="page-title">
-          <div className="title"  style={{marginLeft: 0, marginBottom: 10}}>
+          <div className="title" style={{ marginLeft: 0, marginBottom: 10 }}>
             Minha Pontuação
           </div>
         </div>
 
         <Card>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <ProgressRing 
-              stroke={ 10 }
-              radius={ 60 }
-              progress={ this.state.progress }
-              />
+            <ProgressRing
+              stroke={10}
+              radius={60}
+              progress={progresso}
+            >
+              {resumo.pontosAprovados}/51
+            </ProgressRing>
             <div style={{ display: 'flex', alignItems: 'center', fontSize: '1rem' }}>
               <ul style={{ listStyle: 'none' }}>
-                <li style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ marginRight: 10 }}>Aprovadas: </span><strong>10pts</strong></li>
-                <li style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ marginRight: 10 }}>Em análise: </span><strong>12pts</strong></li>
-                <li style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ marginRight: 10 }}>Negadas: </span><strong>2pts</strong></li>
+                <li style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ marginRight: 10 }}>Aprovadas: </span><strong>{resumo.pontosAprovados}pts</strong></li>
+                <li style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ marginRight: 10 }}>Em análise: </span><strong>{resumo.pontosEmAnalise}pts</strong></li>
+                <li style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ marginRight: 10 }}>Negadas: </span><strong>{resumo.pontosNegados}pts</strong></li>
               </ul>
             </div>
-            </div>
+          </div>
         </Card>
 
         <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', marginTop: '1rem' }}>
@@ -152,7 +174,7 @@ export default class Home extends React.Component<IProps, IState> {
 
 
         <div className="page-title">
-          <div className="title"  style={{margin: '20px 0'}}>
+          <div className="title" style={{ margin: '20px 0' }}>
             Últimos Envios
           </div>
         </div>
@@ -164,19 +186,19 @@ export default class Home extends React.Component<IProps, IState> {
               <>
                 {
                   index <= 3
-                  ?
-                  <li key={acc.id} className="card-list-item">
-                    <CardAcc
-                      id={acc.id}
-                      pontos={acc.pontos}
-                      quantidade={acc.quantidade}
-                      status_da_acc={acc.status_da_acc}
-                      tipoDeAcc={acc.tipo_de_acc}
-                    />
-                  </li>
-                  :
-                  <>
-                  </>
+                    ?
+                    <li key={acc.id} className="card-list-item">
+                      <CardAcc
+                        id={acc.id}
+                        pontos={acc.pontos}
+                        quantidade={acc.quantidade}
+                        status_da_acc={acc.status_da_acc}
+                        tipoDeAcc={acc.tipo_de_acc}
+                      />
+                    </li>
+                    :
+                    <>
+                    </>
                 }
               </>
             ))

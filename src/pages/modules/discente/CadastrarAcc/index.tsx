@@ -87,7 +87,7 @@ export default function CadastrarAcc() {
     let formData = new FormData();
 
     let file = certificado || new Blob();
-    let userID = localStorage.getItem('USER_ID') || '';
+    let userID = sessionStorage.getItem('USER_ID') || '';
 
     formData.append("sobre", descricao);
     formData.append("quantidade", quantidade);
@@ -98,7 +98,7 @@ export default function CadastrarAcc() {
     let response = await api.post('accs/create', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${localStorage.getItem('TOKEN')}`
+        Authorization: `Bearer ${sessionStorage.getItem('TOKEN')}`
       }
     });
 

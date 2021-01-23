@@ -1,11 +1,11 @@
 import React from 'react';
 import { FiArrowLeft, FiArrowRight, FiCheckCircle, FiCircle, FiXCircle } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import apiCalls from '../../../services/apiCalls';
 import styled from 'styled-components';
-import { Col } from 'reactstrap';
 import statusDaAccConsts from '../../../constants/statusDaAcc';
 import { Container } from '../../../components/Containers';
+import api from '../../../services/api';
+import { USERID_KEY } from '../../../services/auth';
 
 interface Acc {
   id: number,
@@ -162,9 +162,7 @@ export default class DetalhesDaPontuacao extends React.Component<IProps, IState>
   }
 
   async componentDidMount() {
-    let response = await apiCalls.discente.getAccsDiscente();
-    console.log(response.data);
-
+    let response = await api.get(`accs/user/${sessionStorage.getItem(USERID_KEY)}/completo`);
     this.setState({
       accs: response.data.accs
     });

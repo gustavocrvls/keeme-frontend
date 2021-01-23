@@ -7,6 +7,7 @@ import loginVector2 from '../assets/images/login__vector_2.svg';
 import { Input } from '../components/Inputs';
 import { Button } from '../components/Button';
 import api from '../services/api';
+import { login } from "../services/auth";
 
 const vStyles1: CSSProperties = {
   position: 'absolute',
@@ -52,7 +53,7 @@ const LoginForm = styled.form`
   }
 `;
 
-export default function Login () {
+export default function Login() {
   const [username, setUsername] = useState('');
   const [senha, setSenha] = useState('');
 
@@ -66,19 +67,16 @@ export default function Login () {
 
   let history = useHistory();
 
-  const login = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let result = await api.post('usuarios/login', {
       username,
       senha
     });
-    
-    if(result.data.auth) {
+
+    if (result.data.auth) {
+      login(result.data.token, result.data.usuario.id);
       history.push("/home");
-      localStorage.clear();
-      localStorage.setItem('TOKEN', result.data.token);
-      localStorage.setItem('USER_ID', result.data.usuario.id);
-      localStorage.setItem('USER_NAME', result.data.usuario.nome);
     }
   }
 
@@ -88,7 +86,7 @@ export default function Login () {
       <img style={vStyles2} src={loginVector2} alt="v2" height='100%' />
       <LoginCard>
         <LoginCardTitle>Gestor de ACCs</LoginCardTitle>
-        <LoginForm onSubmit={login}>
+        <LoginForm onSubmit={handleSignIn}>
           <div>
             <label>usuário</label>
             <Input id="username" type="text" placeholder="usuário" value={username} onChange={handleUsername} />
