@@ -5,7 +5,7 @@ import apiCalls from '../../../services/apiCalls';
 import statusDaAccConsts from '../../../constants/statusDaAcc';
 import { FiCheckCircle } from 'react-icons/fi';
 import styled from 'styled-components';
-import { AnchorButton, Button } from '../../../components/Button';
+import { AnchorButton } from '../../../components/Button';
 import { Container } from '../../../components/Containers';
 
 interface IParams {
