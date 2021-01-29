@@ -10,6 +10,8 @@ import DetalhesDaPontuacao from './pages/modules/discente/DetalhesDaPontuacao';
 import TiposDeAcc from './pages/modules/discente/TiposDeAcc';
 
 import Login from './pages/Login';
+import { isAuthenticated } from './services/auth';
+import { notifyError } from './utils/Notifications';
 
 interface PrivateRouteProps {
   path: string,
@@ -19,16 +21,24 @@ interface PrivateRouteProps {
 
 function PrivateRoute(props: PrivateRouteProps) {
   const { component: Component, exact, path } = props;
+  console.log(isAuthenticated())
   return (
     <Route
       path={path}
       exact={exact}
-      render={routeProps => (
+      render={routeProps => 
+        isAuthenticated() ? (
         <>
           <Header />
           <Component {...routeProps} />
         </>
-      )}
+        ) : (
+          <>
+          {notifyError('Ops! Você precisa fazer login no sistema!')}
+          <Redirect to={{ pathname: "/" }} />
+          </>
+        )
+      }
     />
   );
 }

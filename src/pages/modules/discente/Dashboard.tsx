@@ -19,7 +19,7 @@ const CardLink = styled.div`
   
   box-shadow: 1px 1px 5px 0px rgba(119, 119, 119, 0.25);
   box-sizing: border-box;
-  border-radius: 5px;
+  border-radius: 10px;
   text-align: center;
   transition: all 0.2s;
   

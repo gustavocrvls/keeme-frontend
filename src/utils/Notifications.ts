@@ -33,5 +33,7 @@ function notifyWarning (text: string) {
 }
 
 export {
-  notifySuccess
+  notifySuccess,
+  notifyError,
+  notifyWarning
 }

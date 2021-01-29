@@ -13,6 +13,7 @@ import * as unidadesDeMedidaConstants from '../../../../constants/unidadesDeMedi
 import { notifySuccess } from '../../../../utils/Notifications';
 import apiCalls from '../../../../services/apiCalls';
 import { Container } from '../../../../components/Containers';
+import { TOKEN_KEY, USERID_KEY } from '../../../../services/auth';
 
 interface TipoDeAcc {
   id: number,
@@ -87,7 +88,10 @@ export default function CadastrarAcc() {
     let formData = new FormData();
 
     let file = certificado || new Blob();
-    let userID = sessionStorage.getItem('USER_ID') || '';
+    let userID = sessionStorage.getItem(USERID_KEY) || '';
+
+    console.log(userID);
+    
 
     formData.append("sobre", descricao);
     formData.append("quantidade", quantidade);
@@ -98,7 +102,7 @@ export default function CadastrarAcc() {
     let response = await api.post('accs/create', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${sessionStorage.getItem('TOKEN')}`
+        Authorization: `Bearer ${sessionStorage.getItem(TOKEN_KEY)}`
       }
     });
 

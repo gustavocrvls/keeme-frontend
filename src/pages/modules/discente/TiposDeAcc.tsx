@@ -8,6 +8,7 @@ import api from '../../../services/api';
 import { Link } from 'react-router-dom';
 import apiCalls from '../../../services/apiCalls';
 import { Container } from '../../../components/Containers';
+import { USERID_KEY } from '../../../services/auth';
 
 interface IProps {
 }
@@ -37,7 +38,10 @@ export default class Home extends React.Component<IProps, IState> {
   }
 
   async componentDidMount() {
-    const response = await apiCalls.discente.getTiposDeAcc();
+    // const response = await apiCalls.discente.getTiposDeAcc();
+    const response = await api.get(`tipos-de-acc/usuario/${sessionStorage.getItem(USERID_KEY)}`);
+    // console.log(response1, response);
+    
     this.setState({ tiposDeAcc: response.data });
   }
 

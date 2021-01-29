@@ -14,6 +14,7 @@ interface IParams {
 
 interface IAcc {
   id: number,
+  id_certificado: number,
   pontos: number,
   quantidade: number,
   sobre: string,
@@ -52,6 +53,8 @@ export default function DetalhesDaAcc() {
   const loadDetalhesAcc = async () => {
     let response = await apiCalls.discente.getDetalhesAcc(id);
     setAcc(response.data);
+    console.log(response.data);
+    
   }
 
   const handleStatusColor = (status?: IStatus) => {
@@ -120,7 +123,7 @@ export default function DetalhesDaAcc() {
           <p>{acc?.sobre}</p>
         </div>
         <div style={{ marginTop: 30, textAlign: 'center' }}>
-          <AnchorButton color="primary" className="btn" href={`http://localhost:3333/certificados/${id}`}><FiDownload /> Baixar Certificado</AnchorButton>
+          <AnchorButton color="primary" className="btn" href={`http://localhost:3333/certificados/${acc?.id_certificado}`}><FiDownload /> Baixar Certificado</AnchorButton>
         </div>
       </Details>
     </Container>

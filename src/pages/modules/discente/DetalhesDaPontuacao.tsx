@@ -52,13 +52,34 @@ interface ICardAcc {
 }
 
 export function CardAcc(props: ICardAcc) {
+
+  const color = {
+    primary: '#31878C',
+    secondary: '#C7C7C7',
+    danger: '#BD3939',
+  };
+
+  interface Color {
+    color: 'primary' | 'secondary' | 'danger' 
+  };
+
+  const PreCard = styled.div`
+    box-sizing: border-box;
+
+    background-color: ${(props: Color) => color[props.color]};
+    /* box-shadow: 1px 1px 5px #b5c3c9; */
+    width: 100%;
+    border-radius: 5px 0 0 5px;
+
+    width: 15px;
+  `;
+
   const Card = styled.div`
     box-sizing: border-box;
 
-    border: 1px solid #f1f3f5;
     box-shadow: 1px 1px 5px #b5c3c9;
     width: 100%;
-    border-radius: 3px;
+    border-radius: 0 5px 5px 0;
     padding: 10px;
 
     font-size: 14px;
@@ -133,23 +154,37 @@ export function CardAcc(props: ICardAcc) {
     );
   }
 
+  const handleStatusColorPreCard = (status: IStatus) : "primary" | "secondary" | "danger" => {
+    if (status.id == statusDaAccConsts.EM_ANALISE)
+      return "secondary";
+    if (status.id == statusDaAccConsts.APROVADA)
+      return "primary";
+    if (status.id == statusDaAccConsts.NEGADA)
+      return "danger";
+    
+    return "secondary";
+  }
+
   return (
-    <Card style={{ display: 'flex' }} >
-      <div style={{ width: "90%" }}>
-        <CardTitle>
-          <strong>{props.tipoDeAcc.nome} - {props.pontos}pts</strong>
-        </CardTitle>
-        <CardContent>
-          <ul style={{ width: "100%" }}>
-            <li style={{ minWidth: "20%" }}>{props.tipoDeAcc.unidade_de_medida.nome}s: <strong>{props.quantidade}</strong></li>
-            <li style={{ display: 'flex', alignItems: 'center' }}><span style={{ marginRight: 5 }}>Status: </span>{handleStatusColor({ id: props.status_da_acc.id, nome: props.status_da_acc.nome })}</li>
-          </ul>
-        </CardContent>
-      </div>
-      <ArrowLink>
-        <Link to={`detalhes-da-pontuacao/acc/${props.id}`}><FiArrowRight size="20" /></Link>
-      </ArrowLink>
-    </Card>
+    <>
+      <PreCard color={handleStatusColorPreCard({ id: props.status_da_acc.id, nome: props.status_da_acc.nome })}>{ " " }</PreCard>
+      <Card style={{ display: 'flex' }} >
+        <div style={{ width: "90%" }}>
+          <CardTitle>
+            <strong>{props.tipoDeAcc.nome} - {props.pontos}pts</strong>
+          </CardTitle>
+          <CardContent>
+            <ul style={{ width: "100%" }}>
+              <li style={{ minWidth: "20%" }}>{props.tipoDeAcc.unidade_de_medida.nome}s: <strong>{props.quantidade}</strong></li>
+              <li style={{ display: 'flex', alignItems: 'center' }}><span style={{ marginRight: 5 }}>Status: </span>{handleStatusColor({ id: props.status_da_acc.id, nome: props.status_da_acc.nome })}</li>
+            </ul>
+          </CardContent>
+        </div>
+        <ArrowLink>
+          <Link to={`detalhes-da-pontuacao/acc/${props.id}`}><FiArrowRight size="20" /></Link>
+        </ArrowLink>
+      </Card>
+    </>
   );
 }
 

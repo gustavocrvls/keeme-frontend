@@ -13,5 +13,14 @@ api.interceptors.request.use(async config => {
   return config;
 });
 
+api.interceptors.response.use(async response => {
+  if (response.data.auth == false) {
+    sessionStorage.clear();
+    document.location.reload();
+  }
+  
+  return response;
+})
+
 
 export default api;
