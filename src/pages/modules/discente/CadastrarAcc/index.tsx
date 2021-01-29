@@ -3,8 +3,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 
 import api from '../../../../services/api';
 import { Link, useHistory } from 'react-router-dom';
-import { Card } from '../../../../components/Card';
-import { Input, Select, Option, TextArea, File } from '../../../../components/Inputs';
+import { Input, Select, Option, TextArea } from '../../../../components/Inputs';
 import styled from 'styled-components';
 import FileUploader from './components/FileUploader';
 import { Button } from '../../../../components/Button';
@@ -62,7 +61,7 @@ export default function CadastrarAcc() {
   }
 
   const verifyTipoDeAcc = () => {
-    const tipo = tiposDeAcc.find((t) => t.id == Number(idTipoDeAcc));
+    const tipo = tiposDeAcc.find((t) => t.id === Number(idTipoDeAcc));
 
     switch (tipo?.unidade_de_medida.id) {
       case unidadesDeMedidaConstants.HORA:
@@ -106,7 +105,7 @@ export default function CadastrarAcc() {
       }
     });
 
-    if (response.status == 201) {
+    if (response.status === 201) {
       notifySuccess('ACC cadastrada com sucesso!');
       history.push('/home');
     }
