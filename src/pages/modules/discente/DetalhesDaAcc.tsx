@@ -54,7 +54,7 @@ export default function DetalhesDaAcc() {
     let response = await apiCalls.discente.getDetalhesAcc(id);
     setAcc(response.data);
     console.log(response.data);
-    
+
   }
 
   const handleStatusColor = (status?: IStatus) => {

@@ -41,7 +41,7 @@ export default class Home extends React.Component<IProps, IState> {
     // const response = await apiCalls.discente.getTiposDeAcc();
     const response = await api.get(`tipos-de-acc/usuario/${sessionStorage.getItem(USERID_KEY)}`);
     // console.log(response1, response);
-    
+
     this.setState({ tiposDeAcc: response.data });
   }
 
