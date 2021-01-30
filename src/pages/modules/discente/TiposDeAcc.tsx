@@ -1,28 +1,26 @@
 import React from 'react';
-
-import { Card as CardTipoDeAcc } from '../../../components/AccTypes';
-import { FiArrowLeft } from 'react-icons/fi';
-
-import '../../../styles/modules/discente/TiposDeAcc.scss'
-import api from '../../../services/api';
 import { Link } from 'react-router-dom';
-import apiCalls from '../../../services/apiCalls';
+
+import { FiArrowLeft } from 'react-icons/fi';
+import { Card as CardTipoDeAcc } from '../../../components/AccTypes';
+
+import '../../../styles/modules/discente/TiposDeAcc.scss';
+import api from '../../../services/api';
 import { Container } from '../../../components/Containers';
 import { USERID_KEY } from '../../../services/auth';
 
-interface IProps {
-}
+interface IProps {}
 
 interface TipoDeAcc {
-  id: number,
-  nome: string,
-  limite_de_pontos: number,
-  completed: number,
-  pontuacao: number,
-  unidade_de_medida: {
-    nome: string
-  },
-  pontos_por_unidade: number,
+  id: number;
+  nome: string;
+  limiteDePontos: number;
+  completed: number;
+  pontuacao: number;
+  unidadeDeMedida: {
+    nome: string;
+  };
+  pontosPorUnidade: number;
 }
 
 interface IState {
@@ -37,43 +35,38 @@ export default class Home extends React.Component<IProps, IState> {
     };
   }
 
-  async componentDidMount() {
-    // const response = await apiCalls.discente.getTiposDeAcc();
-    const response = await api.get(`tipos-de-acc/usuario/${sessionStorage.getItem(USERID_KEY)}`);
-    // console.log(response1, response);
-
+  async componentDidMount(): Promise<void> {
+    const response = await api.get(
+      `tipos-de-acc/usuario/${sessionStorage.getItem(USERID_KEY)}`,
+    );
     this.setState({ tiposDeAcc: response.data });
   }
 
-  render() {
-    const {
-      tiposDeAcc
-    } = this.state;
+  render(): JSX.Element {
+    const { tiposDeAcc } = this.state;
 
     return (
       <Container>
         <div className="page-title">
-          <Link to="/home" className="btn back-button"><FiArrowLeft style={{ strokeWidth: 2 }} /></Link>
-          <div className="title">
-            Tipos de ACC
-          </div>
+          <Link to="/home" className="btn back-button">
+            <FiArrowLeft style={{ strokeWidth: 2 }} />
+          </Link>
+          <div className="title">Tipos de ACC</div>
         </div>
         <ul className="card-list">
-          {
-            tiposDeAcc.map(tipo => (
-              <li key={tipo.id} className="card-list-item">
-                <CardTipoDeAcc
-                  name={tipo.nome}
-                  limit={tipo.limite_de_pontos}
-                  completed={tipo.pontuacao ? tipo.pontuacao : 0}
-                  measurementUnity={tipo.unidade_de_medida.nome}
-                  pointsPerUnity={tipo.pontos_por_unidade}
-                />
-              </li>
-            ))
-          }
+          {tiposDeAcc.map(tipo => (
+            <li key={tipo.id} className="card-list-item">
+              <CardTipoDeAcc
+                name={tipo.nome}
+                limit={tipo.limiteDePontos}
+                completed={tipo.pontuacao ? tipo.pontuacao : 0}
+                measurementUnity={tipo.unidadeDeMedida.nome}
+                pointsPerUnity={tipo.pontosPorUnidade}
+              />
+            </li>
+          ))}
         </ul>
       </Container>
-    )
+    );
   }
 }

@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import Noty from 'noty';
 
-import { FiFile } from "react-icons/fi";
+import { FiFile } from 'react-icons/fi';
 
 import * as fileConstants from '../../../../../constants/files';
 import stylesConsts from '../../../../../constants/styles';
@@ -12,7 +12,7 @@ const Button = styled.button`
 
   background-color: transparent;
   border-radius: 5px;
-  border: 1px solid #8FA7B2;
+  border: 1px solid #8fa7b2;
 
   display: flex;
   align-items: center;
@@ -20,33 +20,33 @@ const Button = styled.button`
   font-size: 14px;
   text-decoration: none;
   text-align: left;
-  color: #4D6F80;
+  color: #4d6f80;
 
   width: 100%;
 
   cursor: pointer;
 
   :hover {
-    outline: #4D6F80 auto 5px;
+    outline: #4d6f80 auto 5px;
   }
 
   :focus {
-    outline: #4D6F80 auto 5px;
+    outline: #4d6f80 auto 5px;
   }
 `;
 
 interface Props {
-  handleFile: Function,
+  handleFile: (files: Blob) => void;
 }
 
-const FileUploader = (props: Props) => {
+const FileUploader = (props: Props): JSX.Element => {
   const [fileName, setFileName] = useState('');
 
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
 
   const handleButton = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    let fileInput = hiddenFileInput.current;
+    const fileInput = hiddenFileInput.current;
     fileInput?.click();
   };
 
@@ -57,12 +57,12 @@ const FileUploader = (props: Props) => {
       if (files[0].size > fileConstants.MAX_FILE_SIZE) {
         files = [];
         setFileName('');
-        
+
         new Noty({
           theme: 'nest',
           type: 'error',
           layout: 'topRight',
-          text: 'Arquivo muito grande! (máx: 2MB)'
+          text: 'Arquivo muito grande! (máx: 2MB)',
         }).show();
       } else {
         setFileName(files[0].name);
@@ -75,13 +75,15 @@ const FileUploader = (props: Props) => {
   return (
     <>
       <Button onClick={handleButton}>
-        <FiFile style={{marginRight: 5}} />{ fileName ? fileName : 'Escolher um Arquivo' }
+        <FiFile style={{ marginRight: 5 }} />
+        {fileName || 'Escolher um Arquivo'}
       </Button>
-      <input type="file"
+      <input
+        type="file"
         ref={hiddenFileInput}
         onChange={handleChange}
-        style={{display:'none'}} 
-      /> 
+        style={{ display: 'none' }}
+      />
     </>
   );
 };

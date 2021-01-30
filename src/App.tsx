@@ -6,7 +6,7 @@ import 'noty/lib/themes/nest.css';
 
 import './styles/global.scss';
 
-function App() {
+function App(): JSX.Element {
   return (
     <div id="app-content">
       <Routes />

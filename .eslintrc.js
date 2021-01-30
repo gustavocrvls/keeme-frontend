@@ -19,7 +19,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 12,
+    ecmaVersion: 2020,
     sourceType: 'module',
   },
   plugins: [
@@ -29,6 +29,7 @@ module.exports = {
     "prettier"
   ],
   rules: {
+    "@typescript-eslint/no-empty-interface": "warn",
     "prettier/prettier": "error",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
@@ -48,7 +49,7 @@ module.exports = {
         ts: "never",
         tsx: "never"
       }
-    ]
+    ],
   },
   settings : {
     "import/resolver": {
