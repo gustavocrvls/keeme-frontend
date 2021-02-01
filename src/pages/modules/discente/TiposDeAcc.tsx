@@ -39,7 +39,22 @@ export default class Home extends React.Component<IProps, IState> {
     const response = await api.get(
       `tipos-de-acc/usuario/${sessionStorage.getItem(USERID_KEY)}`,
     );
-    this.setState({ tiposDeAcc: response.data });
+
+    const tiposDeAcc = response.data.map((tipoDeAcc: any) => {
+      return {
+        id: tipoDeAcc.id,
+        nome: tipoDeAcc.nome,
+        limiteDePontos: tipoDeAcc.limite_de_pontos,
+        completed: tipoDeAcc.completed,
+        pontuacao: tipoDeAcc.pontuacao,
+        unidadeDeMedida: {
+          nome: tipoDeAcc.unidade_de_medida.nome,
+        },
+        pontosPorUnidade: tipoDeAcc.pontos_por_unidade,
+      };
+    });
+
+    this.setState({ tiposDeAcc });
   }
 
   render(): JSX.Element {

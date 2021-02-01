@@ -1,7 +1,11 @@
 // import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { darken } from "polished";
+import { darken } from 'polished';
+
+interface Color {
+  color: 'primary' | 'secondary' | 'danger';
+}
 
 export const color = {
   primary: '#31878C',
@@ -28,7 +32,7 @@ const Button = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: ${(props: Color) => darken(0.1, '#31878C')};
+    background-color: ${(props: Color) => darken(0.1, color[props.color])};
   }
 `;
 
@@ -37,21 +41,17 @@ const LinkButton = styled(Link)`
   padding: 10px;
   border-radius: 5px;
   border: none;
-  
+
   background-color: ${(props: Color) => color[props.color]};
-  
+
   color: #fff;
   font-size: 14px;
   text-decoration: none;
 
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
-
   cursor: pointer;
 
   &:hover {
-    background-color: ${(props: Color) => darken(0.1, '#31878C')};
+    background-color: ${(props: Color) => darken(0.1, color[props.color])};
   }
 `;
 
@@ -70,16 +70,8 @@ const AnchorButton = styled.a`
   cursor: pointer;
 
   &:hover {
-    background-color: ${(props: Color) => darken(0.1, '#31878C')};
+    background-color: ${(props: Color) => darken(0.1, color[props.color])};
   }
 `;
 
-interface Color {
-  color: 'primary' | 'secondary' | 'danger' 
-};
-
-export {
-  Button,
-  LinkButton,
-  AnchorButton
-}
+export { Button, LinkButton, AnchorButton };

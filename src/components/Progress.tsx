@@ -8,35 +8,36 @@ const ProgressBar = styled.div`
 
 const TotalProgress = styled.div`
   position: absolute;
-  
+
   height: 5px;
   width: 100%;
   border-radius: 16px;
 
-  background-color: #D3E2E5;
+  background-color: #d3e2e5;
 `;
 
 const CompletedProgress = styled.div`
   position: absolute;
-  
+
   height: 5px;
   border-radius: 16px;
 
-  background-color: #31878C;
+  background-color: #31878c;
 `;
 
 interface ProgressProps {
-  type: string,
-  completed: number
+  completed: number;
 }
 
-const Progress = (props: ProgressProps) => {
+const Progress = (props: ProgressProps): JSX.Element => {
+  const { completed } = props;
+
   return (
     <ProgressBar>
       <TotalProgress />
-      <CompletedProgress style={{ width: `${props.completed}%` }} />
+      <CompletedProgress style={{ width: `${completed}%` }} />
     </ProgressBar>
-  )
-}
+  );
+};
 
 export { Progress };

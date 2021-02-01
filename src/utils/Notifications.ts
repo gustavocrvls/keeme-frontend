@@ -2,38 +2,34 @@ import Noty from 'noty';
 
 const NOTY_THEME = 'nest';
 
-function notifySuccess (text: string) {
+function notifySuccess(text: string): void {
   new Noty({
-    text: text,
+    text,
     type: 'success',
     theme: NOTY_THEME,
     timeout: 2000,
-    progressBar: true
+    progressBar: true,
   }).show();
 }
 
-function notifyError (text: string) {
+function notifyError(text: string): void {
   new Noty({
-    text: text,
+    text,
     type: 'error',
     theme: NOTY_THEME,
     timeout: 2000,
-    progressBar: true
+    progressBar: true,
   }).show();
 }
 
-function notifyWarning (text: string) {
+function notifyWarning(text: string): void {
   new Noty({
-    text: text,
+    text,
     type: 'warning',
     theme: NOTY_THEME,
     timeout: 2000,
-    progressBar: true
+    progressBar: true,
   }).show();
 }
 
-export {
-  notifySuccess,
-  notifyError,
-  notifyWarning
-}
+export { notifySuccess, notifyError, notifyWarning };

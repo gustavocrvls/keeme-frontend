@@ -1,6 +1,6 @@
 import * as unidadesDeMedidaConsts from '../constants/unidadesDeMedida';
 
-function tipoDeAccHandleName(id: number) {
+function tipoDeAccHandleName(id: number): string {
   switch (id) {
     case unidadesDeMedidaConsts.HORA:
       return 'Horas';
@@ -15,10 +15,10 @@ function tipoDeAccHandleName(id: number) {
     case unidadesDeMedidaConsts.TRABALHO:
       return 'Trabalhos';
     case unidadesDeMedidaConsts.CERTIFICADO:
-      return 'Certificados';  
+      return 'Certificados';
+    default:
+      return 'Horas';
   }
 }
 
-export {
-  tipoDeAccHandleName
-}
+export { tipoDeAccHandleName };

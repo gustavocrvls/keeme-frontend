@@ -2,14 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface IProps {
-  radius: number,
-  stroke: number,
-  progress: number,
+  radius: number;
+  stroke: number;
+  progress: number;
 }
 
 interface IState {
-  normalizedRadius: number,
-  circumference: number,
+  normalizedRadius: number;
+  circumference: number;
 }
 
 const ProgressRingContainer = styled.div`
@@ -30,35 +30,32 @@ export default class ProgressRing extends React.Component<IProps, IState> {
     this.state = {
       normalizedRadius: radius - stroke * 2,
       circumference: 0,
-    }
+    };
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
+    const { normalizedRadius } = this.state;
+
     this.setState({
-      circumference: this.state.normalizedRadius * 2 * Math.PI
+      circumference: normalizedRadius * 2 * Math.PI,
     });
   }
 
-  render() {
-    const { radius, stroke, progress } = this.props;
+  render(): JSX.Element {
+    const { radius, stroke, progress, children } = this.props;
     const { circumference, normalizedRadius } = this.state;
-    const strokeDashoffset = circumference - progress / 100 * circumference;
+    const strokeDashoffset = circumference - (progress / 100) * circumference;
     const strokeDashoffset2 = circumference - 1 * circumference;
 
-    console.log(circumference, normalizedRadius);
     return (
       <ProgressRingContainer>
-        <svg
-          height={radius * 2}
-          width={radius * 2}
-        >
+        <svg height={radius * 2} width={radius * 2}>
           <circle
             stroke="#cacaca"
             fill="transparent"
             strokeWidth={stroke}
-            strokeDasharray={circumference + ' ' + circumference}
+            strokeDasharray={`${circumference} ${circumference}`}
             style={{ strokeDashoffset: `${strokeDashoffset2}` }}
-            stroke-width={stroke}
             r={normalizedRadius}
             cx={radius}
             cy={radius}
@@ -67,27 +64,25 @@ export default class ProgressRing extends React.Component<IProps, IState> {
             stroke="#31878C"
             fill="transparent"
             strokeWidth={stroke}
-            strokeDasharray={circumference + ' ' + circumference}
+            strokeDasharray={`${circumference} ${circumference}`}
             style={{ strokeDashoffset }}
-            stroke-width={stroke}
             r={normalizedRadius}
             cx={radius}
             cy={radius}
           />
           <text
             fill="#000000"
-            font-size="18"
-            font-family="Verdana"
+            fontSize="18"
+            fontFamily="Verdana"
             x="50%"
             y="50%"
-            dominant-baseline="middle"
-            text-anchor="middle"
+            dominantBaseline="middle"
+            textAnchor="middle"
           >
-            {this.props.children}
+            {children}
           </text>
         </svg>
       </ProgressRingContainer>
     );
   }
-
 }

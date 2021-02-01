@@ -1,5 +1,3 @@
-const MAX_FILE_SIZE = 2000000
+const MAX_FILE_SIZE = 2000000;
 
-export {
-  MAX_FILE_SIZE
-}
+export { MAX_FILE_SIZE };

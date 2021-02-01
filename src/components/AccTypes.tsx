@@ -3,35 +3,47 @@ import React from 'react';
 import { Progress } from './Progress';
 import { calcularProgresso } from '../utils/calculos';
 
-import '../styles/Home.scss'
+import '../styles/Home.scss';
 
 interface AccDetails {
-  name: string,
-  limit: number,
-  measurementUnity: string,
-  pointsPerUnity: number,
-  completed: number,
+  name: string;
+  limit: number;
+  measurementUnity: string;
+  pointsPerUnity: number;
+  completed: number;
 }
 
-const Card = (props: AccDetails) => {
+const Card = (props: AccDetails): JSX.Element => {
+  const { name, limit, measurementUnity, pointsPerUnity, completed } = props;
   return (
     <div className="card">
       <div className="card-title">
-        <strong>
-          { props.name }
-        </strong>
+        <strong>{name}</strong>
       </div>
       <div className="card-content">
         <ul>
-          <li>Limite de pontos: <strong>{ props.limit }</strong></li>
-          <li>Pontos por { props.measurementUnity }: <strong>{ props.pointsPerUnity }</strong></li>
+          <li>
+            Limite de pontos:
+            <strong>{limit}</strong>
+          </li>
+          <li>
+            Pontos por
+            {measurementUnity}
+            <strong>{pointsPerUnity}</strong>
+          </li>
         </ul>
 
-        <div>Quantidade Utilizada: <strong>{ props.completed }/{ props.limit }</strong></div>
+        <div>
+          Quantidade Utilizada:
+          <strong>{`${completed}/${limit}`}</strong>
+        </div>
       </div>
-      <Progress type="success" completed={calcularProgresso(props.limit, props.completed)} />
+      <Progress
+        // type="success"
+        completed={calcularProgresso(limit, completed)}
+      />
     </div>
   );
-}
+};
 
 export { Card };

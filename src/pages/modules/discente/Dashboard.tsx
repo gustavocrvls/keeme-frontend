@@ -104,8 +104,24 @@ export default class Home extends React.Component<IProps, IState> {
       (100 * response.data.resumo.pontosAprovados) / 51,
     ).toFixed(0);
 
+    const accs = response.data.accs.map((acc: any) => {
+      return {
+        id: acc.id,
+        idCertificado: acc.id_certificado,
+        pontos: acc.pontos,
+        quantidade: acc.quantidade,
+        sobre: acc.sobre,
+        statusDaAcc: acc.status_da_acc,
+        tipoDeAcc: {
+          id: acc.tipo_de_acc.id,
+          nome: acc.tipo_de_acc.nome,
+          unidadeDeMedida: acc.tipo_de_acc.unidade_de_medida,
+        },
+      };
+    });
+
     this.setState({
-      lastAccs: response.data.accs,
+      lastAccs: accs,
       resumo: response.data.resumo,
       progresso: Number(progresso),
     });
