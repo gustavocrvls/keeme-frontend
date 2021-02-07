@@ -91,19 +91,12 @@ export function CardAcc(props: ICardAcc): JSX.Element {
   const CardTitle = styled.div`
     font-size: 16px;
     margin-bottom: 8px;
-    color: #4d6f80;
   `;
 
   const CardContent = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-
-    color: #8fa7b3;
-
-    strong {
-      color: #4d6f80;
-    }
 
     ul {
       padding-left: 0;
@@ -265,11 +258,11 @@ export default class DetalhesDaPontuacao extends React.Component<
 
     return (
       <Container>
-        <div className="page-title">
+        <div>
           <Link to="/home" className="btn back-button">
-            <FiArrowLeft style={{ strokeWidth: 2 }} />
+            <FiArrowLeft size={20} />
           </Link>
-          <div className="title">Detalhes da Pontuação</div>
+          <h1>Minhas ACCs</h1>
         </div>
 
         <ul className="card-list">
