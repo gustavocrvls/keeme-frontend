@@ -11,9 +11,14 @@ import DetalhesDaAcc from './pages/modules/discente/DetalhesDaAcc';
 import DetalhesDaPontuacao from './pages/modules/discente/DetalhesDaPontuacao';
 import TiposDeAcc from './pages/modules/discente/TiposDeAcc';
 
+// import Dashboard from './views/coordenador/pages/Dashboard';
+
 import Login from './pages/Login';
 import { isAuthenticated } from './services/auth';
 import { notifyError } from './utils/Notifications';
+import { Container } from './components/Containers';
+import PesquisarDiscente from './views/coordenador/pages/PesquisarDiscente';
+import DetalhesDoDiscente from './views/coordenador/pages/DetalhesDoDiscente';
 
 interface PrivateRouteProps {
   path: string;
@@ -31,7 +36,9 @@ function PrivateRoute(props: PrivateRouteProps) {
         isAuthenticated() ? (
           <>
             <Header />
-            <Component {...routeProps} />
+            <Container>
+              <Component {...routeProps} />
+            </Container>
           </>
         ) : (
           <>
@@ -56,6 +63,8 @@ const Routes = (): JSX.Element => {
         <PrivateRoute path="/home" component={Dashboard} />
         <PrivateRoute path="/discente/tipos-de-acc" component={TiposDeAcc} />
         <PrivateRoute path="/discente/cadastrar-acc" component={CadastrarAcc} />
+        <PrivateRoute path="/coordenador/pesquisar-discente" component={PesquisarDiscente} />
+        <PrivateRoute path="/coordenador/detalhes-do-discente/:id" component={DetalhesDoDiscente} />
         <PrivateRoute
           path="/discente/detalhes-da-pontuacao"
           exact

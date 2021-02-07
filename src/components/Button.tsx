@@ -2,10 +2,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { darken } from 'polished';
-
-interface Color {
-  color: 'primary' | 'secondary' | 'danger';
-}
+import { Color } from './interfaces/Color';
 
 export const color = {
   primary: '#31878C',
@@ -24,10 +21,6 @@ const Button = styled.button`
   color: #fff;
   font-size: 1.2rem;
   text-decoration: none;
-
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
 
   cursor: pointer;
 

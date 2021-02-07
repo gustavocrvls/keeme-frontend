@@ -8,7 +8,7 @@ const Input = styled.input`
 
   border: 1px solid ${borderColor};
   border-radius: ${stylesConsts.borderRadius};
-  padding: 5px;
+  padding: 0 5px;
   transition: outline 2s;
 
   :focus {
