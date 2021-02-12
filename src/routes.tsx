@@ -5,15 +5,15 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import Header from './components/Header';
 
-import CadastrarAcc from './pages/modules/discente/CadastrarAcc';
-import Dashboard from './pages/modules/discente/Dashboard';
-import DetalhesDaAcc from './pages/modules/discente/DetalhesDaAcc';
-import DetalhesDaPontuacao from './pages/modules/discente/DetalhesDaPontuacao';
-import TiposDeAcc from './pages/modules/discente/TiposDeAcc';
+import CadastrarAcc from './views/discente/page/CadastrarAcc';
+import Dashboard from './views/discente/page/Dashboard';
+import DetalhesDaAcc from './views/discente/page/DetalhesDaAcc';
+import DetalhesDaPontuacao from './views/discente/page/DetalhesDaPontuacao';
+import TiposDeAcc from './views/discente/page/TiposDeAcc';
 
 // import Dashboard from './views/coordenador/pages/Dashboard';
 
-import Login from './pages/Login';
+import Login from './views/Login';
 import { isAuthenticated } from './services/auth';
 import { notifyError } from './utils/Notifications';
 import { Container } from './components/Containers';

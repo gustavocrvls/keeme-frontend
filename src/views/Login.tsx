@@ -21,11 +21,11 @@ const vStyles2: CSSProperties = {
 };
 
 const LoginCard = styled.div`
-  position: absolute;
+  /* position: absolute; */
   width: 579px;
-  height: 427px;
-  left: 816px;
-  top: 196px;
+  /* height: 427px; */
+  /* left: 816px; */
+  /* top: 196px; */
 
   padding: 20px;
 
@@ -81,9 +81,16 @@ export default function Login(): JSX.Element {
   };
 
   return (
-    <div style={{ position: 'relative', height: '100vh' }}>
-      <img style={vStyles1} src={loginVector1} alt="v1" height="100%" />
-      <img style={vStyles2} src={loginVector2} alt="v2" height="100%" />
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+      }}
+    >
+      {/* <img style={vStyles1} src={loginVector1} alt="v1" height="100%" /> */}
+      {/* <img style={vStyles2} src={loginVector2} alt="v2" height="100%" /> */}
       <LoginCard>
         <LoginCardTitle>Gestor de ACCs</LoginCardTitle>
         <LoginForm onSubmit={handleSignIn}>

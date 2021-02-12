@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Sidebar from './Sidebar';
 
 const BaseContainer = styled.div`
   max-width: 1024px;
@@ -12,9 +13,12 @@ const BaseContainer = styled.div`
 const Container = (props: any): JSX.Element => {
   const { children } = props;
   return (
-    <BaseContainer>
-      <div style={{ margin: '0 10px' }}>{children}</div>
-    </BaseContainer>
+    <div style={{ marginLeft: 250 }}>
+      <BaseContainer>
+        <Sidebar />
+        <div style={{ margin: '0 10px' }}>{children}</div>
+      </BaseContainer>
+    </div>
   );
 };
 

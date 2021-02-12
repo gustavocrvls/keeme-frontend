@@ -109,7 +109,7 @@ export default function DetalhesDaAcc(): JSX.Element {
   }, []);
 
   return (
-    <Container>
+    <>
       <div className="page-title">
         <Link to="/home" className="btn back-button">
           <FiArrowLeft style={{ strokeWidth: 2 }} />
@@ -160,6 +160,6 @@ export default function DetalhesDaAcc(): JSX.Element {
           </AnchorButton>
         </div>
       </Details>
-    </Container>
+    </>
   );
 }
