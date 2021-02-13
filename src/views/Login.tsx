@@ -21,11 +21,11 @@ const vStyles2: CSSProperties = {
 };
 
 const LoginCard = styled.div`
-  /* position: absolute; */
+  position: absolute;
   width: 579px;
-  /* height: 427px; */
-  /* left: 816px; */
-  /* top: 196px; */
+  height: 427px;
+  left: 816px;
+  top: 196px;
 
   padding: 20px;
 
@@ -37,6 +37,7 @@ const LoginCard = styled.div`
 const LoginCardTitle = styled.h1`
   text-align: center;
   color: #4d6f80;
+  font-size: 36px;
 `;
 
 const LoginForm = styled.form`
@@ -87,10 +88,11 @@ export default function Login(): JSX.Element {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
+        backgroundColor: '#f2f2f2',
       }}
     >
-      {/* <img style={vStyles1} src={loginVector1} alt="v1" height="100%" /> */}
-      {/* <img style={vStyles2} src={loginVector2} alt="v2" height="100%" /> */}
+      <img style={vStyles1} src={loginVector1} alt="v1" height="100%" />
+      <img style={vStyles2} src={loginVector2} alt="v2" height="100%" />
       <LoginCard>
         <LoginCardTitle>Gestor de ACCs</LoginCardTitle>
         <LoginForm onSubmit={handleSignIn}>
@@ -118,7 +120,7 @@ export default function Login(): JSX.Element {
               />
             </label>
           </div>
-          <div>
+          <div style={{ marginTop: 30 }}>
             <Button color="primary" type="submit" style={{ width: '100%' }}>
               Entrar
             </Button>

@@ -13,7 +13,7 @@ export const color = {
 const Button = styled.button`
   border: 0;
   padding: 5px 10px;
-  border-radius: 10px;
+  border-radius: 5px;
   border: none;
 
   background-color: ${(props: Color) => color[props.color]};

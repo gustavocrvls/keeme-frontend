@@ -11,7 +11,6 @@ import { Button } from '../../../../components/Button';
 
 import * as unidadesDeMedidaConstants from '../../../../constants/unidadesDeMedida';
 import { notifySuccess } from '../../../../utils/Notifications';
-import { Container } from '../../../../components/Containers';
 import { TOKEN_KEY, USERID_KEY } from '../../../../services/auth';
 
 interface TipoDeAcc {
@@ -118,7 +117,7 @@ export default function CadastrarAcc() {
   }, []);
 
   return (
-    <Container>
+    <>
       <div className="page-title">
         <Link to="/home" className="btn back-button">
           <FiArrowLeft style={{ strokeWidth: 2 }} />
@@ -182,6 +181,6 @@ export default function CadastrarAcc() {
           Cadastrar
         </Button>
       </Flex>
-    </Container>
+    </>
   );
 }

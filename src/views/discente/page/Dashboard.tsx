@@ -134,7 +134,7 @@ export default class Home extends React.Component<IProps, IState> {
       <>
         <div className="page-title">
           <div className="title" style={{ marginLeft: 0, marginBottom: 10 }}>
-            Minha Pontuação
+            Início
           </div>
         </div>
 
