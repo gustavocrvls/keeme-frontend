@@ -4,17 +4,13 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { darken } from 'polished';
 import { Box, Flex, Grid, GridItem, Heading } from '@chakra-ui/react';
-import { Card } from '../../../components/Card';
 import ProgressRing from '../../../components/ProgressRing';
-import { Container } from '../../../components/Containers';
 import { CardAcc } from './DetalhesDaPontuacao';
 import api from '../../../services/api';
 import { USERID_KEY } from '../../../services/auth';
 
 const CardLink = styled.div`
   width: 100%;
-
-  padding: 15px;
 
   box-shadow: 1px 1px 5px 0px rgba(119, 119, 119, 0.25);
   box-sizing: border-box;
@@ -136,10 +132,11 @@ export default class Home extends React.Component<IProps, IState> {
         <Grid
           templateColumns="repeat(3, 1fr)"
           templateRows="repeat(3, 1fr)"
-          gap={6}
+          gap={4}
+          h="400px"
         >
           <GridItem
-            rowSpan={2}
+            rowSpan={1}
             colSpan={3}
             bg="white"
             boxShadow="md"
@@ -192,62 +189,86 @@ export default class Home extends React.Component<IProps, IState> {
             </Flex>
           </GridItem>
 
-          <Box w="100%" h="10">
+          <GridItem
+            rowSpan={1}
+            colSpan={1}
+            _hover={{ backgroundColor: '#f1f3f5' }}
+          >
             <Link
               to="/discente/cadastrar-acc"
               color="primary"
               style={{ width: '30%', textDecoration: 'none' }}
             >
-              <CardLink>
-                <div>
-                  <div>
-                    <FiPlus />
-                  </div>
-                  <div>Nova Acc</div>
-                </div>
-              </CardLink>
+              <Flex
+                boxShadow="md"
+                borderRadius="md"
+                height="100%"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+              >
+                <Box>
+                  <FiPlus />
+                </Box>
+                <div>Nova Acc</div>
+              </Flex>
             </Link>
-          </Box>
+          </GridItem>
 
-          <Box w="100%" h="10">
+          <GridItem
+            rowSpan={1}
+            colSpan={1}
+            _hover={{ backgroundColor: '#f1f3f5' }}
+          >
             <Link
               to="/discente/detalhes-da-pontuacao"
               color="primary"
               style={{ width: '30%', textDecoration: 'none' }}
             >
-              <CardLink>
-                <div>
-                  <div>
-                    <FiFile />
-                  </div>
-                  <div>Minhas ACCs</div>
-                </div>
-              </CardLink>
+              <Flex
+                boxShadow="md"
+                borderRadius="md"
+                height="100%"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+              >
+                <Box>
+                  <FiFile />
+                </Box>
+                <Box>Minhas ACCs</Box>
+              </Flex>
             </Link>
-          </Box>
-          <Box w="100%" h="10">
+          </GridItem>
+
+          <GridItem
+            rowSpan={1}
+            colSpan={1}
+            _hover={{ backgroundColor: '#f1f3f5' }}
+          >
             <Link
               to="/discente/tipos-de-acc"
               color="primary"
               style={{ width: '30%', textDecoration: 'none' }}
             >
-              <CardLink>
-                <div>
-                  <div>
-                    <FiPackage />
-                  </div>
-                  <div>Tipos de ACC</div>
-                </div>
-              </CardLink>
+              <Flex
+                boxShadow="md"
+                borderRadius="md"
+                height="100%"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+              >
+                <Box>
+                  <FiFile />
+                </Box>
+                <Box>Tipos de ACC</Box>
+              </Flex>
             </Link>
-          </Box>
+          </GridItem>
         </Grid>
 
-        <div className="page-title">
-          <div className="title" style={{ margin: '20px 0' }}>
-            Últimos Envios
-          </div>
-        </div>
+        <Heading as="h1">Últimos Envios</Heading>
 
         <ul className="card-list">
           {lastAccs.map((acc, index) => (
