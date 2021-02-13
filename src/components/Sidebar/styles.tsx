@@ -4,8 +4,10 @@ const SidebarItem = styled.li`
   padding: 10px;
   font-size: 1rem;
 
-  transition: all 0.2s;
-  /* border-bottom: 1px solid #d8d6d6; */
+  display: flex;
+  align-items: center;
+
+  transition: padding 0.2s;
 
   :hover {
     background-color: #31878c;

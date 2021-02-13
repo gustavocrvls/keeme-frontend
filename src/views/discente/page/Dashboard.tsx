@@ -128,7 +128,7 @@ export default class Home extends React.Component<IProps, IState> {
 
     return (
       <>
-        <Heading as="h1">Minha pontuação</Heading>
+        <Heading as="h1">Início</Heading>
         <Grid
           templateColumns="repeat(3, 1fr)"
           templateRows="repeat(3, 1fr)"
