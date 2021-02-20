@@ -2,18 +2,16 @@ import React from 'react';
 // import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { PrivateRoute } from '../../../routes';
 
-import DashboardAdministrador from '../pages/Dashboard';
+import Dashboard from '../pages/Dashboard';
+import CadastrarCoordenador from '../pages/CadastrarCoordenador';
 
 const Routes = (): JSX.Element => {
   return (
     <>
-      <PrivateRoute
-        path="/administrador/home"
-        component={DashboardAdministrador}
-      />
+      <PrivateRoute path="/administrador/home" component={Dashboard} />
       <PrivateRoute
         path="/administrador/cadastrar-coordenador"
-        component={DashboardAdministrador}
+        component={CadastrarCoordenador}
       />
     </>
   );

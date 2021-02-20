@@ -24,9 +24,7 @@ import {
   Link,
 } from '@chakra-ui/react';
 
-import { AxiosResponse } from 'axios';
 import statusDaAccConsts from '../../../constants/statusDaAcc';
-import { AnchorButton } from '../../../components/Button';
 import api from '../../../services/api';
 import { notifyWarning } from '../../../utils/Notifications';
 

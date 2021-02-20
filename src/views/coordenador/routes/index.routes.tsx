@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch } from 'react-router-dom';
 import { PrivateRoute } from '../../../routes';
 
-import DashboardCoordenador from '../pages/Dashboard';
+import Dashboard from '../pages/Dashboard';
 import PesquisarDiscente from '../pages/PesquisarDiscente';
 import DetalhesDaAccCoordenador from '../pages/DetalhesDaAcc';
 import DetalhesDoDiscente from '../pages/DetalhesDoDiscente';
@@ -10,7 +10,7 @@ import DetalhesDoDiscente from '../pages/DetalhesDoDiscente';
 const Routes = (): JSX.Element => {
   return (
     <>
-      <PrivateRoute path="/coordenador/home" component={DashboardCoordenador} />
+      <PrivateRoute path="/coordenador/home" component={Dashboard} />
       <PrivateRoute
         path="/coordenador/pesquisar-discente"
         component={PesquisarDiscente}
