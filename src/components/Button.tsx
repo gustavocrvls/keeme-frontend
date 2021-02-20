@@ -6,20 +6,19 @@ import { Color } from './interfaces/Color';
 
 export const color = {
   primary: '#31878C',
-  secondary: '#FAFAFA',
-  danger: '#FAFAFA',
+  secondary: '#757474',
+  danger: '#ce3535',
 };
 
 const Button = styled.button`
-  border: 0;
-  padding: 5px 10px;
-  border-radius: 5px;
   border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
 
   background-color: ${(props: Color) => color[props.color]};
 
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 12px;
   text-decoration: none;
 
   cursor: pointer;
@@ -64,6 +63,10 @@ const AnchorButton = styled.a`
 
   &:hover {
     background-color: ${(props: Color) => darken(0.1, color[props.color])};
+  }
+
+  svg {
+    display: inherit;
   }
 `;
 

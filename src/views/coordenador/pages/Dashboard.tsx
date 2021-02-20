@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import React, { Component } from 'react';
 import { FiArrowRight } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import constStatusDaAcc from '../../../constants/statusDaAcc';
 import api from '../../../services/api';
 
@@ -79,74 +80,40 @@ class Dashboard extends Component<IProps, IState> {
             }}
           >
             {accs.map(acc => (
-              <li>
-                <div
-                  style={{
-                    fontSize: '.9rem',
-                    backgroundColor: '#fff',
-                    boxShadow: '2px 2px 5px #c9c9c9',
-                    padding: 10,
-                    borderRadius: 5,
-                    marginBottom: 10,
-
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <div>
-                    <div>
-                      <strong>{acc.usuario.nome}</strong>
-                    </div>
-                    <div>{acc.tipo_de_acc.nome}</div>
-                  </div>
+              <Link to={`/coordenador/detalhes-da-acc/${acc.id}`}>
+                <li>
                   <div
                     style={{
+                      fontSize: '.9rem',
+                      backgroundColor: '#fff',
+                      boxShadow: '2px 2px 5px #c9c9c9',
+                      padding: 10,
+                      borderRadius: 5,
+                      marginBottom: 10,
+
                       display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
+                      justifyContent: 'space-between',
                     }}
                   >
-                    <FiArrowRight size={20} />
+                    <div>
+                      <div>
+                        <strong>{acc.usuario.nome}</strong>
+                      </div>
+                      <div>{acc.tipo_de_acc.nome}</div>
+                    </div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <FiArrowRight size={20} />
+                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
+              </Link>
             ))}
-
-            <li>
-              <div
-                style={{
-                  fontSize: '.9rem',
-                  backgroundColor: '#fff',
-                  boxShadow: '2px 2px 5px #c9c9c9',
-                  padding: 10,
-                  borderRadius: 5,
-                  marginBottom: 10,
-
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <div>
-                  <div>
-                    <strong>Gustavo Carvalho Silva</strong>
-                  </div>
-                  <div>
-                    Apresentação de trabalho em em eventos (Simpósios,
-                    Congressos, Workshops, Oficinas, etc.) nas áreas dos cursos
-                    da Faceel
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <FiArrowRight size={20} />
-                </div>
-              </div>
-            </li>
           </ul>
         </div>
       </div>

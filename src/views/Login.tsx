@@ -9,6 +9,7 @@ import { Input } from '../components/Inputs';
 import { Button } from '../components/Button';
 import api from '../services/api';
 import { login } from '../services/auth';
+import ConstPerfis from '../constants/ConstPerfis';
 
 const vStyles1: CSSProperties = {
   position: 'absolute',
@@ -76,8 +77,20 @@ export default function Login(): JSX.Element {
     });
 
     if (result.data.auth) {
-      login(result.data.token, result.data.usuario.id);
-      history.push('/home');
+      console.log(result.data);
+
+      login(
+        result.data.token,
+        result.data.usuario.id,
+        result.data.usuario.perfil.id,
+      );
+
+      if (result.data.usuario.perfil.id === ConstPerfis.DISCENTE) {
+        history.push('/home');
+      }
+      if (result.data.usuario.perfil.id === ConstPerfis.COORDENADOR) {
+        history.push('/coordenador/home');
+      }
     }
   };
 

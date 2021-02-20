@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import {
   FiArrowLeft,
   FiCircle,
@@ -9,10 +9,24 @@ import {
   FiCheckCircle,
 } from 'react-icons/fi';
 import styled from 'styled-components';
+import {
+  Box,
+  Button,
+  Stack,
+  Textarea,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react';
 
 import statusDaAccConsts from '../../../constants/statusDaAcc';
-import { AnchorButton, Button } from '../../../components/Button';
+import { AnchorButton } from '../../../components/Button';
 import api from '../../../services/api';
+import { notifyWarning } from '../../../utils/Notifications';
 
 interface IAcc {
   id: number;
@@ -28,6 +42,14 @@ interface IAcc {
     id: number;
     nome: string;
     unidade_de_medida: {
+      id: number;
+      nome: string;
+    };
+  };
+  usuario: {
+    id: number;
+    nome: string;
+    curso: {
       id: number;
       nome: string;
     };
@@ -49,6 +71,8 @@ const Details = styled.div`
 
 interface IState {
   acc: IAcc;
+  avaliacao: string;
+  modalAvaliacaoIsOpen: boolean;
 }
 
 interface IMatchParams {
@@ -66,20 +90,30 @@ class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
         id_certificado: 0,
         pontos: 0,
         quantidade: 0,
-        sobre: 'string',
+        sobre: '',
         status_da_acc: {
           id: 0,
-          nome: 'string',
+          nome: '',
         },
         tipo_de_acc: {
           id: 0,
-          nome: 'string',
+          nome: '',
           unidade_de_medida: {
             id: 0,
-            nome: 'string',
+            nome: '',
+          },
+        },
+        usuario: {
+          id: 0,
+          nome: '',
+          curso: {
+            id: 0,
+            nome: '',
           },
         },
       },
+      avaliacao: '',
+      modalAvaliacaoIsOpen: false,
     };
   }
 
@@ -93,6 +127,39 @@ class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
       acc: response.data,
     });
   }
+
+  goBack = (): void => {
+    const { history } = this.props;
+    if (history) history.go(-1);
+  };
+
+  changeAccStatus = (status: number) => {
+    const { avaliacao, acc } = this.state;
+    const { match } = this.props;
+    const { params } = match;
+    const { id } = params;
+
+    async function changeStatus(newStatus: number) {
+      if (newStatus === statusDaAccConsts.APROVADA) {
+        const response = await api.put(`accs/update/${id}/status`, {
+          status_da_acc: newStatus,
+        });
+      }
+      if (newStatus === statusDaAccConsts.NEGADA) {
+        if (!avaliacao.length) {
+          notifyWarning('É necessário especificar o motivo da negação');
+        }
+        const response = await api.post(`avaliacoes-das-accs`, {
+          descricao: avaliacao,
+          status_da_acc: newStatus,
+          usuario: acc.usuario.id,
+          acc: acc.id,
+        });
+      }
+    }
+
+    changeStatus(status);
+  };
 
   handleStatusColor = (status?: IStatus): JSX.Element => {
     let color = '';
@@ -136,18 +203,35 @@ class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
     );
   };
 
+  toggleModalAvaliacao = () => {
+    const { modalAvaliacaoIsOpen } = this.state;
+    this.setState({
+      modalAvaliacaoIsOpen: !modalAvaliacaoIsOpen,
+    });
+  };
+
   render() {
-    const { acc } = this.state;
+    const { acc, avaliacao, modalAvaliacaoIsOpen } = this.state;
 
     return (
       <>
         <div className="page-title">
-          <Link to="/home" className="btn back-button">
+          <button
+            type="button"
+            onClick={this.goBack}
+            className="btn back-button"
+          >
             <FiArrowLeft style={{ strokeWidth: 2 }} />
-          </Link>
+          </button>
           <div className="title">Detalhes da Acc</div>
         </div>
         <Details>
+          <div>
+            <label htmlFor="discente">
+              Discente
+              <p id="discente">{acc?.usuario.nome}</p>
+            </label>
+          </div>
           <div>
             <label htmlFor="tipo">
               Tipo de Acc
@@ -190,7 +274,67 @@ class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
               Baixar Certificado
             </AnchorButton>
           </div>
+          {acc.status_da_acc.id === statusDaAccConsts.EM_ANALISE && (
+            <Box>
+              <Stack direction="row" justifyContent="center" spacing={3}>
+                <Button
+                  colorScheme="teal"
+                  size="sm"
+                  onClick={() =>
+                    // eslint-disable-next-line prettier/prettier
+                    this.changeAccStatus(statusDaAccConsts.APROVADA)}
+                >
+                  Aprovar
+                </Button>
+                <Button
+                  colorScheme="red"
+                  size="sm"
+                  onClick={this.toggleModalAvaliacao}
+                >
+                  Negar
+                </Button>
+              </Stack>
+            </Box>
+          )}
         </Details>
+
+        <Modal
+          isOpen={modalAvaliacaoIsOpen}
+          onClose={this.toggleModalAvaliacao}
+          size="xl"
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Motivo da Negação</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Textarea
+                placeholder="Motivo"
+                value={avaliacao}
+                onChange={e => this.setState({ avaliacao: e.target.value })}
+              />
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                colorScheme="teal"
+                mr={3}
+                onClick={this.toggleModalAvaliacao}
+              >
+                Cancelar
+              </Button>
+              <Button
+                colorScheme="red"
+                variant="ghost"
+                onClick={() => {
+                  this.changeAccStatus(statusDaAccConsts.NEGADA);
+                }}
+              >
+                Reprovar
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </>
     );
   }

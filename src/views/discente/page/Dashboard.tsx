@@ -131,9 +131,10 @@ export default class Home extends React.Component<IProps, IState> {
         <Heading as="h1">Início</Heading>
         <Grid
           templateColumns="repeat(3, 1fr)"
-          templateRows="repeat(3, 1fr)"
+          templateRows="repeat(2, 1fr)"
           gap={4}
-          h="400px"
+          h="280px"
+          marginBottom="5"
         >
           <GridItem
             rowSpan={1}

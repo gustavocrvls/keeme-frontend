@@ -13,9 +13,9 @@ const BaseContainer = styled.div`
 const Container = (props: any): JSX.Element => {
   const { children } = props;
   return (
-    <div style={{ marginLeft: 250 }}>
+    <div style={window.innerWidth > 570 ? { marginLeft: 250 } : {}}>
       <BaseContainer>
-        <Sidebar />
+        {window.innerWidth > 570 && <Sidebar />}
         <div style={{ margin: '0 10px' }}>{children}</div>
       </BaseContainer>
     </div>

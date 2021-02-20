@@ -22,7 +22,7 @@ const HeaderStyle = styled.header`
 
   color: #fff;
 
-  z-index: 5000;
+  z-index: 100;
 `;
 
 class Header extends React.Component<RouteComponentProps> {

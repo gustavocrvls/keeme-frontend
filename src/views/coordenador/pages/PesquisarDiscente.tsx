@@ -86,28 +86,26 @@ export default function PesquisarDiscente(): JSX.Element {
       <div>
         <ul style={{ listStyle: 'none', padding: 0 }}>
           {discentes.map(discente => (
-            <li>
-              <div
-                style={{
-                  fontSize: '.9rem',
-                  backgroundColor: '#fff',
-                  boxShadow: '2px 2px 5px #dddddd',
-                  padding: 10,
-                  borderRadius: 5,
-                  marginBottom: 10,
+            <Link to={`/coordenador/detalhes-do-discente/${discente.id}`}>
+              <li>
+                <div
+                  style={{
+                    fontSize: '.9rem',
+                    backgroundColor: '#fff',
+                    boxShadow: '2px 2px 5px #dddddd',
+                    padding: 10,
+                    borderRadius: 5,
+                    marginBottom: 10,
 
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <div>
-                  <Link to={`/coordenador/detalhes-do-discente/${discente.id}`}>
-                    {discente.nome}
-                  </Link>
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div>{discente.nome}</div>
+                  <div>{discente.curso.nome}</div>
                 </div>
-                <div>{discente.curso.nome}</div>
-              </div>
-            </li>
+              </li>
+            </Link>
           ))}
         </ul>
       </div>
