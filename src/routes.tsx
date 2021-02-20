@@ -83,6 +83,7 @@ const Routes = (): JSX.Element => {
         <PrivateRoute path="/coordenador/detalhes-da-acc/:id" component={DetalhesDaAccCoordenador} />
 
         <PrivateRoute path="/administrador/home" component={DashboardAdministrador} />
+        <PrivateRoute path="/administrador/cadastrar-coordenador" component={DashboardAdministrador} />
 
         <Redirect to="/login" />
       </Switch>
