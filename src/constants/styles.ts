@@ -1,5 +1,5 @@
 const styles = {
-  borderRadius: '10px',
+  borderRadius: '5px',
   inputHeight: '2rem',
 };
 

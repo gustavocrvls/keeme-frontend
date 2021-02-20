@@ -9,6 +9,7 @@ import { Input } from '../components/Inputs';
 import { Button } from '../components/Button';
 import api from '../services/api';
 import { login } from '../services/auth';
+import ConstPerfis from '../constants/ConstPerfis';
 
 const vStyles1: CSSProperties = {
   position: 'absolute',
@@ -37,6 +38,7 @@ const LoginCard = styled.div`
 const LoginCardTitle = styled.h1`
   text-align: center;
   color: #4d6f80;
+  font-size: 36px;
 `;
 
 const LoginForm = styled.form`
@@ -75,13 +77,36 @@ export default function Login(): JSX.Element {
     });
 
     if (result.data.auth) {
-      login(result.data.token, result.data.usuario.id);
-      history.push('/home');
+      console.log(result.data);
+
+      login(
+        result.data.token,
+        result.data.usuario.id,
+        result.data.usuario.perfil.id,
+      );
+
+      if (result.data.usuario.perfil.id === ConstPerfis.DISCENTE) {
+        history.push('/home');
+      }
+      if (result.data.usuario.perfil.id === ConstPerfis.COORDENADOR) {
+        history.push('/coordenador/home');
+      }
+      if (result.data.usuario.perfil.id === ConstPerfis.ADMIN) {
+        history.push('/administrador/home');
+      }
     }
   };
 
   return (
-    <div style={{ position: 'relative', height: '100vh' }}>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        backgroundColor: '#f2f2f2',
+      }}
+    >
       <img style={vStyles1} src={loginVector1} alt="v1" height="100%" />
       <img style={vStyles2} src={loginVector2} alt="v2" height="100%" />
       <LoginCard>
@@ -111,7 +136,7 @@ export default function Login(): JSX.Element {
               />
             </label>
           </div>
-          <div>
+          <div style={{ marginTop: 30 }}>
             <Button color="primary" type="submit" style={{ width: '100%' }}>
               Entrar
             </Button>

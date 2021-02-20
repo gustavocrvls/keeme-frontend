@@ -46,10 +46,12 @@ module.exports = {
       "error",
       "ignorePackages",
       {
-        ts: "never",
-        tsx: "never"
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
       }
-    ],
+   ]
   },
   settings : {
     "import/resolver": {

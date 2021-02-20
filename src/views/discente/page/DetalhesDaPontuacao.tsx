@@ -257,7 +257,7 @@ export default class DetalhesDaPontuacao extends React.Component<
     const { accs } = this.state;
 
     return (
-      <Container>
+      <>
         <div>
           <Link to="/home" className="btn back-button">
             <FiArrowLeft size={20} />
@@ -278,7 +278,7 @@ export default class DetalhesDaPontuacao extends React.Component<
             </li>
           ))}
         </ul>
-      </Container>
+      </>
     );
   }
 }

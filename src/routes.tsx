@@ -5,20 +5,24 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import Header from './components/Header';
 
-import CadastrarAcc from './pages/modules/discente/CadastrarAcc';
-import Dashboard from './pages/modules/discente/Dashboard';
-import DetalhesDaAcc from './pages/modules/discente/DetalhesDaAcc';
-import DetalhesDaPontuacao from './pages/modules/discente/DetalhesDaPontuacao';
-import TiposDeAcc from './pages/modules/discente/TiposDeAcc';
+import CadastrarAcc from './views/discente/page/CadastrarAcc';
+import Dashboard from './views/discente/page/Dashboard';
+import DetalhesDaAcc from './views/discente/page/DetalhesDaAcc';
+import DetalhesDaPontuacao from './views/discente/page/DetalhesDaPontuacao';
+import TiposDeAcc from './views/discente/page/TiposDeAcc';
 
-// import Dashboard from './views/coordenador/pages/Dashboard';
 
-import Login from './pages/Login';
+import Login from './views/Login';
 import { isAuthenticated } from './services/auth';
 import { notifyError } from './utils/Notifications';
 import { Container } from './components/Containers';
+
+import DashboardCoordenador from './views/coordenador/pages/Dashboard';
 import PesquisarDiscente from './views/coordenador/pages/PesquisarDiscente';
+import DetalhesDaAccCoordenador from './views/coordenador/pages/DetalhesDaAcc';
 import DetalhesDoDiscente from './views/coordenador/pages/DetalhesDoDiscente';
+
+import DashboardAdministrador from './views/administrador/pages/Dashboard';
 
 interface PrivateRouteProps {
   path: string;
@@ -63,8 +67,6 @@ const Routes = (): JSX.Element => {
         <PrivateRoute path="/home" component={Dashboard} />
         <PrivateRoute path="/discente/tipos-de-acc" component={TiposDeAcc} />
         <PrivateRoute path="/discente/cadastrar-acc" component={CadastrarAcc} />
-        <PrivateRoute path="/coordenador/pesquisar-discente" component={PesquisarDiscente} />
-        <PrivateRoute path="/coordenador/detalhes-do-discente/:id" component={DetalhesDoDiscente} />
         <PrivateRoute
           path="/discente/detalhes-da-pontuacao"
           exact
@@ -74,6 +76,14 @@ const Routes = (): JSX.Element => {
           path="/discente/detalhes-da-pontuacao/acc/:id"
           component={DetalhesDaAcc}
         />
+
+        <PrivateRoute path="/coordenador/home" component={DashboardCoordenador} />
+        <PrivateRoute path="/coordenador/pesquisar-discente" component={PesquisarDiscente} />
+        <PrivateRoute path="/coordenador/detalhes-do-discente/:id" component={DetalhesDoDiscente} />
+        <PrivateRoute path="/coordenador/detalhes-da-acc/:id" component={DetalhesDaAccCoordenador} />
+
+        <PrivateRoute path="/administrador/home" component={DashboardAdministrador} />
+        <PrivateRoute path="/administrador/cadastrar-coordenador" component={DashboardAdministrador} />
 
         <Redirect to="/login" />
       </Switch>

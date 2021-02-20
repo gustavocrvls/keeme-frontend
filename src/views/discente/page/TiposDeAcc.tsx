@@ -61,7 +61,7 @@ export default class Home extends React.Component<IProps, IState> {
     const { tiposDeAcc } = this.state;
 
     return (
-      <Container>
+      <>
         <div className="page-title">
           <Link to="/home" className="btn back-button">
             <FiArrowLeft style={{ strokeWidth: 2 }} />
@@ -81,7 +81,7 @@ export default class Home extends React.Component<IProps, IState> {
             </li>
           ))}
         </ul>
-      </Container>
+      </>
     );
   }
 }

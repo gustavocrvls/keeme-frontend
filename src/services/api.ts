@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from './auth';
 
 const api = axios.create({
-  baseURL: 'http://10.0.0.108:3333',
+  baseURL: process.env.REACT_APP_API,
 });
 
 api.interceptors.request.use(async config => {

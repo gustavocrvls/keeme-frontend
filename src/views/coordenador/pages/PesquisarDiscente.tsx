@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import { Flex, Heading, IconButton, Input } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { Button } from '../../../components/Button';
-import { Input } from '../../../components/Inputs';
 import api from '../../../services/api';
 import { notifyError } from '../../../utils/Notifications';
 
@@ -43,71 +43,52 @@ export default function PesquisarDiscente(): JSX.Element {
 
   return (
     <div>
-      <h1>Pesquisar Discente</h1>
+      <Heading as="h1" size="lg" marginBottom="5">
+        Pesquisar Discente
+      </Heading>
 
-      <div
-        style={{
-          display: 'flex',
-        }}
-      >
-        <form onSubmit={search} style={{ width: '100%' }}>
-          <div
-            style={{
-              display: 'flex',
-              width: '100%',
-            }}
-          >
-            <Input
-              value={nome}
-              id="nome-do-discente"
-              placeholder="Nome do Discente"
-              onChange={e => setNome(e.target.value)}
-              style={{
-                width: '100%',
-              }}
-            />
-            <Button
-              color="primary"
-              type="submit"
-              style={{
-                width: '2rem',
-                height: '2rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <FiSearch size={20} />
-            </Button>
-          </div>
-        </form>
-      </div>
+      <form onSubmit={search} style={{ width: '100%' }}>
+        <Flex width="100%" marginBottom="5">
+          <Input
+            value={nome}
+            id="nome-do-discente"
+            placeholder="Nome do Discente"
+            onChange={e => setNome(e.target.value)}
+            width="100%"
+            marginRight="2"
+          />
+          <IconButton
+            colorScheme="teal"
+            type="submit"
+            aria-label="Search Icon"
+            icon={<FiSearch size={20} />}
+          />
+        </Flex>
+      </form>
 
       <div>
         <ul style={{ listStyle: 'none', padding: 0 }}>
           {discentes.map(discente => (
-            <li>
-              <div
-                style={{
-                  fontSize: '.9rem',
-                  backgroundColor: '#fff',
-                  boxShadow: '2px 2px 5px #dddddd',
-                  padding: 10,
-                  borderRadius: 5,
-                  marginBottom: 10,
+            <Link to={`/coordenador/detalhes-do-discente/${discente.id}`}>
+              <li>
+                <div
+                  style={{
+                    fontSize: '.9rem',
+                    backgroundColor: '#fff',
+                    boxShadow: '2px 2px 5px #dddddd',
+                    padding: 10,
+                    borderRadius: 5,
+                    marginBottom: 10,
 
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <div>
-                  <Link to={`/coordenador/detalhes-do-discente/${discente.id}`}>
-                    {discente.nome}
-                  </Link>
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div>{discente.nome}</div>
+                  <div>{discente.curso.nome}</div>
                 </div>
-                <div>{discente.curso.nome}</div>
-              </div>
-            </li>
+              </li>
+            </Link>
           ))}
         </ul>
       </div>

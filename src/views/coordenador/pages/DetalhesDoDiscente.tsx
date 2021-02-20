@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import React, { Component } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import { Card } from '../../../components/Card';
 import ProgressRing from '../../../components/ProgressRing';
 import api from '../../../services/api';
@@ -163,26 +163,28 @@ class DetalhesDoDiscente extends Component<IMatchProps, IState> {
             }}
           >
             {accs.map(acc => (
-              <li>
-                <div
-                  style={{
-                    fontSize: '.9rem',
-                    backgroundColor: '#fff',
-                    boxShadow: '2px 2px 5px #c9c9c9',
-                    padding: 10,
-                    borderRadius: 5,
-                    marginBottom: 10,
+              <Link to={`/coordenador/detalhes-da-acc/${acc.id}`}>
+                <li>
+                  <div
+                    style={{
+                      fontSize: '.9rem',
+                      backgroundColor: '#fff',
+                      boxShadow: '2px 2px 5px #c9c9c9',
+                      padding: 10,
+                      borderRadius: 5,
+                      marginBottom: 10,
 
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <div>{acc.tipo_de_acc.nome}</div>
-                  <div>
-                    {`${acc.quantidade} ${acc.tipo_de_acc.unidade_de_medida.nome}s`}
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <div>{acc.tipo_de_acc.nome}</div>
+                    <div>
+                      {`${acc.quantidade} ${acc.tipo_de_acc.unidade_de_medida.nome}s`}
+                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
+              </Link>
             ))}
           </ul>
         </div>
