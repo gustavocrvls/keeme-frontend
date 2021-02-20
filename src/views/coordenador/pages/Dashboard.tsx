@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { Heading } from '@chakra-ui/react';
 import React, { Component } from 'react';
 import { FiArrowRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
@@ -62,7 +63,9 @@ class Dashboard extends Component<IProps, IState> {
 
     return (
       <div>
-        <h1>ACCs Recebidas</h1>
+        <Heading as="h1" size="lg" marginBottom="5">
+          ACCs Recebidas
+        </Heading>
         <div>
           <div
             style={{

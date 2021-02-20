@@ -21,8 +21,10 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Link,
 } from '@chakra-ui/react';
 
+import { AxiosResponse } from 'axios';
 import statusDaAccConsts from '../../../constants/statusDaAcc';
 import { AnchorButton } from '../../../components/Button';
 import api from '../../../services/api';
@@ -264,15 +266,42 @@ class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
               <p id="descricao">{acc?.sobre}</p>
             </label>
           </div>
-          <div style={{ marginTop: 30, textAlign: 'center' }}>
-            <AnchorButton
-              color="primary"
+          <div style={{ marginTop: 30, marginBottom: 30 }}>
+            <Link
+              colorScheme="gray"
               className="btn"
               href={`http://localhost:3333/certificados/${acc?.id_certificado}`}
+              display="flex"
             >
               <FiDownload />
               Baixar Certificado
-            </AnchorButton>
+            </Link>
+            {/* <Button
+              colorScheme="gray"
+              size="sm"
+              onClick={() => {
+                api
+                  .get(
+                    `http://localhost:3333/certificados/${acc?.id_certificado}`,
+                    {
+                      responseType: 'blob',
+                    },
+                  )
+                  .then((response: AxiosResponse) => {
+                    const url = window.URL.createObjectURL(
+                      new Blob([response.data]),
+                    );
+                    console.log(response.data.type);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'certificado');
+                    document.body.appendChild(link);
+                    link.click();
+                  });
+              }}
+            >
+              {acc?.id_certificado}
+            </Button> */}
           </div>
           {acc.status_da_acc.id === statusDaAccConsts.EM_ANALISE && (
             <Box>
@@ -291,7 +320,7 @@ class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
                   size="sm"
                   onClick={this.toggleModalAvaliacao}
                 >
-                  Negar
+                  Reprovar
                 </Button>
               </Stack>
             </Box>
@@ -305,7 +334,7 @@ class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
         >
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Motivo da Negação</ModalHeader>
+            <ModalHeader>Motivo da Reprovação</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <Textarea

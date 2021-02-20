@@ -1,8 +1,8 @@
 import React from 'react';
 import { withRouter, Link, RouteComponentProps } from 'react-router-dom';
-import { FiUser } from 'react-icons/fi';
+import { FiLogOut } from 'react-icons/fi';
 
-import { Box, Button, Flex } from '@chakra-ui/react';
+import { Flex, IconButton, Tooltip } from '@chakra-ui/react';
 import styled from 'styled-components';
 import { logout } from '../services/auth';
 
@@ -42,18 +42,17 @@ class Header extends React.Component<RouteComponentProps> {
 
         <Flex alignItems="center">
           <div style={{ marginRight: 10, fontSize: '1rem' }}>Olá!</div>
-          <Button
-            type="button"
-            onClick={this.handleLogout}
-            border="none"
-            background="transparent"
-            margin="0"
-            padding="0"
-          >
-            <div className="header-avatar">
-              <FiUser />
-            </div>
-          </Button>
+          <Tooltip label="Sair" aria-label="A tooltip">
+            <IconButton
+              type="button"
+              onClick={this.handleLogout}
+              size="sm"
+              colorScheme="gray"
+              color="teal.900"
+              aria-label="User Icon"
+              icon={<FiLogOut size="18" />}
+            />
+          </Tooltip>
         </Flex>
       </HeaderStyle>
     );

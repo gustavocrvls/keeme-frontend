@@ -22,6 +22,8 @@ import PesquisarDiscente from './views/coordenador/pages/PesquisarDiscente';
 import DetalhesDaAccCoordenador from './views/coordenador/pages/DetalhesDaAcc';
 import DetalhesDoDiscente from './views/coordenador/pages/DetalhesDoDiscente';
 
+import DashboardAdministrador from './views/administrador/pages/Dashboard';
+
 interface PrivateRouteProps {
   path: string;
   component: React.ComponentClass | any;
@@ -80,6 +82,7 @@ const Routes = (): JSX.Element => {
         <PrivateRoute path="/coordenador/detalhes-do-discente/:id" component={DetalhesDoDiscente} />
         <PrivateRoute path="/coordenador/detalhes-da-acc/:id" component={DetalhesDaAccCoordenador} />
 
+        <PrivateRoute path="/administrador/home" component={DashboardAdministrador} />
 
         <Redirect to="/login" />
       </Switch>

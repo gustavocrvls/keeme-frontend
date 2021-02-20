@@ -91,6 +91,9 @@ export default function Login(): JSX.Element {
       if (result.data.usuario.perfil.id === ConstPerfis.COORDENADOR) {
         history.push('/coordenador/home');
       }
+      if (result.data.usuario.perfil.id === ConstPerfis.ADMIN) {
+        history.push('/administrador/home');
+      }
     }
   };
 
