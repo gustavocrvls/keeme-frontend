@@ -42,7 +42,7 @@ class Header extends React.Component<RouteComponentProps> {
 
         <Flex alignItems="center">
           <div style={{ marginRight: 10, fontSize: '1rem' }}>Olá!</div>
-          <Tooltip label="Sair" aria-label="A tooltip">
+          <Tooltip label="Sair" aria-label="Sair">
             <IconButton
               type="button"
               onClick={this.handleLogout}
