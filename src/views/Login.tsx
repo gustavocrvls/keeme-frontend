@@ -77,8 +77,6 @@ export default function Login(): JSX.Element {
     });
 
     if (result.data.auth) {
-      console.log(result.data);
-
       login(
         result.data.token,
         result.data.usuario.id,
@@ -86,7 +84,7 @@ export default function Login(): JSX.Element {
       );
 
       if (result.data.usuario.perfil.id === ConstPerfis.DISCENTE) {
-        history.push('/home');
+        history.push('/discente/home');
       }
       if (result.data.usuario.perfil.id === ConstPerfis.COORDENADOR) {
         history.push('/coordenador/home');

@@ -3,26 +3,16 @@
 import React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
+
 import Header from './components/Header';
-
-import CadastrarAcc from './views/discente/page/CadastrarAcc';
-import Dashboard from './views/discente/page/Dashboard';
-import DetalhesDaAcc from './views/discente/page/DetalhesDaAcc';
-import DetalhesDaPontuacao from './views/discente/page/DetalhesDaPontuacao';
-import TiposDeAcc from './views/discente/page/TiposDeAcc';
-
-
 import Login from './views/Login';
 import { isAuthenticated } from './services/auth';
 import { notifyError } from './utils/Notifications';
 import { Container } from './components/Containers';
 
-import DashboardCoordenador from './views/coordenador/pages/Dashboard';
-import PesquisarDiscente from './views/coordenador/pages/PesquisarDiscente';
-import DetalhesDaAccCoordenador from './views/coordenador/pages/DetalhesDaAcc';
-import DetalhesDoDiscente from './views/coordenador/pages/DetalhesDoDiscente';
-
-import DashboardAdministrador from './views/administrador/pages/Dashboard';
+import DiscenteRoutes from './views/discente/routes/index.routes';
+import CoordenadorRoutes from './views/coordenador/routes/index.routes';
+import AdministradorRoutes from './views/administrador/routes/index.routes';
 
 interface PrivateRouteProps {
   path: string;
@@ -30,7 +20,7 @@ interface PrivateRouteProps {
   exact?: boolean;
 }
 
-function PrivateRoute(props: PrivateRouteProps) {
+export function PrivateRoute(props: PrivateRouteProps): JSX.Element {
   const { component: Component, exact, path } = props;
   return (
     <Route
@@ -64,26 +54,10 @@ const Routes = (): JSX.Element => {
       <Switch>
         <Route path="/" exact component={Login} />
         <Route path="/login" component={Login} />
-        <PrivateRoute path="/home" component={Dashboard} />
-        <PrivateRoute path="/discente/tipos-de-acc" component={TiposDeAcc} />
-        <PrivateRoute path="/discente/cadastrar-acc" component={CadastrarAcc} />
-        <PrivateRoute
-          path="/discente/detalhes-da-pontuacao"
-          exact
-          component={DetalhesDaPontuacao}
-        />
-        <PrivateRoute
-          path="/discente/detalhes-da-pontuacao/acc/:id"
-          component={DetalhesDaAcc}
-        />
 
-        <PrivateRoute path="/coordenador/home" component={DashboardCoordenador} />
-        <PrivateRoute path="/coordenador/pesquisar-discente" component={PesquisarDiscente} />
-        <PrivateRoute path="/coordenador/detalhes-do-discente/:id" component={DetalhesDoDiscente} />
-        <PrivateRoute path="/coordenador/detalhes-da-acc/:id" component={DetalhesDaAccCoordenador} />
-
-        <PrivateRoute path="/administrador/home" component={DashboardAdministrador} />
-        <PrivateRoute path="/administrador/cadastrar-coordenador" component={DashboardAdministrador} />
+        <Route path="/discente" component={DiscenteRoutes} />
+        <Route path="/coordenador" component={CoordenadorRoutes} />
+        <Route path="/administrador" component={AdministradorRoutes} />
 
         <Redirect to="/login" />
       </Switch>
