@@ -1,38 +1,11 @@
 import React from 'react';
-import { FiFile, FiPackage, FiPlus } from 'react-icons/fi';
+import { FiFile, FiPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { darken } from 'polished';
 import { Box, Flex, Grid, GridItem, Heading } from '@chakra-ui/react';
 import ProgressRing from '../../../components/ProgressRing';
 import { CardAcc } from './DetalhesDaPontuacao';
 import api from '../../../services/api';
 import { USERID_KEY } from '../../../services/auth';
-
-const CardLink = styled.div`
-  width: 100%;
-
-  box-shadow: 1px 1px 5px 0px rgba(119, 119, 119, 0.25);
-  box-sizing: border-box;
-  border-radius: 10px;
-  text-align: center;
-  transition: all 0.2s;
-
-  font-size: 1.2rem;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  div {
-    text-decoration: none;
-  }
-
-  &:hover {
-    background-color: ${darken(0.05, '#f1f3f5')};
-    box-shadow: 1px 1px 2px 0px rgba(119, 119, 119, 0.25);
-  }
-`;
 
 interface Acc {
   id: number;
