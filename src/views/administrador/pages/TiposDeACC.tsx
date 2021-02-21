@@ -8,11 +8,13 @@ import {
   AlertDialogOverlay,
   Box,
   Button,
+  createStandaloneToast,
   GridItem,
   Heading,
   IconButton,
   SimpleGrid,
   Stack,
+  useToast,
 } from '@chakra-ui/react';
 import React from 'react';
 import { FiEdit, FiTrash } from 'react-icons/fi';
@@ -68,6 +70,7 @@ class TiposDeACC extends React.Component<IProps, IState> {
 
   deleteTipoDeACC = async (): Promise<void> => {
     const { tipoDeACCToBeDeleted, tiposDeACC } = this.state;
+    const toast = createStandaloneToast();
 
     try {
       await api.delete(`tipos-de-acc/${tipoDeACCToBeDeleted}`);
@@ -78,9 +81,30 @@ class TiposDeACC extends React.Component<IProps, IState> {
       this.setState({
         tiposDeACC: newTiposDeAcc,
       });
-      notifySuccess('O tipo de ACC foi excluído!');
+      toast({
+        title: 'Sucesso!',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+        position: 'bottom-right',
+        render: props => (
+          <Box m={3} color="white" p={3} bg="teal.500" borderRadius="md">
+            <p>
+              <strong>Sucesso!</strong>
+            </p>
+            <p>O tipo de ACC foi excluído!</p>
+          </Box>
+        ),
+      });
     } catch (err) {
-      notifyError('Não foi possível excluir o Tipo de ACC');
+      toast({
+        title: 'Ops!',
+        description: 'Não foi possível excluir o Tipo de ACC!',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+        position: 'bottom-right',
+      });
     } finally {
       this.setState({
         isAlertDeletedTipoDeACCOpen: false,
