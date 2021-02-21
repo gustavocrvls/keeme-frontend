@@ -6,6 +6,7 @@ import Dashboard from '../pages/Dashboard';
 import CadastrarCoordenador from '../pages/CadastrarCoordenador';
 import TiposDeACC from '../pages/TiposDeACC';
 import CadastrarTipoDeACC from '../pages/CadastrarTipoDeACC';
+import EditarTipoDeACC from '../pages/EditarTipoDeACC';
 
 const Routes = (): JSX.Element => {
   return (
@@ -19,6 +20,10 @@ const Routes = (): JSX.Element => {
       <PrivateRoute
         path="/administrador/cadastrar-tipo-de-acc"
         component={CadastrarTipoDeACC}
+      />
+      <PrivateRoute
+        path="/administrador/editar-tipo-de-acc/:id"
+        component={EditarTipoDeACC}
       />
     </>
   );

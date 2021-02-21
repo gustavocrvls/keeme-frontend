@@ -15,7 +15,7 @@ import {
   IconButton,
   SimpleGrid,
   Stack,
-  useToast,
+  Tooltip,
 } from '@chakra-ui/react';
 import React from 'react';
 import { FiEdit, FiTrash } from 'react-icons/fi';
@@ -118,6 +118,12 @@ class TiposDeACC extends React.Component<RouteComponentProps, IState> {
     history.push('/administrador/cadastrar-tipo-de-acc');
   };
 
+  goToEditarTipoDeACC = (idTipoDeACC: number): void => {
+    const { history } = this.props;
+
+    history.push(`/administrador/editar-tipo-de-acc/${idTipoDeACC}`);
+  };
+
   render(): JSX.Element {
     const { tiposDeACC, isAlertDeletedTipoDeACCOpen } = this.state;
 
@@ -157,23 +163,30 @@ class TiposDeACC extends React.Component<RouteComponentProps, IState> {
                       direction={['column', 'row']}
                       justifyContent="flex-end"
                     >
-                      <IconButton
-                        aria-label="Edit Icon"
-                        icon={<FiEdit size={16} />}
-                        size="sm"
-                        colorScheme="gray"
-                        variant="ghost"
-                      />
-                      <IconButton
-                        aria-label="Trash Icon"
-                        icon={<FiTrash size={16} />}
-                        size="sm"
-                        colorScheme="red"
-                        variant="ghost"
-                        onClick={() => {
-                          this.handleTipoDeACCToBeDeleted(tipoDeAcc.id);
-                        }}
-                      />
+                      <Tooltip label="Editar" aria-label="Editar">
+                        <IconButton
+                          aria-label="Edit Icon"
+                          icon={<FiEdit size={16} />}
+                          size="sm"
+                          colorScheme="gray"
+                          variant="ghost"
+                          onClick={() => {
+                            this.goToEditarTipoDeACC(tipoDeAcc.id);
+                          }}
+                        />
+                      </Tooltip>
+                      <Tooltip label="Excluir" aria-label="Excluir">
+                        <IconButton
+                          aria-label="Trash Icon"
+                          icon={<FiTrash size={16} />}
+                          size="sm"
+                          colorScheme="red"
+                          variant="ghost"
+                          onClick={() => {
+                            this.handleTipoDeACCToBeDeleted(tipoDeAcc.id);
+                          }}
+                        />
+                      </Tooltip>
                     </Stack>
                   </GridItem>
                 </SimpleGrid>
