@@ -9,6 +9,7 @@ import {
   Box,
   Button,
   createStandaloneToast,
+  Flex,
   GridItem,
   Heading,
   IconButton,
@@ -18,6 +19,7 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import { FiEdit, FiTrash } from 'react-icons/fi';
+import { RouteComponentProps } from 'react-router-dom';
 import api from '../../../services/api';
 import { notifyError, notifySuccess } from '../../../utils/Notifications';
 
@@ -33,18 +35,16 @@ interface ITipoDeAcc {
   pontos_por_unidade: number;
 }
 
-interface IProps {}
-
 interface IState {
   tiposDeACC: Array<ITipoDeAcc>;
   tipoDeACCToBeDeleted: number;
   isAlertDeletedTipoDeACCOpen: boolean;
 }
 
-class TiposDeACC extends React.Component<IProps, IState> {
+class TiposDeACC extends React.Component<RouteComponentProps, IState> {
   private cancelRef = React.createRef<HTMLButtonElement>();
 
-  constructor(props: IProps) {
+  constructor(props: RouteComponentProps) {
     super(props);
     this.state = {
       tiposDeACC: [],
@@ -112,12 +112,31 @@ class TiposDeACC extends React.Component<IProps, IState> {
     }
   };
 
+  goToCadastrarTipoDeACC = (): void => {
+    const { history } = this.props;
+
+    history.push('/administrador/cadastrar-tipo-de-acc');
+  };
+
   render(): JSX.Element {
     const { tiposDeACC, isAlertDeletedTipoDeACCOpen } = this.state;
 
     return (
       <div>
         <Heading as="h1">Tipos de ACC</Heading>
+
+        <Flex justifyContent="space-between" alignItems="center">
+          <Heading as="h2" size="md" marginBottom="5">
+            Tipos de ACC
+          </Heading>
+          <Button
+            colorScheme="teal"
+            size="sm"
+            onClick={this.goToCadastrarTipoDeACC}
+          >
+            Cadastrar nova
+          </Button>
+        </Flex>
 
         <ul style={{ listStyle: 'none', margin: 0 }}>
           {tiposDeACC.map(tipoDeAcc => (

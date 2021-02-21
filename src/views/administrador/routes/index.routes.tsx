@@ -5,6 +5,7 @@ import { PrivateRoute } from '../../../routes';
 import Dashboard from '../pages/Dashboard';
 import CadastrarCoordenador from '../pages/CadastrarCoordenador';
 import TiposDeACC from '../pages/TiposDeACC';
+import CadastrarTipoDeACC from '../pages/CadastrarTipoDeACC';
 
 const Routes = (): JSX.Element => {
   return (
@@ -15,6 +16,10 @@ const Routes = (): JSX.Element => {
         component={CadastrarCoordenador}
       />
       <PrivateRoute path="/administrador/tipos-de-acc" component={TiposDeACC} />
+      <PrivateRoute
+        path="/administrador/cadastrar-tipo-de-acc"
+        component={CadastrarTipoDeACC}
+      />
     </>
   );
 };
