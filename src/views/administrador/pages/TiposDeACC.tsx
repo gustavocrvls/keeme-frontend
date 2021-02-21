@@ -148,7 +148,11 @@ class TiposDeACC extends React.Component<IProps, IState> {
         <AlertDialog
           isOpen={isAlertDeletedTipoDeACCOpen}
           leastDestructiveRef={this.cancelRef}
-          onClose={() => console.log('excluir')}
+          onClose={() => {
+            this.setState({
+              tipoDeACCToBeDeleted: 0,
+            });
+          }}
         >
           <AlertDialogOverlay>
             <AlertDialogContent>

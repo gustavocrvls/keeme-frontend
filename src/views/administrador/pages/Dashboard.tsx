@@ -170,7 +170,11 @@ class Dashboard extends React.Component<RouteComponentProps, IState> {
         <AlertDialog
           isOpen={isAlertDeletedUserOpen}
           leastDestructiveRef={this.cancelRef}
-          onClose={() => console.log('excluir')}
+          onClose={() => {
+            this.setState({
+              userToBeDeleted: 0,
+            });
+          }}
         >
           <AlertDialogOverlay>
             <AlertDialogContent>
