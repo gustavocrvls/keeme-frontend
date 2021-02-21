@@ -33,7 +33,7 @@ interface ICursos {
 
 interface IState {
   cursos: Array<ICursos>;
-  isModalDeletedUserOpen: boolean;
+  isAlertDeletedUserOpen: boolean;
   userToBeDeleted: number;
 }
 
@@ -46,7 +46,7 @@ class Dashboard extends React.Component<RouteComponentProps, IState> {
       cursos: [],
 
       // delete user
-      isModalDeletedUserOpen: false,
+      isAlertDeletedUserOpen: false,
       userToBeDeleted: 0,
     };
   }
@@ -64,10 +64,10 @@ class Dashboard extends React.Component<RouteComponentProps, IState> {
     }
   }
 
-  handleUserToBeDeleted = (userId: number): void => {
+  handleUserToBeDeleted = (idUsuario: number): void => {
     this.setState({
-      isModalDeletedUserOpen: true,
-      userToBeDeleted: userId,
+      isAlertDeletedUserOpen: true,
+      userToBeDeleted: idUsuario,
     });
   };
 
@@ -92,7 +92,7 @@ class Dashboard extends React.Component<RouteComponentProps, IState> {
 
       notifySuccess('O coordenador foi excluído!');
       this.setState({
-        isModalDeletedUserOpen: false,
+        isAlertDeletedUserOpen: false,
         cursos: newCursos,
       });
     } catch (err) {
@@ -107,7 +107,7 @@ class Dashboard extends React.Component<RouteComponentProps, IState> {
   };
 
   render(): JSX.Element {
-    const { cursos, isModalDeletedUserOpen } = this.state;
+    const { cursos, isAlertDeletedUserOpen } = this.state;
     return (
       <div>
         <Heading as="h1" marginBottom="5">
@@ -168,9 +168,9 @@ class Dashboard extends React.Component<RouteComponentProps, IState> {
         </ul>
 
         <AlertDialog
-          isOpen={isModalDeletedUserOpen}
+          isOpen={isAlertDeletedUserOpen}
           leastDestructiveRef={this.cancelRef}
-          onClose={() => console.log('teste')}
+          onClose={() => console.log('excluir')}
         >
           <AlertDialogOverlay>
             <AlertDialogContent>
@@ -179,7 +179,7 @@ class Dashboard extends React.Component<RouteComponentProps, IState> {
               </AlertDialogHeader>
 
               <AlertDialogBody>
-                Tem certeza que deseja apagar o coordenador? Essa ação não pode
+                Tem certeza que deseja excluir o coordenador? Essa ação não pode
                 ser desfeita.
               </AlertDialogBody>
 
@@ -188,7 +188,7 @@ class Dashboard extends React.Component<RouteComponentProps, IState> {
                   ref={this.cancelRef}
                   onClick={() => {
                     this.setState({
-                      isModalDeletedUserOpen: false,
+                      isAlertDeletedUserOpen: false,
                     });
                   }}
                 >
