@@ -15,12 +15,12 @@ const Routes = (): JSX.Element => {
       <PrivateRoute path="/discente/tipos-de-acc" component={TiposDeAcc} />
       <PrivateRoute path="/discente/cadastrar-acc" component={CadastrarAcc} />
       <PrivateRoute
-        path="/discente/detalhes-da-pontuacao"
+        path="/discente/minhas-accs"
         exact
         component={DetalhesDaPontuacao}
       />
       <PrivateRoute
-        path="/discente/detalhes-da-pontuacao/acc/:id"
+        path="/discente/minhas-accs/acc/:id"
         component={DetalhesDaAcc}
       />
     </>

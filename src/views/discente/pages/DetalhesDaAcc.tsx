@@ -1,16 +1,17 @@
 /* eslint-disable camelcase */
-import React from 'react';
-import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
-import {
-  FiArrowLeft,
-  FiCircle,
-  FiDownload,
-  FiXCircle,
-  FiCheckCircle,
-} from 'react-icons/fi';
+import React, { useEffect, useRef, useState } from 'react';
+import { RouteComponentProps, useParams, withRouter } from 'react-router-dom';
+import { FiCircle, FiDownload, FiXCircle, FiCheckCircle } from 'react-icons/fi';
 import styled from 'styled-components';
 
-import { Button, Flex, Heading, IconButton } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  IconButton,
+  Stack,
+} from '@chakra-ui/react';
 import statusDaAccConsts from '../../../constants/statusDaAcc';
 import api from '../../../services/api';
 import PageTitle from '../../../components/PageTitle';
@@ -40,64 +41,29 @@ interface IStatus {
   nome: string;
 }
 
-const Details = styled.div`
-  margin-top: 10px;
-
-  div {
-    margin-bottom: 5px;
-  }
-`;
-
 interface IState {
   acc: IAcc;
 }
 
-interface IMatchParams {
+interface ParamTypes {
   id: string;
 }
 
-type IMatchProps = RouteComponentProps<IMatchParams>;
+export function DetalhesDaAcc(): JSX.Element {
+  const downloadRef = useRef<HTMLAnchorElement>(null);
+  const [acc, setACC] = useState<IAcc>();
 
-class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
-  private downloadRef = React.createRef<HTMLAnchorElement>();
+  const { id } = useParams<ParamTypes>();
 
-  constructor(props: IMatchProps) {
-    super(props);
-    this.state = {
-      acc: {
-        id: 0,
-        id_certificado: 0,
-        pontos: 0,
-        quantidade: 0,
-        sobre: 'string',
-        status_da_acc: {
-          id: 0,
-          nome: 'string',
-        },
-        tipo_de_acc: {
-          id: 0,
-          nome: 'string',
-          unidade_de_medida: {
-            id: 0,
-            nome: 'string',
-          },
-        },
-      },
-    };
-  }
+  useEffect(() => {
+    async function loadACC() {
+      const response = await api.get(`accs/${id}`);
+      setACC(response.data);
+    }
+    loadACC();
+  }, []);
 
-  async componentDidMount(): Promise<void> {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
-
-    const response = await api.get(`accs/${id}`);
-    this.setState({
-      acc: response.data,
-    });
-  }
-
-  handleStatusColor = (status?: IStatus): JSX.Element => {
+  function handleStatusColor(status?: IStatus): JSX.Element {
     let color = '';
     let Icon = <></>;
     if (status)
@@ -137,70 +103,69 @@ class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
         {status?.nome}
       </span>
     );
-  };
-
-  render() {
-    const { acc } = this.state;
-
-    return (
-      <>
-        <PageTitle backTo="/discente/detalhes-da-pontuacao">
-          Detalhes da Acc
-        </PageTitle>
-
-        <Details>
-          <div>
-            <label htmlFor="tipo">
-              Tipo de Acc
-              <p id="tipo">{acc?.tipo_de_acc.nome}</p>
-            </label>
-          </div>
-          <div>
-            <label htmlFor="status">
-              Status
-              <p id="status">{this.handleStatusColor(acc?.status_da_acc)}</p>
-            </label>
-          </div>
-          <div style={{ display: 'flex' }}>
-            <div style={{ width: '30%' }}>
-              <label htmlFor="quantidade">
-                {`${acc?.tipo_de_acc.unidade_de_medida.nome}s`}
-                <p id="quantidade">{acc?.quantidade}</p>
-              </label>
-            </div>
-            <div>
-              <label htmlFor="pontuacao">
-                Pontuação
-                <p id="pontuacao">{acc?.pontos}</p>
-              </label>
-            </div>
-          </div>
-          <div>
-            <label htmlFor="descricao">
-              Descrição
-              <p id="descricao">{acc?.sobre}</p>
-            </label>
-          </div>
-          <div style={{ marginTop: 30, textAlign: 'center' }}>
-            <Button
-              colorScheme="gray"
-              onClick={() => this.downloadRef.current?.click()}
-            >
-              <FiDownload />
-              Baixar Certificado
-            </Button>
-            <a
-              style={{ visibility: 'hidden' }}
-              href={`http://localhost:3333/certificados/${acc?.id_certificado}`}
-              ref={this.downloadRef}
-            >
-              baixar
-            </a>
-          </div>
-        </Details>
-      </>
-    );
   }
+
+  return (
+    <>
+      <PageTitle backTo="/discente/minhas-accs">Detalhes da Acc</PageTitle>
+
+      <Stack spacing="5" marginTop="5">
+        <Box>
+          <Box width="100%" color="gray.500">
+            Tipo de ACC
+          </Box>
+          <Box width="100%">{acc?.tipo_de_acc.nome}</Box>
+        </Box>
+
+        <Stack direction="row" spacing="18">
+          <Box>
+            <Box width="100%" color="gray.500">
+              Status
+            </Box>
+            <Box width="100%">{handleStatusColor(acc?.status_da_acc)}</Box>
+          </Box>
+
+          <Box>
+            <Box width="100%" color="gray.500">
+              {`${acc?.tipo_de_acc.unidade_de_medida.nome}s`}
+            </Box>
+            <Box width="100%">{acc?.quantidade}</Box>
+          </Box>
+
+          <Box>
+            <Box width="100%" color="gray.500">
+              Pontuação
+            </Box>
+            <Box width="100%">{acc?.pontos}</Box>
+          </Box>
+        </Stack>
+
+        <Box>
+          <Box width="100%" color="gray.500">
+            Descrição
+          </Box>
+          <Box width="100%">{acc?.sobre}</Box>
+        </Box>
+
+        <div style={{ marginTop: 30, textAlign: 'center' }}>
+          <Button
+            colorScheme="gray"
+            onClick={() => downloadRef.current?.click()}
+          >
+            <FiDownload />
+            Baixar Certificado
+          </Button>
+          <a
+            style={{ visibility: 'hidden' }}
+            href={`http://localhost:3333/certificados/${acc?.id_certificado}`}
+            ref={downloadRef}
+          >
+            baixar
+          </a>
+        </div>
+      </Stack>
+    </>
+  );
 }
 
 export default withRouter(DetalhesDaAcc);

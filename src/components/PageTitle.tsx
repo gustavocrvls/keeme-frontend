@@ -22,7 +22,7 @@ export default function PageTitle({
     <Flex alignItems="center">
       <IconButton
         aria-label="back-button"
-        icon={<FiArrowLeft style={{ strokeWidth: 2 }} size="1rem" />}
+        icon={<FiArrowLeft style={{ strokeWidth: 3 }} size="1rem" />}
         onClick={goTo}
         size="sm"
         marginRight="5"

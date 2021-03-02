@@ -12,6 +12,7 @@ import statusDaAccConsts from '../../../constants/statusDaAcc';
 import { Container } from '../../../components/Containers';
 import api from '../../../services/api';
 import { USERID_KEY } from '../../../services/auth';
+import PageTitle from '../../../components/PageTitle';
 
 interface Acc {
   id: number;
@@ -207,7 +208,7 @@ export function CardAcc(props: ICardAcc): JSX.Element {
           </CardContent>
         </div>
         <ArrowLink>
-          <Link to={`detalhes-da-pontuacao/acc/${id}`}>
+          <Link to={`minhas-accs/acc/${id}`}>
             <FiArrowRight size="20" />
           </Link>
         </ArrowLink>
@@ -258,12 +259,7 @@ export default class DetalhesDaPontuacao extends React.Component<
 
     return (
       <>
-        <div>
-          <Link to="/home" className="btn back-button">
-            <FiArrowLeft size={20} />
-          </Link>
-          <h1>Minhas ACCs</h1>
-        </div>
+        <PageTitle backTo="/discente/home">Minhas ACCs</PageTitle>
 
         <ul className="card-list">
           {accs.map(acc => (

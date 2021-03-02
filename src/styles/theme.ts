@@ -6,11 +6,13 @@ const theme = extendTheme({
     heading: 'Nunito, system-ui, sans-serif',
     mono: 'Nunito, system-ui, sans-serif',
   },
-  // styles: {
-  //   body: {
-  //     backgroundColor: '#f8f8f8',
-  //   },
-  // },
+  styles: {
+    global: {
+      body: {
+        // bg: 'gray.50',
+      },
+    },
+  },
 });
 
 export default theme;

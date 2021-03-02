@@ -195,7 +195,7 @@ export default class Home extends React.Component<IProps, IState> {
             _hover={{ backgroundColor: '#f1f3f5' }}
           >
             <Link
-              to="/discente/detalhes-da-pontuacao"
+              to="/discente/minhas-accs"
               color="primary"
               style={{ width: '30%', textDecoration: 'none' }}
             >
