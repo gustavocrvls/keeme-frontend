@@ -1,38 +1,33 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { ChangeEvent, useState } from 'react';
-import styled, { CSSProperties } from 'styled-components';
+import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
+import { Button, FormControl, FormLabel } from '@chakra-ui/react';
 import loginVector1 from '../assets/images/login__vector_1.svg';
 import loginVector2 from '../assets/images/login__vector_2.svg';
 import { Input } from '../components/Inputs';
-import { Button } from '../components/Button';
 import api from '../services/api';
 import { login } from '../services/auth';
 import ConstPerfis from '../constants/ConstPerfis';
 
-const vStyles1: CSSProperties = {
-  position: 'absolute',
-  left: '120px',
-};
-
-const vStyles2: CSSProperties = {
-  position: 'absolute',
-  left: '0',
-};
-
 const LoginCard = styled.div`
-  position: absolute;
-  width: 579px;
-  height: 427px;
-  left: 816px;
-  top: 196px;
-
   padding: 20px;
+  margin: 10px;
 
   box-sizing: border-box;
   background: #ffffff;
   border-radius: 5px;
+  z-index: 10;
+
+  min-height: 400px;
+  width: 100%;
+  max-width: 500px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const LoginCardTitle = styled.h1`
@@ -42,6 +37,8 @@ const LoginCardTitle = styled.h1`
 `;
 
 const LoginForm = styled.form`
+  width: 100%;
+
   input {
     width: 100%;
   }
@@ -58,14 +55,6 @@ const LoginForm = styled.form`
 export default function Login(): JSX.Element {
   const [username, setUsername] = useState('');
   const [senha, setSenha] = useState('');
-
-  const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
-  };
-
-  const handleSenha = (e: ChangeEvent<HTMLInputElement>) => {
-    setSenha(e.target.value);
-  };
 
   const history = useHistory();
 
@@ -102,43 +91,35 @@ export default function Login(): JSX.Element {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        backgroundColor: '#f2f2f2',
+        backgroundImage: `url("${loginVector1}")`,
+        backgroundColor: '#f0f0f0',
+        backgroundRepeat: 'no-repeat',
       }}
     >
-      <img style={vStyles1} src={loginVector1} alt="v1" height="100%" />
-      <img style={vStyles2} src={loginVector2} alt="v2" height="100%" />
       <LoginCard>
         <LoginCardTitle>Gestor de ACCs</LoginCardTitle>
         <LoginForm onSubmit={handleSignIn}>
-          <div>
-            <label htmlFor="username">
-              usuário
-              <Input
-                id="username"
-                type="text"
-                placeholder="usuário"
-                value={username}
-                onChange={handleUsername}
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="password">
-              senha
-              <Input
-                id="password"
-                type="password"
-                placeholder="******"
-                value={senha}
-                onChange={handleSenha}
-              />
-            </label>
-          </div>
-          <div style={{ marginTop: 30 }}>
-            <Button color="primary" type="submit" style={{ width: '100%' }}>
-              Entrar
-            </Button>
-          </div>
+          <FormControl id="username">
+            <FormLabel>Usuário</FormLabel>
+            <Input
+              type="text"
+              placeholder="Nome"
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+            />
+          </FormControl>
+          <FormControl id="password">
+            <FormLabel>Senha</FormLabel>
+            <Input
+              type="password"
+              placeholder="********"
+              value={senha}
+              onChange={e => setSenha(e.target.value)}
+            />
+          </FormControl>
+          <Button type="submit" width="100%" colorScheme="teal">
+            Entrar
+          </Button>
         </LoginForm>
       </LoginCard>
     </div>

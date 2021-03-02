@@ -76,7 +76,7 @@ export default function CadastrarCoordenador(): JSX.Element {
             <FormControl id="nome">
               <FormLabel>Nome</FormLabel>
               <Input
-                type="nome"
+                type="text"
                 placeholder="Nome"
                 value={formNome}
                 onChange={e => setFormNome(e.target.value)}
@@ -86,7 +86,7 @@ export default function CadastrarCoordenador(): JSX.Element {
             <FormControl id="usuario">
               <FormLabel>Usuário</FormLabel>
               <Input
-                type="usuario"
+                type="text"
                 placeholder="Usuário"
                 value={formUsername}
                 onChange={e => setFormUsername(e.target.value)}
