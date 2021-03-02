@@ -14,6 +14,7 @@ import {
   Heading,
   IconButton,
   SimpleGrid,
+  Skeleton,
   Stack,
   Tooltip,
 } from '@chakra-ui/react';
@@ -39,6 +40,7 @@ interface IState {
   tiposDeACC: Array<ITipoDeAcc>;
   tipoDeACCToBeDeleted: number;
   isAlertDeletedTipoDeACCOpen: boolean;
+  isLoadingData: boolean;
 }
 
 class TiposDeACC extends React.Component<RouteComponentProps, IState> {
@@ -50,14 +52,20 @@ class TiposDeACC extends React.Component<RouteComponentProps, IState> {
       tiposDeACC: [],
       tipoDeACCToBeDeleted: 0,
       isAlertDeletedTipoDeACCOpen: false,
+      isLoadingData: false,
     };
   }
 
   async componentDidMount(): Promise<void> {
+    this.setState({
+      isLoadingData: true,
+    });
+
     const response = await api.get('/tipos-de-acc');
 
     this.setState({
       tiposDeACC: response.data,
+      isLoadingData: false,
     });
   }
 
@@ -125,16 +133,20 @@ class TiposDeACC extends React.Component<RouteComponentProps, IState> {
   };
 
   render(): JSX.Element {
-    const { tiposDeACC, isAlertDeletedTipoDeACCOpen } = this.state;
+    const {
+      tiposDeACC,
+      isAlertDeletedTipoDeACCOpen,
+      isLoadingData,
+    } = this.state;
 
     return (
       <div>
-        <Heading as="h1">Tipos de ACC</Heading>
-
-        <Flex justifyContent="space-between" alignItems="center">
-          <Heading as="h2" size="md" marginBottom="5">
-            Tipos de ACC
-          </Heading>
+        <Flex
+          justifyContent="space-between"
+          alignItems="center"
+          marginBottom="5"
+        >
+          <Heading as="h1">Tipos de ACC</Heading>
           <Button
             colorScheme="teal"
             size="sm"
@@ -144,63 +156,72 @@ class TiposDeACC extends React.Component<RouteComponentProps, IState> {
           </Button>
         </Flex>
 
-        <ul style={{ listStyle: 'none', margin: 0 }}>
-          {tiposDeACC.map(tipoDeAcc => (
-            <li>
-              <Box
-                boxShadow="md"
-                marginBottom="2"
-                padding="2"
-                borderRadius="md"
-              >
-                <SimpleGrid columns={12}>
-                  <GridItem colSpan={11}>
-                    <strong>{tipoDeAcc.nome}</strong>
-                  </GridItem>
-                  <GridItem colSpan={1}>
-                    <Stack
-                      spacing="1"
-                      direction={['column', 'row']}
-                      justifyContent="flex-end"
-                    >
-                      <Tooltip label="Editar" aria-label="Editar">
-                        <IconButton
-                          aria-label="Edit Icon"
-                          icon={<FiEdit size={16} />}
-                          size="sm"
-                          colorScheme="gray"
-                          variant="ghost"
-                          onClick={() => {
-                            this.goToEditarTipoDeACC(tipoDeAcc.id);
-                          }}
-                        />
-                      </Tooltip>
-                      <Tooltip label="Excluir" aria-label="Excluir">
-                        <IconButton
-                          aria-label="Trash Icon"
-                          icon={<FiTrash size={16} />}
-                          size="sm"
-                          colorScheme="red"
-                          variant="ghost"
-                          onClick={() => {
-                            this.handleTipoDeACCToBeDeleted(tipoDeAcc.id);
-                          }}
-                        />
-                      </Tooltip>
-                    </Stack>
-                  </GridItem>
-                </SimpleGrid>
-                <SimpleGrid columns={6}>
-                  <GridItem colSpan={2} marginRight="4">
-                    {`Pontos por ${tipoDeAcc.unidade_de_medida.nome}: ${tipoDeAcc.pontos_por_unidade}`}
-                  </GridItem>
-                  <GridItem>{`Limite: ${tipoDeAcc.limite_de_pontos}`}</GridItem>
-                </SimpleGrid>
-              </Box>
-            </li>
-          ))}
-        </ul>
-
+        {isLoadingData ? (
+          <Stack>
+            <Skeleton height="80px" />
+            <Skeleton height="80px" />
+            <Skeleton height="80px" />
+            <Skeleton height="80px" />
+            <Skeleton height="80px" />
+          </Stack>
+        ) : (
+          <ul style={{ listStyle: 'none', margin: 0 }}>
+            {tiposDeACC.map(tipoDeAcc => (
+              <li>
+                <Box
+                  boxShadow="md"
+                  marginBottom="2"
+                  padding="2"
+                  borderRadius="md"
+                >
+                  <SimpleGrid columns={12}>
+                    <GridItem colSpan={11}>
+                      <strong>{tipoDeAcc.nome}</strong>
+                    </GridItem>
+                    <GridItem colSpan={1}>
+                      <Stack
+                        spacing="1"
+                        direction={['column', 'row']}
+                        justifyContent="flex-end"
+                      >
+                        <Tooltip label="Editar" aria-label="Editar">
+                          <IconButton
+                            aria-label="Edit Icon"
+                            icon={<FiEdit size={16} />}
+                            size="sm"
+                            colorScheme="gray"
+                            variant="ghost"
+                            onClick={() => {
+                              this.goToEditarTipoDeACC(tipoDeAcc.id);
+                            }}
+                          />
+                        </Tooltip>
+                        <Tooltip label="Excluir" aria-label="Excluir">
+                          <IconButton
+                            aria-label="Trash Icon"
+                            icon={<FiTrash size={16} />}
+                            size="sm"
+                            colorScheme="red"
+                            variant="ghost"
+                            onClick={() => {
+                              this.handleTipoDeACCToBeDeleted(tipoDeAcc.id);
+                            }}
+                          />
+                        </Tooltip>
+                      </Stack>
+                    </GridItem>
+                  </SimpleGrid>
+                  <SimpleGrid columns={6}>
+                    <GridItem colSpan={2} marginRight="4">
+                      {`Pontos por ${tipoDeAcc.unidade_de_medida.nome}: ${tipoDeAcc.pontos_por_unidade}`}
+                    </GridItem>
+                    <GridItem>{`Limite: ${tipoDeAcc.limite_de_pontos}`}</GridItem>
+                  </SimpleGrid>
+                </Box>
+              </li>
+            ))}
+          </ul>
+        )}
         <AlertDialog
           isOpen={isAlertDeletedTipoDeACCOpen}
           leastDestructiveRef={this.cancelRef}

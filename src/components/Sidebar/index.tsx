@@ -1,28 +1,63 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { FiList } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import ConstPerfis from '../../constants/ConstPerfis';
 import { USER_PERFIL_KEY } from '../../services/auth';
 import SidebarItems from './sidebarItems';
 import { SidebarItem } from './styles';
 import './styles.scss';
 
-export default function Sidebar(): JSX.Element {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const sidebarRef = useRef(null);
+interface IProps {}
 
-  function toggleSidebar(): void {
-    if (sidebarOpen) {
+interface IState {
+  isSidebarOpen: boolean;
+  windowWidth: number;
+}
+
+class Sidebar extends React.Component<IProps, IState> {
+  private sidebarRef = React.createRef<HTMLDivElement>();
+
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      isSidebarOpen: false,
+      windowWidth: 0,
+    };
+  }
+
+  componentDidMount(): void {
+    window.addEventListener('resize', () => {
+      this.setState({
+        windowWidth: window.innerWidth,
+      });
+
+      if (window.innerWidth < 750) {
+        document
+          .getElementById('mySidenav')
+          ?.setAttribute('style', 'left: -250px');
+      } else {
+        document
+          .getElementById('mySidenav')
+          ?.setAttribute('style', 'left: 0px');
+      }
+    });
+  }
+
+  toggleSidebar = (): void => {
+    const { isSidebarOpen } = this.state;
+
+    if (isSidebarOpen) {
       document.getElementById('mySidenav')?.setAttribute('style', 'left: 0px');
     } else {
       document
         .getElementById('mySidenav')
         ?.setAttribute('style', 'left: -250px');
     }
-    setSidebarOpen(!sidebarOpen);
-  }
+    this.setState({
+      isSidebarOpen: !isSidebarOpen,
+    });
+  };
 
-  const handlePerfilItems = (): any => {
+  handlePerfilItems = (): any => {
     const idPerfil = Number(sessionStorage.getItem(USER_PERFIL_KEY));
 
     return SidebarItems[idPerfil].items.map(item => (
@@ -37,27 +72,33 @@ export default function Sidebar(): JSX.Element {
     ));
   };
 
-  return (
-    <>
-      {window.innerWidth < 570 && (
-        <button
-          type="button"
-          id="widgets-aside-open"
-          className="widgets-aside-open"
-          onClick={() => toggleSidebar()}
-        >
-          <FiList />
-        </button>
-      )}
-      <div id="mySidenav" className="sidenav" ref={sidebarRef}>
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-          {handlePerfilItems()}
+  render(): JSX.Element {
+    const { windowWidth } = this.state;
 
-          <SidebarItem style={{ position: 'absolute', bottom: 0 }}>
-            Sobre
-          </SidebarItem>
-        </ul>
-      </div>
-    </>
-  );
+    return (
+      <>
+        {windowWidth < 750 && (
+          <button
+            type="button"
+            id="widgets-aside-open"
+            className="widgets-aside-open"
+            onClick={this.toggleSidebar}
+          >
+            <FiList />
+          </button>
+        )}
+        <div id="mySidenav" className="sidenav" ref={this.sidebarRef}>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            {this.handlePerfilItems()}
+
+            <SidebarItem style={{ position: 'absolute', bottom: 0 }}>
+              Sobre
+            </SidebarItem>
+          </ul>
+        </div>
+      </>
+    );
+  }
 }
+
+export default Sidebar;
