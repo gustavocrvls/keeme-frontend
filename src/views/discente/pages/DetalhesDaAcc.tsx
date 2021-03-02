@@ -10,9 +10,10 @@ import {
 } from 'react-icons/fi';
 import styled from 'styled-components';
 
+import { Button, Flex, Heading, IconButton } from '@chakra-ui/react';
 import statusDaAccConsts from '../../../constants/statusDaAcc';
-import { AnchorButton, Button } from '../../../components/Button';
 import api from '../../../services/api';
+import PageTitle from '../../../components/PageTitle';
 
 interface IAcc {
   id: number;
@@ -58,6 +59,8 @@ interface IMatchParams {
 type IMatchProps = RouteComponentProps<IMatchParams>;
 
 class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
+  private downloadRef = React.createRef<HTMLAnchorElement>();
+
   constructor(props: IMatchProps) {
     super(props);
     this.state = {
@@ -141,12 +144,10 @@ class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
 
     return (
       <>
-        <div className="page-title">
-          <Link to="/home" className="btn back-button">
-            <FiArrowLeft style={{ strokeWidth: 2 }} />
-          </Link>
-          <div className="title">Detalhes da Acc</div>
-        </div>
+        <PageTitle backTo="/discente/detalhes-da-pontuacao">
+          Detalhes da Acc
+        </PageTitle>
+
         <Details>
           <div>
             <label htmlFor="tipo">
@@ -181,14 +182,20 @@ class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
             </label>
           </div>
           <div style={{ marginTop: 30, textAlign: 'center' }}>
-            <AnchorButton
-              color="primary"
-              className="btn"
-              href={`http://localhost:3333/certificados/${acc?.id_certificado}`}
+            <Button
+              colorScheme="gray"
+              onClick={() => this.downloadRef.current?.click()}
             >
               <FiDownload />
               Baixar Certificado
-            </AnchorButton>
+            </Button>
+            <a
+              style={{ visibility: 'hidden' }}
+              href={`http://localhost:3333/certificados/${acc?.id_certificado}`}
+              ref={this.downloadRef}
+            >
+              baixar
+            </a>
           </div>
         </Details>
       </>
