@@ -19,7 +19,7 @@ export default function PageTitle({
   }
 
   return (
-    <Flex alignItems="center">
+    <Flex alignItems="center" marginBottom="5">
       <IconButton
         aria-label="back-button"
         icon={<FiArrowLeft style={{ strokeWidth: 3 }} size="1rem" />}

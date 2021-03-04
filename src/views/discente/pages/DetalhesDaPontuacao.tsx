@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import {
   FiArrowLeft,
@@ -19,14 +20,14 @@ interface Acc {
   pontos: number;
   quantidade: number;
   sobre: string;
-  statusDaAcc: {
+  status_da_acc: {
     id: number;
     nome: string;
   };
-  tipoDeAcc: {
+  tipo_de_acc: {
     id: number;
     nome: string;
-    unidadeDeMedida: {
+    unidade_de_medida: {
       id: number;
       nome: string;
     };
@@ -50,7 +51,7 @@ interface ICardAcc {
   tipoDeAcc: {
     id: number;
     nome: string;
-    unidadeDeMedida: {
+    unidade_de_medida: {
       id: number;
       nome: string;
     };
@@ -194,7 +195,7 @@ export function CardAcc(props: ICardAcc): JSX.Element {
           <CardContent>
             <ul style={{ width: '100%' }}>
               <li style={{ minWidth: '20%' }}>
-                {`${tipoDeAcc.unidadeDeMedida.nome}s:`}
+                {`${tipoDeAcc.unidade_de_medida.nome}s:`}
                 <strong>{quantidade}</strong>
               </li>
               <li style={{ display: 'flex', alignItems: 'center' }}>
@@ -232,25 +233,8 @@ export default class DetalhesDaPontuacao extends React.Component<
     const response = await api.get(
       `accs/user/${sessionStorage.getItem(USERID_KEY)}/completo`,
     );
-
-    const accs = response.data.accs.map((acc: any) => {
-      return {
-        id: acc.id,
-        idCertificado: acc.id_certificado,
-        pontos: acc.pontos,
-        quantidade: acc.quantidade,
-        sobre: acc.sobre,
-        statusDaAcc: acc.status_da_acc,
-        tipoDeAcc: {
-          id: acc.tipo_de_acc.id,
-          nome: acc.tipo_de_acc.nome,
-          unidadeDeMedida: acc.tipo_de_acc.unidade_de_medida,
-        },
-      };
-    });
-
     this.setState({
-      accs,
+      accs: response.data.accs,
     });
   }
 
@@ -268,8 +252,8 @@ export default class DetalhesDaPontuacao extends React.Component<
                 id={acc.id}
                 pontos={acc.pontos}
                 quantidade={acc.quantidade}
-                statusDaAcc={acc.statusDaAcc}
-                tipoDeAcc={acc.tipoDeAcc}
+                statusDaAcc={acc.status_da_acc}
+                tipoDeAcc={acc.tipo_de_acc}
               />
             </li>
           ))}

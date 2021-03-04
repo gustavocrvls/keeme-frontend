@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
 import { FiFile, FiPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
@@ -7,36 +8,29 @@ import { CardAcc } from './DetalhesDaPontuacao';
 import api from '../../../services/api';
 import { USERID_KEY } from '../../../services/auth';
 
-interface Acc {
+interface IACC {
   id: number;
+  id_certificado: number;
   pontos: number;
   quantidade: number;
   sobre: string;
-  statusDaAcc: {
+  status_da_acc: {
     id: number;
     nome: string;
   };
-  tipoDeAcc: {
+  tipo_de_acc: {
     id: number;
     nome: string;
-    unidadeDeMedida: {
+    unidade_de_medida: {
       id: number;
       nome: string;
     };
   };
 }
 
-interface IProps {}
-
-interface IResumoDaPontuacao {
-  pontosAprovados: number;
-  pontosEmAnalise: number;
-  pontosNegados: number;
-}
-
 export default function Home(): JSX.Element {
   const [progress, setProgress] = useState(0);
-  const [lastACCs, setLastACCs] = useState<Array<Acc>>([]);
+  const [lastACCs, setLastACCs] = useState<Array<IACC>>([]);
   const [resumo, setResumo] = useState({
     pontosAprovados: 0,
     pontosEmAnalise: 0,
@@ -55,24 +49,8 @@ export default function Home(): JSX.Element {
 
       setProgress(Number(userProgress));
 
-      const accs = response.data.accs.map((acc: any) => {
-        return {
-          id: acc.id,
-          idCertificado: acc.id_certificado,
-          pontos: acc.pontos,
-          quantidade: acc.quantidade,
-          sobre: acc.sobre,
-          statusDaAcc: acc.status_da_acc,
-          tipoDeAcc: {
-            id: acc.tipo_de_acc.id,
-            nome: acc.tipo_de_acc.nome,
-            unidadeDeMedida: acc.tipo_de_acc.unidade_de_medida,
-          },
-        };
-      });
-
       setResumo(response.data.resumo);
-      setLastACCs(accs);
+      setLastACCs(response.data.accs);
     }
     loadData();
   }, []);
@@ -235,8 +213,8 @@ export default function Home(): JSX.Element {
                   id={acc.id}
                   pontos={acc.pontos}
                   quantidade={acc.quantidade}
-                  statusDaAcc={acc.statusDaAcc}
-                  tipoDeAcc={acc.tipoDeAcc}
+                  statusDaAcc={acc.status_da_acc}
+                  tipoDeAcc={acc.tipo_de_acc}
                 />
               </li>
             ) : (
