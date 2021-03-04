@@ -44,7 +44,7 @@ const SidebarItems = {
       },
       {
         label: 'Minhas ACCs',
-        to: '/discente/detalhes-da-pontuacao',
+        to: '/discente/minhas-accs',
         icon: FiFile,
       },
       {
