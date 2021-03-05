@@ -37,6 +37,7 @@ const Button = styled.button`
 
 interface Props {
   handleFile: (files: Blob) => void;
+  id: string;
 }
 
 const FileUploader = (props: Props): JSX.Element => {
@@ -72,6 +73,8 @@ const FileUploader = (props: Props): JSX.Element => {
     }
   };
 
+  const { id } = props;
+
   return (
     <>
       <Button onClick={handleButton}>
@@ -79,6 +82,7 @@ const FileUploader = (props: Props): JSX.Element => {
         {fileName || 'Escolher um Arquivo'}
       </Button>
       <input
+        id={id}
         type="file"
         ref={hiddenFileInput}
         onChange={handleChange}

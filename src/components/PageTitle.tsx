@@ -26,6 +26,7 @@ export default function PageTitle({
         onClick={goTo}
         size="sm"
         marginRight="5"
+        colorScheme="teal"
       />
       <Heading as="h1" size="lg">
         {children}

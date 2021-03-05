@@ -1,29 +1,34 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable camelcase */
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { FiArrowLeft } from 'react-icons/fi';
-
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import {
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  Textarea,
+} from '@chakra-ui/react';
 import api from '../../../../services/api';
-import { Input, Select, Option, TextArea } from '../../../../components/Inputs';
 import FileUploader from './components/FileUploader';
 import { Button } from '../../../../components/Button';
-
-import * as unidadesDeMedidaConstants from '../../../../constants/unidadesDeMedida';
 import { notifySuccess } from '../../../../utils/Notifications';
 import { TOKEN_KEY, USERID_KEY } from '../../../../services/auth';
+import PageTitle from '../../../../components/PageTitle';
 
 interface TipoDeAcc {
   id: number;
   nome: string;
-  limiteDePontos: number;
+  limite_de_pontos: number;
   completed: number;
   pontuacao: number;
-  unidadeDeMedida: {
+  unidade_de_medida: {
     id: number;
     nome: string;
   };
-  pontosPorUnidade: number;
+  pontos_por_unidade: number;
 }
 
 const Flex = styled.div`
@@ -33,7 +38,7 @@ const Flex = styled.div`
   margin-bottom: 10px;
 `;
 
-export default function CadastrarAcc() {
+export default function CadastrarAcc(): JSX.Element {
   const [tiposDeAcc, setTiposDeAcc] = useState(new Array<TipoDeAcc>());
   const [idTipoDeAcc, setIdTipoDeAcc] = useState<string>('');
   const [quantidade, setQuantidade] = useState<string>('');
@@ -57,29 +62,6 @@ export default function CadastrarAcc() {
 
   const handleIdTipoDeAcc = (e: ChangeEvent<HTMLSelectElement>) => {
     setIdTipoDeAcc(e.target.value);
-  };
-
-  const verifyTipoDeAcc = () => {
-    const tipo = tiposDeAcc.find(t => t.id === Number(idTipoDeAcc));
-
-    switch (tipo?.unidadeDeMedida.id) {
-      case unidadesDeMedidaConstants.HORA:
-        return 'Quantidade de Horas';
-      case unidadesDeMedidaConstants.EVENTO:
-        return 'Quantidade de Eventos';
-      case unidadesDeMedidaConstants.SEMESTRE:
-        return 'Quantidade de Semestres';
-      case unidadesDeMedidaConstants.VISITA:
-        return 'Quantidade de Visitas';
-      case unidadesDeMedidaConstants.PALESTRA:
-        return 'Quantidade de Palestras';
-      case unidadesDeMedidaConstants.TRABALHO:
-        return 'Quantidade de Trabalhos';
-      case unidadesDeMedidaConstants.CERTIFICADO:
-        return 'Quantidade de Certificados';
-      default:
-        return 'Quantidade de Horas';
-    }
   };
 
   const cadastrarAcc = async () => {
@@ -118,61 +100,62 @@ export default function CadastrarAcc() {
 
   return (
     <>
-      <div className="page-title">
-        <Link to="/home" className="btn back-button">
-          <FiArrowLeft style={{ strokeWidth: 2 }} />
-        </Link>
-        <div className="title">Detalhes da Acc</div>
-      </div>
-      <Flex>
-        <div style={{ width: '100%' }}>
-          <label htmlFor="tipo-de-acc">
-            Tipo de Acc
-            <Select
-              value={idTipoDeAcc}
-              onChange={handleIdTipoDeAcc}
-              id="tipo-de-acc"
-              style={{ width: '100%' }}
-            >
-              <Option>Selecione...</Option>
-              {tiposDeAcc.map(tipoDeAcc => (
-                <Option value={tipoDeAcc.id} key={tipoDeAcc.id}>
-                  {tipoDeAcc.nome}
-                </Option>
-              ))}
-            </Select>
-          </label>
-        </div>
-      </Flex>
-      <div style={{ width: '50%' }}>
-        <label htmlFor="quantidade">{verifyTipoDeAcc()}</label>
-        <Input
-          id="quantidade"
-          placeholder={verifyTipoDeAcc()}
-          style={{ width: '100%' }}
-          value={quantidade}
-          onChange={handleCargaHoraria}
-        />
-      </div>
-      <Flex>
-        <div style={{ width: '100%' }}>
-          <label htmlFor="descricao">
-            Descrição:
-            <TextArea
-              id="descricao"
-              style={{ width: '100%' }}
-              rows={10}
-              value={descricao}
-              onChange={handleDescricao}
-            />
-          </label>
-        </div>
-      </Flex>
+      <PageTitle backTo="/discente/home">Detalhes da Acc</PageTitle>
+
+      <Box>
+        <FormControl id="tipo-de-acc">
+          <FormLabel>Tipo de ACC</FormLabel>
+          <Select
+            placeholder="Tipo de ACC"
+            value={idTipoDeAcc}
+            onChange={handleIdTipoDeAcc}
+          >
+            {tiposDeAcc.map(tipoDeAcc => (
+              <option key={tipoDeAcc.id} value={tipoDeAcc.id}>
+                {tipoDeAcc.nome}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+
+      <Box marginBottom="3">
+        <FormControl id="quantidade">
+          <FormLabel>
+            {`Quantidade de ${
+              tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))
+                ?.unidade_de_medida.nome || 'Horas'
+            }`}
+          </FormLabel>
+          <Input
+            type="quantidade"
+            placeholder={`${
+              tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))
+                ?.unidade_de_medida.nome || 'Hora'
+            }s`}
+            value={quantidade}
+            onChange={handleCargaHoraria}
+          />
+        </FormControl>
+      </Box>
+
+      <Box marginBottom="3">
+        <FormControl id="descricao">
+          <FormLabel>Descrição</FormLabel>
+          <Textarea
+            value={descricao}
+            onChange={handleDescricao}
+            placeholder="Descrição"
+            rows={6}
+          />
+        </FormControl>
+      </Box>
+
       <Flex>
         <div style={{ width: '100%' }}>
           <label htmlFor="certificado">
             Certificado:
-            <FileUploader handleFile={handleFile} />
+            <FileUploader id="certificado" handleFile={handleFile} />
           </label>
         </div>
       </Flex>
