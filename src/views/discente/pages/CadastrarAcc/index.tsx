@@ -2,7 +2,6 @@
 /* eslint-disable camelcase */
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
 import {
   Box,
   FormControl,
@@ -10,10 +9,11 @@ import {
   Input,
   Select,
   Textarea,
+  Button,
+  Flex,
 } from '@chakra-ui/react';
 import api from '../../../../services/api';
 import FileUploader from './components/FileUploader';
-import { Button } from '../../../../components/Button';
 import { notifySuccess } from '../../../../utils/Notifications';
 import { TOKEN_KEY, USERID_KEY } from '../../../../services/auth';
 import PageTitle from '../../../../components/PageTitle';
@@ -30,13 +30,6 @@ interface TipoDeAcc {
   };
   pontos_por_unidade: number;
 }
-
-const Flex = styled.div`
-  width: 100%;
-  display: flex;
-
-  margin-bottom: 10px;
-`;
 
 export default function CadastrarAcc(): JSX.Element {
   const [tiposDeAcc, setTiposDeAcc] = useState(new Array<TipoDeAcc>());
@@ -100,9 +93,9 @@ export default function CadastrarAcc(): JSX.Element {
 
   return (
     <>
-      <PageTitle backTo="/discente/home">Detalhes da Acc</PageTitle>
+      <PageTitle backTo="/discente/home">Nova Acc</PageTitle>
 
-      <Box>
+      <Box marginBottom="3">
         <FormControl id="tipo-de-acc">
           <FormLabel>Tipo de ACC</FormLabel>
           <Select
@@ -151,16 +144,16 @@ export default function CadastrarAcc(): JSX.Element {
         </FormControl>
       </Box>
 
-      <Flex>
+      <Box marginBottom="3">
         <div style={{ width: '100%' }}>
           <label htmlFor="certificado">
             Certificado:
             <FileUploader id="certificado" handleFile={handleFile} />
           </label>
         </div>
-      </Flex>
-      <Flex style={{ justifyContent: 'center' }}>
-        <Button color="primary" onClick={cadastrarAcc}>
+      </Box>
+      <Flex justifyContent="center">
+        <Button colorScheme="teal" onClick={cadastrarAcc}>
           Cadastrar
         </Button>
       </Flex>
