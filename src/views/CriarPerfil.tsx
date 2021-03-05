@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
-import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { Button, Flex, FormControl, FormLabel, Input } from '@chakra-ui/react';
 import loginVector1 from '../assets/images/login__vector_1.svg';
 import api from '../services/api';
 import { login } from '../services/auth';
@@ -156,6 +156,11 @@ export default function CriarPerfil(): JSX.Element {
             Criar Perfil
           </Button>
         </LoginForm>
+        <Flex width="100%" marginTop="10">
+          <Button onClick={() => history.push('/login')} variant="link">
+            Voltar para tela de login
+          </Button>
+        </Flex>
       </CriarPerfilCard>
     </div>
   );
