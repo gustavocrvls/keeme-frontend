@@ -1,16 +1,16 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
-import { Button, Flex, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
 import loginVector1 from '../assets/images/login__vector_1.svg';
-import loginVector2 from '../assets/images/login__vector_2.svg';
 import api from '../services/api';
 import { login } from '../services/auth';
 import ConstPerfis from '../constants/ConstPerfis';
+import { notifyError } from '../components/Notifications';
 
-const LoginCard = styled.div`
+const CriarPerfilCard = styled.div`
   padding: 20px;
   margin: 10px;
 
@@ -29,7 +29,7 @@ const LoginCard = styled.div`
   justify-content: center;
 `;
 
-const LoginCardTitle = styled.h1`
+const CriarPerfilCardTitle = styled.h1`
   text-align: center;
   color: #4d6f80;
   font-size: 36px;
@@ -51,34 +51,46 @@ const LoginForm = styled.form`
   }
 `;
 
-export default function Login(): JSX.Element {
+export default function CriarPerfil(): JSX.Element {
+  const [nome, setNome] = useState('');
   const [username, setUsername] = useState('');
   const [senha, setSenha] = useState('');
+  const [senha2, setSenha2] = useState('');
 
   const history = useHistory();
 
-  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result = await api.post('usuarios/login', {
+
+    if (senha !== senha2) {
+      notifyError('As senhas não estão iguais!');
+      return;
+    }
+
+    const result = await api.post('usuarios', {
+      nome,
       username,
       senha,
+      perfil: ConstPerfis.DISCENTE,
+      curso: 1, // TODO
     });
 
-    if (result.data.auth) {
-      login(
-        result.data.token,
-        result.data.usuario.id,
-        result.data.usuario.perfil.id,
-      );
+    if (result.status === 201) {
+      const resultLogin = await api.post('usuarios/login', {
+        username,
+        senha,
+      });
 
-      if (result.data.usuario.perfil.id === ConstPerfis.DISCENTE) {
-        history.push('/discente/home');
-      }
-      if (result.data.usuario.perfil.id === ConstPerfis.COORDENADOR) {
-        history.push('/coordenador/home');
-      }
-      if (result.data.usuario.perfil.id === ConstPerfis.ADMIN) {
-        history.push('/administrador/home');
+      if (resultLogin.data.auth) {
+        login(
+          resultLogin.data.token,
+          resultLogin.data.usuario.id,
+          resultLogin.data.usuario.perfil.id,
+        );
+
+        if (resultLogin.data.usuario.perfil.id === ConstPerfis.DISCENTE) {
+          history.push('/discente/home');
+        }
       }
     }
   };
@@ -95,18 +107,31 @@ export default function Login(): JSX.Element {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <LoginCard>
-        <LoginCardTitle>KeeMe</LoginCardTitle>
-        <LoginForm onSubmit={handleSignIn}>
+      <CriarPerfilCard>
+        <CriarPerfilCardTitle>KeeMe</CriarPerfilCardTitle>
+        <LoginForm onSubmit={handleSignUp}>
+          <FormControl id="username">
+            <FormLabel>Nome</FormLabel>
+            <Input
+              isRequired
+              aria-required
+              type="text"
+              placeholder="Nome"
+              value={nome}
+              onChange={e => setNome(e.target.value)}
+            />
+          </FormControl>
+
           <FormControl id="username">
             <FormLabel>Usuário</FormLabel>
             <Input
               type="text"
-              placeholder="Nome"
+              placeholder="Usuário"
               value={username}
               onChange={e => setUsername(e.target.value)}
             />
           </FormControl>
+
           <FormControl id="password">
             <FormLabel>Senha</FormLabel>
             <Input
@@ -116,16 +141,22 @@ export default function Login(): JSX.Element {
               onChange={e => setSenha(e.target.value)}
             />
           </FormControl>
+
+          <FormControl id="password">
+            <FormLabel>Confirmar Senha</FormLabel>
+            <Input
+              type="password"
+              placeholder="********"
+              value={senha2}
+              onChange={e => setSenha2(e.target.value)}
+            />
+          </FormControl>
+
           <Button type="submit" width="100%" colorScheme="teal">
-            Entrar
+            Criar Perfil
           </Button>
         </LoginForm>
-        <Flex justifyContent="flex-end" width="100%" marginTop="10">
-          <Button onClick={() => history.push('/criar-perfil')} variant="link">
-            Não possui perfil ainda?
-          </Button>
-        </Flex>
-      </LoginCard>
+      </CriarPerfilCard>
     </div>
   );
 }

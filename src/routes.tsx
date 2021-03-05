@@ -3,12 +3,14 @@
 import React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
-
-import Header from './components/Header';
-import Login from './views/Login';
 import { isAuthenticated } from './services/auth';
 import { notifyError } from './utils/Notifications';
+
 import { Container } from './components/Containers';
+import Header from './components/Header';
+
+import Login from './views/Login';
+import CriarPerfil from './views/CriarPerfil';
 
 import DiscenteRoutes from './views/discente/routes/index.routes';
 import CoordenadorRoutes from './views/coordenador/routes/index.routes';
@@ -54,6 +56,7 @@ const Routes = (): JSX.Element => {
       <Switch>
         <Route path="/" exact component={Login} />
         <Route path="/login" component={Login} />
+        <Route path="/criar-perfil" component={CriarPerfil} />
 
         <Route path="/discente" component={DiscenteRoutes} />
         <Route path="/coordenador" component={CoordenadorRoutes} />
