@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import api from '../../../../services/api';
 import FileUploader from './components/FileUploader';
-import { notifySuccess } from '../../../../utils/Notifications';
+import { notifySuccess } from '../../../../components/Notifications';
 import { TOKEN_KEY, USERID_KEY } from '../../../../services/auth';
 import PageTitle from '../../../../components/PageTitle';
 
@@ -78,7 +78,7 @@ export default function CadastrarAcc(): JSX.Element {
 
     if (response.status === 201) {
       notifySuccess('ACC cadastrada com sucesso!');
-      history.push('/home');
+      history.push('/discente/home');
     }
   };
 
