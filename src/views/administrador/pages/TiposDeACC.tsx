@@ -22,7 +22,7 @@ import React from 'react';
 import { FiEdit, FiTrash } from 'react-icons/fi';
 import { RouteComponentProps } from 'react-router-dom';
 import api from '../../../services/api';
-import { notifyError, notifySuccess } from '../../../utils/Notifications';
+import { notifyError, notifySuccess } from '../../../components/Notifications';
 
 interface ITipoDeAcc {
   id: number;

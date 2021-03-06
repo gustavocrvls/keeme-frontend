@@ -13,7 +13,7 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import ConstPerfis from '../../../constants/ConstPerfis';
 import api from '../../../services/api';
-import { notifyError, notifySuccess } from '../../../utils/Notifications';
+import { notifyError, notifySuccess } from '../../../components/Notifications';
 
 interface ICurso {
   id: number;

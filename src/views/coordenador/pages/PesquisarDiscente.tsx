@@ -5,7 +5,7 @@ import { FiSearch } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { Button } from '../../../components/Button';
 import api from '../../../services/api';
-import { notifyError } from '../../../utils/Notifications';
+import { notifyError } from '../../../components/Notifications';
 
 interface IUsuario {
   id: number;

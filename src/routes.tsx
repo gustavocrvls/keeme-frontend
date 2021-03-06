@@ -4,7 +4,7 @@ import React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import { isAuthenticated } from './services/auth';
-import { notifyError } from './utils/Notifications';
+import { notifyError } from './components/Notifications';
 
 import { Container } from './components/Containers';
 import Header from './components/Header';

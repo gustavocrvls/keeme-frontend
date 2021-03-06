@@ -4,7 +4,7 @@ import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import { Card } from '../../../components/Card';
 import ProgressRing from '../../../components/ProgressRing';
 import api from '../../../services/api';
-import { notifyError } from '../../../utils/Notifications';
+import { notifyError } from '../../../components/Notifications';
 
 interface IUsuario {
   id: number;

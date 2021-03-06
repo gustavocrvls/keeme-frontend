@@ -26,7 +26,7 @@ import {
 
 import statusDaAccConsts from '../../../constants/statusDaAcc';
 import api from '../../../services/api';
-import { notifyWarning } from '../../../utils/Notifications';
+import { notifyWarning } from '../../../components/Notifications';
 
 interface IAcc {
   id: number;
