@@ -1,10 +1,11 @@
-import React from 'react';
-import { withRouter, Link, RouteComponentProps } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
 
 import { Flex, IconButton, Tooltip } from '@chakra-ui/react';
 import styled from 'styled-components';
-import { logout } from '../services/auth';
+import { logout, USER_PERFIL_KEY } from '../services/auth';
+import ConstPerfis from '../constants/ConstPerfis';
 
 const HeaderStyle = styled.header`
   box-sizing: border-box;
@@ -25,38 +26,53 @@ const HeaderStyle = styled.header`
   z-index: 100;
 `;
 
-class Header extends React.Component<RouteComponentProps> {
-  handleLogout = () => {
-    const { history } = this.props;
+export default function Header(): JSX.Element {
+  const [perfil, setPerfil] = useState('');
+  const history = useHistory();
 
+  useEffect(() => {
+    const sessionPerfil = sessionStorage.getItem(USER_PERFIL_KEY);
+
+    switch (Number(sessionPerfil)) {
+      case ConstPerfis.ADMIN:
+        setPerfil('administrador');
+        break;
+      case ConstPerfis.COORDENADOR:
+        setPerfil('coordenador');
+        break;
+      case ConstPerfis.DISCENTE:
+        setPerfil('discente');
+        break;
+      default:
+        break;
+    }
+  }, []);
+
+  function handleLogout(): void {
     if (history) history.push('/');
     logout();
-  };
-
-  render() {
-    return (
-      <HeaderStyle>
-        <div>
-          <Link to="/home">Gestor de ACCs</Link>
-        </div>
-
-        <Flex alignItems="center">
-          <div style={{ marginRight: 10, fontSize: '1rem' }}>Olá!</div>
-          <Tooltip label="Sair" aria-label="Sair">
-            <IconButton
-              type="button"
-              onClick={this.handleLogout}
-              size="sm"
-              colorScheme="gray"
-              color="teal.900"
-              aria-label="User Icon"
-              icon={<FiLogOut size="18" />}
-            />
-          </Tooltip>
-        </Flex>
-      </HeaderStyle>
-    );
   }
-}
 
-export default withRouter(Header);
+  return (
+    <HeaderStyle>
+      <div>
+        <Link to={`${perfil}/home`}>Gestor de ACCs</Link>
+      </div>
+
+      <Flex alignItems="center">
+        <div style={{ marginRight: 10, fontSize: '1rem' }}>Olá!</div>
+        <Tooltip label="Sair" aria-label="Sair">
+          <IconButton
+            type="button"
+            onClick={handleLogout}
+            size="sm"
+            colorScheme="gray"
+            color="teal.900"
+            aria-label="User Icon"
+            icon={<FiLogOut size="18" />}
+          />
+        </Tooltip>
+      </Flex>
+    </HeaderStyle>
+  );
+}
