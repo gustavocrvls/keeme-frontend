@@ -3,28 +3,9 @@ import { Link, useHistory } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
 
 import { Flex, IconButton, Tooltip } from '@chakra-ui/react';
-import styled from 'styled-components';
-import { logout, USER_PERFIL_KEY } from '../services/auth';
-import ConstPerfis from '../constants/ConstPerfis';
-
-const HeaderStyle = styled.header`
-  box-sizing: border-box;
-  width: 100%;
-
-  position: sticky;
-  top: 0;
-
-  background: #31878c;
-  padding: 10px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  color: #fff;
-
-  z-index: 100;
-`;
+import { logout, USER_PERFIL_KEY } from '../../services/auth';
+import ConstPerfis from '../../constants/ConstPerfis';
+import { HeaderStyle } from './styles';
 
 export default function Header(): JSX.Element {
   const [perfil, setPerfil] = useState('');
