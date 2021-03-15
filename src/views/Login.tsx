@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ import loginVector2 from '../assets/images/login__vector_2.svg';
 import api from '../services/api';
 import { login } from '../services/auth';
 import ConstPerfis from '../constants/ConstPerfis';
+import { notifyError } from '../components/Notifications';
 
 const LoginCard = styled.div`
   padding: 20px;
@@ -57,7 +58,7 @@ export default function Login(): JSX.Element {
 
   const history = useHistory();
 
-  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const result = await api.post('usuarios/login', {
       username,
@@ -80,8 +81,10 @@ export default function Login(): JSX.Element {
       if (result.data.usuario.perfil.id === ConstPerfis.ADMIN) {
         history.push('/administrador/home');
       }
+    } else {
+      notifyError('Usuário e/ou senha incorretos!');
     }
-  };
+  }
 
   return (
     <div
@@ -97,7 +100,7 @@ export default function Login(): JSX.Element {
     >
       <LoginCard>
         <LoginCardTitle>KeeMe</LoginCardTitle>
-        <LoginForm onSubmit={handleSignIn}>
+        <LoginForm onSubmit={handleLogin}>
           <FormControl id="username">
             <FormLabel>Usuário</FormLabel>
             <Input

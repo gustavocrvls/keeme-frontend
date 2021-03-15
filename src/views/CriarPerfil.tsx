@@ -110,11 +110,9 @@ export default function CriarPerfil(): JSX.Element {
       <CriarPerfilCard>
         <CriarPerfilCardTitle>KeeMe</CriarPerfilCardTitle>
         <LoginForm onSubmit={handleSignUp}>
-          <FormControl id="username">
+          <FormControl id="nome" isRequired>
             <FormLabel>Nome</FormLabel>
             <Input
-              isRequired
-              aria-required
               type="text"
               placeholder="Nome"
               value={nome}
@@ -122,7 +120,7 @@ export default function CriarPerfil(): JSX.Element {
             />
           </FormControl>
 
-          <FormControl id="username">
+          <FormControl id="usuario" isRequired>
             <FormLabel>Usuário</FormLabel>
             <Input
               type="text"
@@ -132,7 +130,7 @@ export default function CriarPerfil(): JSX.Element {
             />
           </FormControl>
 
-          <FormControl id="password">
+          <FormControl id="senha" isRequired>
             <FormLabel>Senha</FormLabel>
             <Input
               type="password"
@@ -142,7 +140,7 @@ export default function CriarPerfil(): JSX.Element {
             />
           </FormControl>
 
-          <FormControl id="password">
+          <FormControl id="senha2" isRequired>
             <FormLabel>Confirmar Senha</FormLabel>
             <Input
               type="password"
