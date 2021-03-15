@@ -37,7 +37,7 @@ export default function Header(): JSX.Element {
   return (
     <HeaderStyle>
       <div>
-        <Link to={`${perfil}/home`}>Gestor de ACCs</Link>
+        <Link to={`/${perfil}/home`}>Gestor de ACCs</Link>
       </div>
 
       <Flex alignItems="center">
