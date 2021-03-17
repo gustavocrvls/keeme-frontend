@@ -8,7 +8,7 @@ import loginVector1 from '../assets/images/login__vector_1.svg';
 import loginVector2 from '../assets/images/login__vector_2.svg';
 import api from '../services/api';
 import { login } from '../services/auth';
-import ConstPerfis from '../constants/ConstPerfis';
+import PERFIS from '../constants/Perfis';
 import { notifyError } from '../components/Notifications';
 
 const LoginCard = styled.div`
@@ -72,13 +72,13 @@ export default function Login(): JSX.Element {
         result.data.usuario.perfil.id,
       );
 
-      if (result.data.usuario.perfil.id === ConstPerfis.DISCENTE) {
+      if (result.data.usuario.perfil.id === PERFIS.DISCENTE) {
         history.push('/discente/home');
       }
-      if (result.data.usuario.perfil.id === ConstPerfis.COORDENADOR) {
+      if (result.data.usuario.perfil.id === PERFIS.COORDENADOR) {
         history.push('/coordenador/home');
       }
-      if (result.data.usuario.perfil.id === ConstPerfis.ADMIN) {
+      if (result.data.usuario.perfil.id === PERFIS.ADMIN) {
         history.push('/administrador/home');
       }
     } else {

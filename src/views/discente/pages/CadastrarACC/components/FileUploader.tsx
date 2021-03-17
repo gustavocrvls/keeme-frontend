@@ -1,10 +1,10 @@
 import React, { ChangeEvent, useState } from 'react';
-import Noty from 'noty';
 
 import { FiFile } from 'react-icons/fi';
 
 import { Button } from '@chakra-ui/react';
-import * as fileConstants from '../../../../../constants/files';
+import { SIZE, SUPORTED_TYPES } from '../../../../../constants/Certificado';
+import { notifyError } from '../../../../../components/Notifications';
 
 interface Props {
   handleFile: (files: Blob) => void;
@@ -26,16 +26,11 @@ const FileUploader = (props: Props): JSX.Element => {
     let files = e.target.files || [];
 
     if (files[0]) {
-      if (files[0].size > fileConstants.MAX_FILE_SIZE) {
+      if (files[0].size > SIZE) {
         files = [];
         setFileName('');
 
-        new Noty({
-          theme: 'nest',
-          type: 'error',
-          layout: 'topRight',
-          text: 'Arquivo muito grande! (máx: 2MB)',
-        }).show();
+        notifyError('Arquivo muito grande! (máx: 2MB)');
       } else {
         setFileName(files[0].name);
 

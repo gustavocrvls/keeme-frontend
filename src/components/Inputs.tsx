@@ -1,13 +1,13 @@
 import styled from 'styled-components';
-import stylesConsts from '../constants/styles';
+import STYLES from '../constants/Styles';
 
 const borderColor = '#8FA7B2';
 
 const Input = styled.input`
-  height: ${stylesConsts.inputHeight};
+  height: ${STYLES.inputHeight};
 
   border: 1px solid ${borderColor};
-  border-radius: ${stylesConsts.borderRadius};
+  border-radius: ${STYLES.borderRadius};
   padding: 0 5px;
   transition: outline 2s;
 
@@ -17,7 +17,7 @@ const Input = styled.input`
 `;
 
 const Option = styled.option`
-  height: ${stylesConsts.inputHeight};
+  height: ${STYLES.inputHeight};
 
   border: 1px solid ${borderColor};
   padding: 5px;
@@ -28,11 +28,11 @@ const Option = styled.option`
 `;
 
 const Select = styled.select`
-  height: ${stylesConsts.inputHeight};
+  height: ${STYLES.inputHeight};
 
   border: 1px solid ${borderColor};
 
-  border-radius: ${stylesConsts.borderRadius};
+  border-radius: ${STYLES.borderRadius};
   padding: 5px;
 
   :focus {
@@ -42,7 +42,7 @@ const Select = styled.select`
 
 const TextArea = styled.textarea`
   border: 1px solid ${borderColor};
-  border-radius: ${stylesConsts.borderRadius};
+  border-radius: ${STYLES.borderRadius};
   padding: 5px;
 
   :focus {

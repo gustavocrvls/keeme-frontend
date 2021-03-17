@@ -24,7 +24,7 @@ import {
   Link,
 } from '@chakra-ui/react';
 
-import statusDaAccConsts from '../../../constants/statusDaAcc';
+import STATUS_DA_ACC from '../../../constants/StatusDaACC';
 import api from '../../../services/api';
 import { notifyWarning } from '../../../components/Notifications';
 
@@ -140,12 +140,12 @@ class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
     const { id } = params;
 
     async function changeStatus(newStatus: number) {
-      if (newStatus === statusDaAccConsts.APROVADA) {
+      if (newStatus === STATUS_DA_ACC.APROVADA) {
         const response = await api.put(`accs/update/${id}/status`, {
           status_da_acc: newStatus,
         });
       }
-      if (newStatus === statusDaAccConsts.NEGADA) {
+      if (newStatus === STATUS_DA_ACC.NEGADA) {
         if (!avaliacao.length) {
           notifyWarning('É necessário especificar o motivo da negação');
         }
@@ -166,15 +166,15 @@ class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
     let Icon = <></>;
     if (status)
       switch (status.id) {
-        case statusDaAccConsts.EM_ANALISE:
+        case STATUS_DA_ACC.EM_ANALISE:
           color = '#8FA7B2';
           Icon = <FiCircle style={{ marginRight: 5 }} />;
           break;
-        case statusDaAccConsts.APROVADA:
+        case STATUS_DA_ACC.APROVADA:
           color = '#31878C';
           Icon = <FiCheckCircle style={{ marginRight: 5 }} />;
           break;
-        case statusDaAccConsts.NEGADA:
+        case STATUS_DA_ACC.NEGADA:
           color = '#DE4079';
           Icon = <FiXCircle style={{ marginRight: 5 }} />;
           break;
@@ -301,7 +301,7 @@ class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
               {acc?.id_certificado}
             </Button> */}
           </div>
-          {acc.status_da_acc.id === statusDaAccConsts.EM_ANALISE && (
+          {acc.status_da_acc.id === STATUS_DA_ACC.EM_ANALISE && (
             <Box>
               <Stack direction="row" justifyContent="center" spacing={3}>
                 <Button
@@ -309,7 +309,7 @@ class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
                   size="sm"
                   onClick={() =>
                     // eslint-disable-next-line prettier/prettier
-                    this.changeAccStatus(statusDaAccConsts.APROVADA)}
+                    this.changeAccStatus(STATUS_DA_ACC.APROVADA)}
                 >
                   Aprovar
                 </Button>
@@ -354,7 +354,7 @@ class DetalhesDaAcc extends React.Component<IMatchProps, IState> {
                 colorScheme="red"
                 variant="ghost"
                 onClick={() => {
-                  this.changeAccStatus(statusDaAccConsts.NEGADA);
+                  this.changeAccStatus(STATUS_DA_ACC.NEGADA);
                 }}
               >
                 Reprovar

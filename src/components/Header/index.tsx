@@ -4,7 +4,7 @@ import { FiLogOut } from 'react-icons/fi';
 
 import { Flex, IconButton, Tooltip } from '@chakra-ui/react';
 import { logout, USER_PERFIL_KEY } from '../../services/auth';
-import ConstPerfis from '../../constants/ConstPerfis';
+import PERFIS from '../../constants/Perfis';
 import { HeaderStyle } from './styles';
 
 export default function Header(): JSX.Element {
@@ -15,13 +15,13 @@ export default function Header(): JSX.Element {
     const sessionPerfil = sessionStorage.getItem(USER_PERFIL_KEY);
 
     switch (Number(sessionPerfil)) {
-      case ConstPerfis.ADMIN:
+      case PERFIS.ADMIN:
         setPerfil('administrador');
         break;
-      case ConstPerfis.COORDENADOR:
+      case PERFIS.COORDENADOR:
         setPerfil('coordenador');
         break;
-      case ConstPerfis.DISCENTE:
+      case PERFIS.DISCENTE:
         setPerfil('discente');
         break;
       default:

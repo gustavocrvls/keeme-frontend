@@ -16,7 +16,7 @@ import {
 import React from 'react';
 import { FiTrash } from 'react-icons/fi';
 import { RouteComponentProps } from 'react-router-dom';
-import ConstPerfis from '../../../constants/ConstPerfis';
+import PERFIS from '../../../constants/Perfis';
 import api from '../../../services/api';
 import { notifyError, notifySuccess } from '../../../components/Notifications';
 
@@ -54,7 +54,7 @@ class Dashboard extends React.Component<RouteComponentProps, IState> {
   async componentDidMount(): Promise<void> {
     try {
       const response = await api.get(
-        `usuarios/perfil/${ConstPerfis.COORDENADOR}/cursos`,
+        `usuarios/perfil/${PERFIS.COORDENADOR}/cursos`,
       );
       this.setState({
         cursos: response.data.cursos,

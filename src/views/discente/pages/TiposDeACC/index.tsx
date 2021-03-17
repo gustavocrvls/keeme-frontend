@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { ListItem, UnorderedList } from '@chakra-ui/react';
 
-import '../../../../styles/modules/discente/TiposDeAcc.scss';
-
 import PageTitle from '../../../../components/PageTitle';
 
 import { USERID_KEY } from '../../../../services/auth';

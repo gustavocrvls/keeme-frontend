@@ -4,7 +4,7 @@ import { useParams, withRouter } from 'react-router-dom';
 import { FiCircle, FiDownload, FiXCircle, FiCheckCircle } from 'react-icons/fi';
 
 import { Box, Button, Stack } from '@chakra-ui/react';
-import statusDaAccConsts from '../../../../constants/statusDaAcc';
+import STATUS_DA_ACC from '../../../../constants/StatusDaACC';
 import api from '../../../../services/api';
 import PageTitle from '../../../../components/PageTitle';
 
@@ -56,15 +56,15 @@ export function DetalhesDaAcc(): JSX.Element {
     let Icon = <></>;
     if (status)
       switch (status.id) {
-        case statusDaAccConsts.EM_ANALISE:
+        case STATUS_DA_ACC.EM_ANALISE:
           color = '#8FA7B2';
           Icon = <FiCircle style={{ marginRight: 5 }} />;
           break;
-        case statusDaAccConsts.APROVADA:
+        case STATUS_DA_ACC.APROVADA:
           color = '#31878C';
           Icon = <FiCheckCircle style={{ marginRight: 5 }} />;
           break;
-        case statusDaAccConsts.NEGADA:
+        case STATUS_DA_ACC.NEGADA:
           color = '#DE4079';
           Icon = <FiXCircle style={{ marginRight: 5 }} />;
           break;

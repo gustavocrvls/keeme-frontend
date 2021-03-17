@@ -8,7 +8,7 @@ import {
 } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import statusDaAccConsts from '../../../../../../constants/statusDaAcc';
+import STATUS_DA_ACC from '../../../../../../constants/StatusDaACC';
 
 interface ICardAcc {
   id: number;
@@ -98,15 +98,15 @@ export function CardAcc(props: ICardAcc): JSX.Element {
     let Icon = <></>;
     if (status)
       switch (status.id) {
-        case statusDaAccConsts.EM_ANALISE:
+        case STATUS_DA_ACC.EM_ANALISE:
           statusColor = '#8FA7B2';
           Icon = <FiCircle style={{ marginRight: 5 }} />;
           break;
-        case statusDaAccConsts.APROVADA:
+        case STATUS_DA_ACC.APROVADA:
           statusColor = '#31878C';
           Icon = <FiCheckCircle style={{ marginRight: 5 }} />;
           break;
-        case statusDaAccConsts.NEGADA:
+        case STATUS_DA_ACC.NEGADA:
           statusColor = '#DE4079';
           Icon = <FiXCircle style={{ marginRight: 5 }} />;
           break;
@@ -138,9 +138,9 @@ export function CardAcc(props: ICardAcc): JSX.Element {
   const handleStatusColorPreCard = (
     status: IStatus,
   ): 'primary' | 'secondary' | 'danger' => {
-    if (status.id === statusDaAccConsts.EM_ANALISE) return 'secondary';
-    if (status.id === statusDaAccConsts.APROVADA) return 'primary';
-    if (status.id === statusDaAccConsts.NEGADA) return 'danger';
+    if (status.id === STATUS_DA_ACC.EM_ANALISE) return 'secondary';
+    if (status.id === STATUS_DA_ACC.APROVADA) return 'primary';
+    if (status.id === STATUS_DA_ACC.NEGADA) return 'danger';
 
     return 'secondary';
   };
