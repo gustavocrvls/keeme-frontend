@@ -1,14 +1,21 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
-import { Button, Flex, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+} from '@chakra-ui/react';
 import loginVector1 from '../assets/images/login__vector_1.svg';
 import api from '../services/api';
 import { login } from '../services/auth';
 import ConstPerfis from '../constants/ConstPerfis';
-import { notifyError } from '../components/Notifications';
+import { notifyError, notifySuccess } from '../components/Notifications';
 
 const CriarPerfilCard = styled.div`
   padding: 20px;
@@ -51,28 +58,40 @@ const LoginForm = styled.form`
   }
 `;
 
+type Curso = {
+  id: number;
+  nome: string;
+};
+
 export default function CriarPerfil(): JSX.Element {
   const [nome, setNome] = useState('');
   const [username, setUsername] = useState('');
   const [senha, setSenha] = useState('');
   const [senha2, setSenha2] = useState('');
+  const [idCurso, setIdCurso] = useState('');
+
+  const [cursos, setCursos] = useState<Curso[]>([]);
 
   const history = useHistory();
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (senha.length < 8) {
+      notifyError('A senha deve ter mais de 8 caracteres!');
+      return;
+    }
+
     if (senha !== senha2) {
       notifyError('As senhas não estão iguais!');
       return;
     }
 
-    const result = await api.post('usuarios', {
+    const result = await api.post('usuarios/create-discente', {
       nome,
       username,
       senha,
-      perfil: ConstPerfis.DISCENTE,
-      curso: 1, // TODO
+      curso: idCurso, // TODO
     });
 
     if (result.status === 201) {
@@ -88,12 +107,24 @@ export default function CriarPerfil(): JSX.Element {
           resultLogin.data.usuario.perfil.id,
         );
 
+        notifySuccess('Usuário criado com sucesso!');
+
         if (resultLogin.data.usuario.perfil.id === ConstPerfis.DISCENTE) {
           history.push('/discente/home');
         }
       }
     }
   };
+
+  useEffect(() => {
+    async function loadCursos() {
+      const response = await api.get('cursos');
+
+      setCursos(response.data.cursos);
+    }
+
+    loadCursos();
+  }, []);
 
   return (
     <div
@@ -128,6 +159,21 @@ export default function CriarPerfil(): JSX.Element {
               value={username}
               onChange={e => setUsername(e.target.value)}
             />
+          </FormControl>
+
+          <FormControl id="curso" isRequired>
+            <FormLabel>Curso</FormLabel>
+            <Select
+              placeholder="Curso"
+              value={idCurso}
+              onChange={e => setIdCurso(e.target.value)}
+            >
+              {cursos.map(curso => (
+                <option key={curso.id} value={curso.id}>
+                  {curso.nome}
+                </option>
+              ))}
+            </Select>
           </FormControl>
 
           <FormControl id="senha" isRequired>
