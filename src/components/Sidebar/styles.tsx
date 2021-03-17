@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const SidebarItem = styled.li`
+const SidebarItem = styled.div`
   padding: 10px;
   font-size: 1rem;
 
