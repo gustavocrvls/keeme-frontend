@@ -14,7 +14,10 @@ import {
 } from '@chakra-ui/react';
 import api from '../../../../services/api';
 import FileUploader from './components/FileUploader';
-import { notifySuccess } from '../../../../components/Notifications';
+import {
+  notifyError,
+  notifySuccess,
+} from '../../../../components/Notifications';
 import { TOKEN_KEY, USERID_KEY } from '../../../../services/auth';
 import PageTitle from '../../../../components/PageTitle';
 
@@ -57,28 +60,37 @@ export default function CadastrarAcc(): JSX.Element {
     setIdTipoDeAcc(e.target.value);
   };
 
-  const cadastrarAcc = async () => {
+  const handleForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const formData = new FormData();
 
-    const file = certificado || new Blob();
-    const userID = sessionStorage.getItem(USERID_KEY) || '';
+    try {
+      const file = certificado || new Blob();
+      const userID = sessionStorage.getItem(USERID_KEY) || '';
 
-    formData.append('sobre', descricao);
-    formData.append('quantidade', quantidade);
-    formData.append('idUsuario', userID);
-    formData.append('tipoDeAcc', idTipoDeAcc);
-    formData.append('certificado', file);
+      if (!file.size) {
+        notifyError('Anexe um certificado!');
+      }
 
-    const response = await api.post('accs/create', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${sessionStorage.getItem(TOKEN_KEY)}`,
-      },
-    });
+      formData.append('sobre', descricao);
+      formData.append('quantidade', quantidade);
+      formData.append('idUsuario', userID);
+      formData.append('tipoDeAcc', idTipoDeAcc);
+      formData.append('certificado', file);
 
-    if (response.status === 201) {
-      notifySuccess('ACC cadastrada com sucesso!');
-      history.push('/discente/home');
+      const response = await api.post('accs/create', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${sessionStorage.getItem(TOKEN_KEY)}`,
+        },
+      });
+
+      if (response.status === 201) {
+        notifySuccess('ACC cadastrada com sucesso!');
+        history.push('/discente/home');
+      }
+    } catch (err) {
+      notifyError('Não foi possível cadastrar a ACC, tente novamente.');
     }
   };
 
@@ -95,68 +107,70 @@ export default function CadastrarAcc(): JSX.Element {
     <>
       <PageTitle backTo="/discente/home">Nova Acc</PageTitle>
 
-      <Box marginBottom="3">
-        <FormControl id="tipo-de-acc">
-          <FormLabel>Tipo de ACC</FormLabel>
-          <Select
-            placeholder="Tipo de ACC"
-            value={idTipoDeAcc}
-            onChange={handleIdTipoDeAcc}
-          >
-            {tiposDeAcc.map(tipoDeAcc => (
-              <option key={tipoDeAcc.id} value={tipoDeAcc.id}>
-                {tipoDeAcc.nome}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
+      <form onSubmit={handleForm}>
+        <Box marginBottom="3">
+          <FormControl id="tipo-de-acc" isRequired>
+            <FormLabel>Tipo de ACC</FormLabel>
+            <Select
+              placeholder="Tipo de ACC"
+              value={idTipoDeAcc}
+              onChange={handleIdTipoDeAcc}
+            >
+              {tiposDeAcc.map(tipoDeAcc => (
+                <option key={tipoDeAcc.id} value={tipoDeAcc.id}>
+                  {tipoDeAcc.nome}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
 
-      <Box marginBottom="3">
-        <FormControl id="quantidade">
-          <FormLabel>
-            {`Quantidade de ${
-              tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))
-                ?.unidade_de_medida.nome || 'Horas'
-            }`}
-          </FormLabel>
-          <Input
-            type="quantidade"
-            placeholder={`${
-              tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))
-                ?.unidade_de_medida.nome || 'Hora'
-            }s`}
-            value={quantidade}
-            onChange={handleCargaHoraria}
-          />
-        </FormControl>
-      </Box>
+        <Box marginBottom="3">
+          <FormControl id="quantidade" isRequired>
+            <FormLabel>
+              {`Quantidade de ${
+                tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))
+                  ?.unidade_de_medida.nome || 'Hora'
+              }s`}
+            </FormLabel>
+            <Input
+              type="quantidade"
+              placeholder={`${
+                tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))
+                  ?.unidade_de_medida.nome || 'Hora'
+              }s`}
+              value={quantidade}
+              onChange={handleCargaHoraria}
+            />
+          </FormControl>
+        </Box>
 
-      <Box marginBottom="3">
-        <FormControl id="descricao">
-          <FormLabel>Descrição</FormLabel>
-          <Textarea
-            value={descricao}
-            onChange={handleDescricao}
-            placeholder="Descrição"
-            rows={6}
-          />
-        </FormControl>
-      </Box>
+        <Box marginBottom="3">
+          <FormControl id="descricao" isRequired>
+            <FormLabel>Descrição</FormLabel>
+            <Textarea
+              value={descricao}
+              onChange={handleDescricao}
+              placeholder="Descrição"
+              rows={6}
+            />
+          </FormControl>
+        </Box>
 
-      <Box marginBottom="3">
-        <div style={{ width: '100%' }}>
-          <label htmlFor="certificado">
-            Certificado:
-            <FileUploader id="certificado" handleFile={handleFile} />
-          </label>
-        </div>
-      </Box>
-      <Flex justifyContent="center">
-        <Button colorScheme="teal" onClick={cadastrarAcc}>
-          Cadastrar
-        </Button>
-      </Flex>
+        <Box marginBottom="3">
+          <div style={{ width: '100%' }}>
+            <label htmlFor="certificado">
+              Certificado:
+              <FileUploader id="certificado" handleFile={handleFile} />
+            </label>
+          </div>
+        </Box>
+        <Flex justifyContent="center">
+          <Button type="submit" colorScheme="teal">
+            Cadastrar
+          </Button>
+        </Flex>
+      </form>
     </>
   );
 }
