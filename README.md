@@ -1,6 +1,6 @@
 # KeeMe (Keep It To Me)
 
-![](https://github.com/gustavocrvls/gestor-de-accs-frontend/blob/main/public/screenshots/login_screen_v2.png)
+![](https://github.com/gustavocrvls/gestor-de-accs-frontend/blob/aa6dbbc5032f42100187cbec8a8d4621ddc05dba/docs/screenshots/login_screen_v2.png)
 
 ## 💡 Sobre o Projeto
 
