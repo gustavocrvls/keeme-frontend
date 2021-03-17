@@ -9,11 +9,11 @@ import {
 } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import statusDaAccConsts from '../../../constants/statusDaAcc';
-import { Container } from '../../../components/Containers';
-import api from '../../../services/api';
-import { USERID_KEY } from '../../../services/auth';
-import PageTitle from '../../../components/PageTitle';
+import statusDaAccConsts from '../../../../constants/statusDaAcc';
+import { Container } from '../../../../components/Containers';
+import api from '../../../../services/api';
+import { USERID_KEY } from '../../../../services/auth';
+import PageTitle from '../../../../components/PageTitle';
 
 interface Acc {
   id: number;
@@ -218,10 +218,7 @@ export function CardAcc(props: ICardAcc): JSX.Element {
   );
 }
 
-export default class DetalhesDaPontuacao extends React.Component<
-  IProps,
-  IState
-> {
+export default class MinhasACCs extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {

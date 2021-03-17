@@ -4,7 +4,7 @@ import { FiFile, FiPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { Box, Flex, Grid, GridItem, Heading } from '@chakra-ui/react';
 import ProgressRing from '../../../../components/ProgressRing';
-import { CardAcc } from '../DetalhesDaPontuacao';
+import { CardAcc } from '../MinhasACCs';
 import api from '../../../../services/api';
 import { USERID_KEY } from '../../../../services/auth';
 

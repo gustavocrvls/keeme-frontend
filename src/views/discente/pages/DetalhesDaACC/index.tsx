@@ -4,9 +4,9 @@ import { useParams, withRouter } from 'react-router-dom';
 import { FiCircle, FiDownload, FiXCircle, FiCheckCircle } from 'react-icons/fi';
 
 import { Box, Button, Stack } from '@chakra-ui/react';
-import statusDaAccConsts from '../../../constants/statusDaAcc';
-import api from '../../../services/api';
-import PageTitle from '../../../components/PageTitle';
+import statusDaAccConsts from '../../../../constants/statusDaAcc';
+import api from '../../../../services/api';
+import PageTitle from '../../../../components/PageTitle';
 
 interface IAcc {
   id: number;
