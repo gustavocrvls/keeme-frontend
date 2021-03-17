@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { FiFile, FiPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { Box, Flex, Grid, GridItem, Heading } from '@chakra-ui/react';
-import ProgressRing from '../../../components/ProgressRing';
-import { CardAcc } from './DetalhesDaPontuacao';
-import api from '../../../services/api';
-import { USERID_KEY } from '../../../services/auth';
+import ProgressRing from '../../../../components/ProgressRing';
+import { CardAcc } from '../DetalhesDaPontuacao';
+import api from '../../../../services/api';
+import { USERID_KEY } from '../../../../services/auth';
 
 interface IACC {
   id: number;
@@ -57,7 +57,7 @@ export default function Home(): JSX.Element {
 
   return (
     <>
-      <Heading as="h1" size="lg">
+      <Heading as="h1" size="lg" marginBottom="5">
         Início
       </Heading>
       <Grid
@@ -200,14 +200,14 @@ export default function Home(): JSX.Element {
         </GridItem>
       </Grid>
 
-      <Heading as="h1" size="md">
+      <Heading as="h1" size="md" marginBottom="5">
         Últimos Envios
       </Heading>
 
       <ul className="card-list">
-        {lastACCs.map((acc, index) => (
-          <>
-            {index <= 3 ? (
+        {lastACCs.map((acc, index) => {
+          if (index <= 3)
+            return (
               <li key={acc.id} className="card-list-item">
                 <CardAcc
                   id={acc.id}
@@ -217,11 +217,9 @@ export default function Home(): JSX.Element {
                   tipoDeAcc={acc.tipo_de_acc}
                 />
               </li>
-            ) : (
-              <></>
-            )}
-          </>
-        ))}
+            );
+          return <></>;
+        })}
       </ul>
     </>
   );
