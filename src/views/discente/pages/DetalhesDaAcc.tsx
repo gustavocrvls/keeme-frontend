@@ -1,17 +1,9 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useRef, useState } from 'react';
-import { RouteComponentProps, useParams, withRouter } from 'react-router-dom';
+import { useParams, withRouter } from 'react-router-dom';
 import { FiCircle, FiDownload, FiXCircle, FiCheckCircle } from 'react-icons/fi';
-import styled from 'styled-components';
 
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  IconButton,
-  Stack,
-} from '@chakra-ui/react';
+import { Box, Button, Stack } from '@chakra-ui/react';
 import statusDaAccConsts from '../../../constants/statusDaAcc';
 import api from '../../../services/api';
 import PageTitle from '../../../components/PageTitle';
@@ -39,10 +31,6 @@ interface IAcc {
 interface IStatus {
   id: number;
   nome: string;
-}
-
-interface IState {
-  acc: IAcc;
 }
 
 interface ParamTypes {
@@ -117,7 +105,11 @@ export function DetalhesDaAcc(): JSX.Element {
           <Box width="100%">{acc?.tipo_de_acc.nome}</Box>
         </Box>
 
-        <Stack direction="row" spacing="18">
+        <Stack
+          direction="row"
+          spacing={[0, 18, 20]}
+          justifyContent={['space-between', 'flex-start']}
+        >
           <Box>
             <Box width="100%" color="gray.500">
               Status
@@ -147,22 +139,22 @@ export function DetalhesDaAcc(): JSX.Element {
           <Box width="100%">{acc?.sobre}</Box>
         </Box>
 
-        <div style={{ marginTop: 30, textAlign: 'center' }}>
+        <Box display="flex" justifyContent="center">
           <Button
             colorScheme="gray"
             onClick={() => downloadRef.current?.click()}
           >
-            <FiDownload />
+            <FiDownload style={{ marginRight: 10 }} />
             Baixar Certificado
           </Button>
           <a
             style={{ visibility: 'hidden' }}
-            href={`http://localhost:3333/certificados/${acc?.id_certificado}`}
+            href={`${process.env.REACT_APP_API}/certificados/${acc?.id_certificado}`}
             ref={downloadRef}
           >
             baixar
           </a>
-        </div>
+        </Box>
       </Stack>
     </>
   );
