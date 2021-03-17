@@ -2,7 +2,15 @@
 import React, { useEffect, useState } from 'react';
 import { FiFile, FiPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import { Box, Flex, Grid, GridItem, Heading } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  ListItem,
+  UnorderedList,
+} from '@chakra-ui/react';
 import ProgressRing from '../../../../components/ProgressRing';
 import { CardAcc } from '../MinhasACCs/components/CardACC';
 import api from '../../../../services/api';
@@ -200,15 +208,15 @@ export default function Home(): JSX.Element {
         </GridItem>
       </Grid>
 
-      <Heading as="h1" size="md" marginBottom="5">
+      <Heading as="h2" size="md" marginBottom="5">
         Últimos Envios
       </Heading>
 
-      <ul className="card-list">
+      <UnorderedList marginLeft="0" listStyleImage="none">
         {lastACCs.map((acc, index) => {
           if (index <= 3)
             return (
-              <li key={acc.id} className="card-list-item">
+              <ListItem key={acc.id} marginBottom="10" display="flex">
                 <CardAcc
                   id={acc.id}
                   pontos={acc.pontos}
@@ -216,11 +224,11 @@ export default function Home(): JSX.Element {
                   statusDaAcc={acc.status_da_acc}
                   tipoDeAcc={acc.tipo_de_acc}
                 />
-              </li>
+              </ListItem>
             );
           return <></>;
         })}
-      </ul>
+      </UnorderedList>
     </>
   );
 }

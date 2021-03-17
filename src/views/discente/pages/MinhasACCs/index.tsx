@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
+import { ListItem, UnorderedList } from '@chakra-ui/react';
 import api from '../../../../services/api';
 import { USERID_KEY } from '../../../../services/auth';
 import PageTitle from '../../../../components/PageTitle';
@@ -40,9 +41,10 @@ export default function MinhasACCs(): JSX.Element {
   return (
     <>
       <PageTitle backTo="/discente/home">Minhas ACCs</PageTitle>
-      <ul className="card-list">
+
+      <UnorderedList marginLeft="0" listStyleImage="none">
         {ACCs.map(acc => (
-          <li key={acc.id} className="card-list-item">
+          <ListItem key={acc.id} marginBottom="10" display="flex">
             <CardAcc
               id={acc.id}
               pontos={acc.pontos}
@@ -50,9 +52,9 @@ export default function MinhasACCs(): JSX.Element {
               statusDaAcc={acc.status_da_acc}
               tipoDeAcc={acc.tipo_de_acc}
             />
-          </li>
+          </ListItem>
         ))}
-      </ul>
+      </UnorderedList>
     </>
   );
 }
