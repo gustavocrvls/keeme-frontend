@@ -72,8 +72,8 @@ export default class ProgressRing extends React.Component<IProps, IState> {
           />
           <text
             fill="#000000"
-            fontSize="18"
-            fontFamily="Verdana, sans-serif"
+            // fontSize="18"
+            fontFamily="Noto Sans, system-ui, sans-serif"
             x="50%"
             y="50%"
             dominantBaseline="middle"
