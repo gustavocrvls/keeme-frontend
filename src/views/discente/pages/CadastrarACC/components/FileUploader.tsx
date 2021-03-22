@@ -31,11 +31,22 @@ const FileUploader = (props: Props): JSX.Element => {
         setFileName('');
 
         notifyError('Arquivo muito grande! (máx: 2MB)');
-      } else {
-        setFileName(files[0].name);
-
-        props.handleFile(files[0]);
+        return;
       }
+
+      if (!SUPORTED_TYPES.includes(files[0].type)) {
+        files = [];
+        setFileName('');
+
+        notifyError(
+          'Tipo de arquivo não suportado! (Tipos suportados: jpeg, jpg, png e pdf)',
+        );
+        return;
+      }
+
+      setFileName(files[0].name);
+
+      props.handleFile(files[0]);
     }
   };
 

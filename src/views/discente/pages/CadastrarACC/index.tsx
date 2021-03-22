@@ -11,6 +11,7 @@ import {
   Textarea,
   Button,
   Flex,
+  FormHelperText,
 } from '@chakra-ui/react';
 import api from '../../../../services/api';
 import FileUploader from './components/FileUploader';
@@ -45,19 +46,6 @@ export default function CadastrarAcc(): JSX.Element {
 
   const handleFile = (files: Blob) => {
     setCertificado(files);
-  };
-
-  const handleCargaHoraria = (e: ChangeEvent<HTMLInputElement>) => {
-    const carga = e.target.value.replace(/\D/g, '');
-    setQuantidade(carga);
-  };
-
-  const handleDescricao = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setDescricao(e.target.value);
-  };
-
-  const handleIdTipoDeAcc = (e: ChangeEvent<HTMLSelectElement>) => {
-    setIdTipoDeAcc(e.target.value);
   };
 
   const handleForm = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -95,8 +83,13 @@ export default function CadastrarAcc(): JSX.Element {
   };
 
   const loadTiposDeAcc = async () => {
-    const response = await api.get('tipos-de-acc');
-    setTiposDeAcc(response.data);
+    const response = await api.get('tipos-de-acc', {
+      params: {
+        sortField: 'nome',
+        sortOrder: 'ASC',
+      },
+    });
+    setTiposDeAcc(response.data.data);
   };
 
   useEffect(() => {
@@ -114,7 +107,7 @@ export default function CadastrarAcc(): JSX.Element {
             <Select
               placeholder="Tipo de ACC"
               value={idTipoDeAcc}
-              onChange={handleIdTipoDeAcc}
+              onChange={e => setIdTipoDeAcc(e.target.value)}
             >
               {tiposDeAcc.map(tipoDeAcc => (
                 <option key={tipoDeAcc.id} value={tipoDeAcc.id}>
@@ -140,7 +133,7 @@ export default function CadastrarAcc(): JSX.Element {
                   ?.unidade_de_medida.nome || 'Hora'
               }s`}
               value={quantidade}
-              onChange={handleCargaHoraria}
+              onChange={e => setQuantidade(e.target.value)}
             />
           </FormControl>
         </Box>
@@ -150,7 +143,7 @@ export default function CadastrarAcc(): JSX.Element {
             <FormLabel>Descrição</FormLabel>
             <Textarea
               value={descricao}
-              onChange={handleDescricao}
+              onChange={e => setDescricao(e.target.value)}
               placeholder="Descrição"
               rows={6}
             />
@@ -160,7 +153,22 @@ export default function CadastrarAcc(): JSX.Element {
         <Box marginBottom="3">
           <div style={{ width: '100%' }}>
             <label htmlFor="certificado">
-              Certificado:
+              <Flex justifyContent="space-between">
+                <Box>
+                  Certificado:
+                  <span
+                    style={{
+                      marginLeft: '0.25rem',
+                      color: '#E53E3E',
+                    }}
+                  >
+                    *
+                  </span>
+                </Box>
+                <Box color="gray.400" fontSize="sm">
+                  (Tipos suportados: jpeg, jpg, png e pdf)
+                </Box>
+              </Flex>
               <FileUploader id="certificado" handleFile={handleFile} />
             </label>
           </div>
