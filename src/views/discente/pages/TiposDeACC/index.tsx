@@ -18,6 +18,11 @@ interface TipoDeAcc {
     nome: string;
   };
   pontos_por_unidade: number;
+  variantes_de_acc: {
+    id: number;
+    descricao: string;
+    pontos_por_unidade: 0;
+  }[];
 }
 
 export default function Home(): JSX.Element {
@@ -47,6 +52,7 @@ export default function Home(): JSX.Element {
               completed={tipo.pontuacao ? tipo.pontuacao : 0}
               measurementUnity={tipo.unidade_de_medida.nome}
               pointsPerUnity={tipo.pontos_por_unidade}
+              variants={tipo.variantes_de_acc}
             />
           </ListItem>
         ))}

@@ -9,12 +9,14 @@ import {
   GridItem,
   Heading,
   ListItem,
+  SkeletonCircle,
   UnorderedList,
 } from '@chakra-ui/react';
 import ProgressRing from '../../../../components/ProgressRing';
 import { CardAcc } from '../MinhasACCs/components/CardACC';
 import api from '../../../../services/api';
 import { USERID_KEY } from '../../../../services/auth';
+import { notifyError } from '../../../../components/Notifications';
 
 interface IACC {
   id: number;
@@ -44,21 +46,31 @@ export default function Home(): JSX.Element {
     pontosEmAnalise: 0,
     pontosNegados: 0,
   });
+  const [isLoadingData, setIsLoadingData] = useState(false);
 
   useEffect(() => {
     async function loadData() {
-      const response = await api.get(
-        `accs/user/${sessionStorage.getItem(USERID_KEY)}/completo`,
-      );
+      setIsLoadingData(true);
+      try {
+        const response = await api.get(
+          `accs/user/${sessionStorage.getItem(USERID_KEY)}/completo`,
+        );
 
-      const userProgress = Number(
-        (100 * response.data.resumo.pontosAprovados) / 51,
-      ).toFixed(0);
+        const userProgress = Number(
+          (100 * response.data.resumo.pontosAprovados) / 51,
+        ).toFixed(0);
 
-      setProgress(Number(userProgress));
+        setProgress(Number(userProgress));
 
-      setResumo(response.data.resumo);
-      setLastACCs(response.data.accs);
+        setResumo(response.data.resumo);
+        setLastACCs(response.data.accs);
+      } catch (err) {
+        notifyError(
+          'Não foi possível carregar os dados, por favor, regarregue a tela!',
+        );
+      } finally {
+        setIsLoadingData(false);
+      }
     }
     loadData();
   }, []);
@@ -84,10 +96,14 @@ export default function Home(): JSX.Element {
           padding="4"
         >
           <Flex justifyContent="space-between">
-            <ProgressRing stroke={10} radius={60} progress={progress}>
-              {resumo.pontosAprovados}
-              /51
-            </ProgressRing>
+            {isLoadingData ? (
+              <SkeletonCircle size="25" />
+            ) : (
+              <ProgressRing stroke={10} radius={60} progress={progress}>
+                {resumo.pontosAprovados}
+                /51
+              </ProgressRing>
+            )}
 
             <div
               style={{
