@@ -1,16 +1,18 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
-import { ListItem, UnorderedList } from '@chakra-ui/react';
+import { Box, Button, ListItem, UnorderedList } from '@chakra-ui/react';
+import { Link, useHistory } from 'react-router-dom';
 import api from '../../../../services/api';
 import { USERID_KEY } from '../../../../services/auth';
 import PageTitle from '../../../../components/PageTitle';
-import { CardAcc } from './components/CardACC';
+import { ACCCard } from './components/ACCCard';
+import { notifyError } from '../../../../components/Notifications';
 
 type ACC = {
   id: number;
   pontos: number;
   quantidade: number;
-  sobre: string;
+  descricao: string;
   status_da_acc: {
     id: number;
     nome: string;
@@ -23,17 +25,30 @@ type ACC = {
       nome: string;
     };
   };
+  variante_de_acc: {
+    id: number;
+    descricao: string;
+    pontos_por_unidade: number;
+  };
 };
 
 export default function MinhasACCs(): JSX.Element {
-  const [ACCs, setACCs] = useState<ACC[]>([]);
+  const [accs, setACCs] = useState<ACC[]>([]);
+
+  const history = useHistory();
 
   useEffect(() => {
     async function loadACCs(): Promise<void> {
-      const response = await api.get(
-        `accs/user/${sessionStorage.getItem(USERID_KEY)}/completo`,
-      );
-      setACCs(response.data.accs);
+      try {
+        const response = await api.get(`accs`, {
+          params: {
+            usuario: sessionStorage.getItem(USERID_KEY),
+          },
+        });
+        setACCs(response.data.data);
+      } catch (err) {
+        notifyError('Não foi possível carregar as ACCs.');
+      }
     }
     loadACCs();
   }, []);
@@ -42,18 +57,42 @@ export default function MinhasACCs(): JSX.Element {
     <>
       <PageTitle backTo="/discente/home">Minhas ACCs</PageTitle>
 
-      <UnorderedList marginLeft="0" listStyleImage="none">
-        {ACCs.map(acc => (
-          <ListItem key={acc.id} marginBottom="10" display="flex">
-            <CardAcc
-              id={acc.id}
-              pontos={acc.pontos}
-              quantidade={acc.quantidade}
-              statusDaAcc={acc.status_da_acc}
-              tipoDeAcc={acc.tipo_de_acc}
-            />
-          </ListItem>
-        ))}
+      <UnorderedList marginLeft="0" styleType="none">
+        {accs.length > 0 ? (
+          <>
+            {accs.map(acc => (
+              <ListItem key={acc.id} marginBottom="3">
+                <ACCCard
+                  id={acc.id}
+                  title={acc.tipo_de_acc.nome}
+                  description={acc.descricao}
+                  accType={acc.tipo_de_acc}
+                  points={
+                    acc.variante_de_acc.pontos_por_unidade * acc.quantidade
+                  }
+                  quantity={acc.quantidade}
+                  status={acc.status_da_acc}
+                />
+              </ListItem>
+            ))}
+          </>
+        ) : (
+          <>
+            <Box color="gray.500">
+              Que vazio! Que tal começar cadastrando uma
+              <Button
+                variant="link"
+                marginLeft="1"
+                textDecoration="underline"
+                onClick={() => {
+                  history.push('cadastrar-acc');
+                }}
+              >
+                {` Nova ACC?`}
+              </Button>
+            </Box>
+          </>
+        )}
       </UnorderedList>
     </>
   );

@@ -13,17 +13,17 @@ import {
   UnorderedList,
 } from '@chakra-ui/react';
 import ProgressRing from '../../../../components/ProgressRing';
-import { CardAcc } from '../MinhasACCs/components/CardACC';
 import api from '../../../../services/api';
 import { USERID_KEY } from '../../../../services/auth';
 import { notifyError } from '../../../../components/Notifications';
+import { ACCCard } from '../MinhasACCs/components/ACCCard';
 
 interface IACC {
   id: number;
   id_certificado: number;
   pontos: number;
   quantidade: number;
-  sobre: string;
+  descricao: string;
   status_da_acc: {
     id: number;
     nome: string;
@@ -35,6 +35,11 @@ interface IACC {
       id: number;
       nome: string;
     };
+  };
+  variante_de_acc: {
+    id: number;
+    descricao: string;
+    pontos_por_unidade: number;
   };
 }
 
@@ -63,7 +68,18 @@ export default function Home(): JSX.Element {
         setProgress(Number(userProgress));
 
         setResumo(response.data.resumo);
-        setLastACCs(response.data.accs);
+
+        const responseACCs = await api.get(`accs`, {
+          params: {
+            usuario: sessionStorage.getItem(USERID_KEY),
+            sortField: 'criado_em',
+            sortOrder: 'DESC',
+            limit: 3,
+            page: 1,
+          },
+        });
+
+        setLastACCs(responseACCs.data.data);
       } catch (err) {
         notifyError(
           'Não foi possível carregar os dados, por favor, regarregue a tela!',
@@ -166,7 +182,7 @@ export default function Home(): JSX.Element {
               <Box>
                 <FiPlus />
               </Box>
-              <div>Nova Acc</div>
+              <div>Cadastrar ACC</div>
             </Flex>
           </Link>
         </GridItem>
@@ -228,17 +244,21 @@ export default function Home(): JSX.Element {
         Últimos Envios
       </Heading>
 
-      <UnorderedList marginLeft="0" listStyleImage="none">
+      <UnorderedList styleType="none" margin="0">
         {lastACCs.map((acc, index) => {
           if (index <= 3)
             return (
-              <ListItem key={acc.id} marginBottom="10" display="flex">
-                <CardAcc
+              <ListItem key={acc.id} marginBottom="3">
+                <ACCCard
                   id={acc.id}
-                  pontos={acc.pontos}
-                  quantidade={acc.quantidade}
-                  statusDaAcc={acc.status_da_acc}
-                  tipoDeAcc={acc.tipo_de_acc}
+                  title={acc.tipo_de_acc.nome}
+                  description={acc.descricao}
+                  accType={acc.tipo_de_acc}
+                  points={
+                    acc.variante_de_acc.pontos_por_unidade * acc.quantidade
+                  }
+                  quantity={acc.quantidade}
+                  status={acc.status_da_acc}
                 />
               </ListItem>
             );
