@@ -51,12 +51,14 @@ const CardTipoDeACC = (props: AccDetails): JSX.Element => {
           ) : (
             <li>
               <span>{`Pontos por ${measurementUnity}:`}</span>
-              {variants.map(variant => (
-                <ListItem marginLeft="5">
-                  <span>{`${variant.descricao}: `}</span>
-                  <strong>{variant.pontos_por_unidade}</strong>
-                </ListItem>
-              ))}
+              <UnorderedList>
+                {variants.map(variant => (
+                  <ListItem marginLeft="5">
+                    <span>{`${variant.descricao}: `}</span>
+                    <strong>{variant.pontos_por_unidade}</strong>
+                  </ListItem>
+                ))}
+              </UnorderedList>
             </li>
           )}
         </UnorderedList>

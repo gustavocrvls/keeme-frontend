@@ -11,7 +11,9 @@ import {
   Textarea,
   Button,
   Flex,
-  FormHelperText,
+  RadioGroup,
+  Stack,
+  Radio,
 } from '@chakra-ui/react';
 import api from '../../../../services/api';
 import FileUploader from './components/FileUploader';
@@ -33,6 +35,11 @@ interface TipoDeAcc {
     nome: string;
   };
   pontos_por_unidade: number;
+  variantes_de_acc: {
+    id: number;
+    descricao: string;
+    pontos_por_unidade: 0;
+  }[];
 }
 
 export default function CadastrarAcc(): JSX.Element {
@@ -41,6 +48,8 @@ export default function CadastrarAcc(): JSX.Element {
   const [quantidade, setQuantidade] = useState<string>('');
   const [descricao, setDescricao] = useState<string>('');
   const [certificado, setCertificado] = useState<Blob>();
+  const [accVariantId, setACCVariantId] = useState<string | number>();
+  const [points, setPoints] = useState<number>();
 
   const history = useHistory();
 
@@ -60,11 +69,12 @@ export default function CadastrarAcc(): JSX.Element {
         notifyError('Anexe um certificado!');
       }
 
-      formData.append('sobre', descricao);
+      formData.append('descricao', descricao);
       formData.append('quantidade', quantidade);
       formData.append('idUsuario', userID);
       formData.append('tipoDeAcc', idTipoDeAcc);
       formData.append('certificado', file);
+      formData.append('variante_de_acc', String(accVariantId));
 
       const response = await api.post('accs/create', formData, {
         headers: {
@@ -92,9 +102,29 @@ export default function CadastrarAcc(): JSX.Element {
     setTiposDeAcc(response.data.data);
   };
 
+  function handleACCTypeId(e: ChangeEvent<HTMLSelectElement>) {
+    setIdTipoDeAcc(e.target.value);
+    setACCVariantId(
+      String(
+        tiposDeAcc.find(t => t.id === Number(e.target.value))
+          ?.variantes_de_acc[0].id,
+      ),
+    );
+  }
+
   useEffect(() => {
     loadTiposDeAcc();
   }, []);
+
+  useEffect(() => {
+    const pt =
+      tiposDeAcc
+        .find(t => t.id === Number(idTipoDeAcc))
+        ?.variantes_de_acc.find(variant => variant.id === Number(accVariantId))
+        ?.pontos_por_unidade || 0;
+
+    setPoints(pt * Number(quantidade));
+  }, [accVariantId, quantidade]);
 
   return (
     <>
@@ -107,7 +137,7 @@ export default function CadastrarAcc(): JSX.Element {
             <Select
               placeholder="Tipo de ACC"
               value={idTipoDeAcc}
-              onChange={e => setIdTipoDeAcc(e.target.value)}
+              onChange={handleACCTypeId}
             >
               {tiposDeAcc.map(tipoDeAcc => (
                 <option key={tipoDeAcc.id} value={tipoDeAcc.id}>
@@ -117,8 +147,33 @@ export default function CadastrarAcc(): JSX.Element {
             </Select>
           </FormControl>
         </Box>
+        <RadioGroup
+          marginTop="3"
+          marginBottom="3"
+          onChange={setACCVariantId}
+          value={accVariantId}
+        >
+          <Stack>
+            {tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))
+              ?.variantes_de_acc &&
+              tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))
+                ?.variantes_de_acc.length !== 1 &&
+              tiposDeAcc
+                .find(t => t.id === Number(idTipoDeAcc))
+                ?.variantes_de_acc.map(variant => (
+                  <Radio
+                    key={variant.id}
+                    colorScheme="teal"
+                    value={String(variant.id)}
+                    name="variant"
+                  >
+                    {variant.descricao}
+                  </Radio>
+                ))}
+          </Stack>
+        </RadioGroup>
 
-        <Box marginBottom="3">
+        <Stack direction={['column', 'row']} spacing="2" marginBottom="3">
           <FormControl id="quantidade" isRequired>
             <FormLabel>
               {`Quantidade de ${
@@ -136,7 +191,17 @@ export default function CadastrarAcc(): JSX.Element {
               onChange={e => setQuantidade(e.target.value)}
             />
           </FormControl>
-        </Box>
+          <FormControl
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+          >
+            <FormLabel>Pontuação:</FormLabel>
+            <Box marginBottom="2">
+              <strong>{points}</strong>
+            </Box>
+          </FormControl>
+        </Stack>
 
         <Box marginBottom="3">
           <FormControl id="descricao" isRequired>

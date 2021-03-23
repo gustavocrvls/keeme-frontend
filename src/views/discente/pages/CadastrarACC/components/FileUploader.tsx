@@ -58,8 +58,10 @@ const FileUploader = (props: Props): JSX.Element => {
         width="100%"
         onClick={handleButton}
         variant="outline"
+        fontWeight="normal"
         textAlign="left"
         justifyContent="start"
+        marginTop="2"
         leftIcon={<FiFile style={{ marginRight: 5 }} />}
       >
         {fileName || 'Escolher um Arquivo'}
