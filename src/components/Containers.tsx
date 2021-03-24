@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Sidebar from './Sidebar';
+import { SidebarContext } from '../contexts/SidebarProvider';
 
 const BaseContainer = styled.div`
   max-width: 1024px;
@@ -11,20 +11,13 @@ const BaseContainer = styled.div`
 `;
 
 const Container = (props: any): JSX.Element => {
-  const [windowWidth, setWindowWidth] = useState(0);
-
-  useEffect(() => {
-    window.addEventListener('resize', () => {
-      setWindowWidth(window.innerWidth);
-    });
-    setWindowWidth(window.innerWidth);
-  }, []);
-
   const { children } = props;
+
+  const { isSidebarAwaysShowed } = useContext(SidebarContext);
+
   return (
-    <div style={windowWidth > 750 ? { marginLeft: 250 } : {}}>
+    <div style={isSidebarAwaysShowed ? { marginLeft: 250 } : {}}>
       <BaseContainer>
-        {windowWidth > 750 && <Sidebar />}
         <div style={{ margin: '0 10px' }}>{children}</div>
       </BaseContainer>
     </div>

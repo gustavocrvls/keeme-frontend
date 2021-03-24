@@ -1,81 +1,57 @@
-import { Button } from '@chakra-ui/react';
-import React, { useEffect, useRef, useState } from 'react';
-import { FiList } from 'react-icons/fi';
+import React, { ReactNode, useContext } from 'react';
+import { Box, ListItem, UnorderedList } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+import { SidebarItems } from './sidebarItems';
 import { USER_PERFIL_KEY } from '../../services/auth';
-import SidebarItems from './sidebarItems';
-import { SidebarItem } from './styles';
-import './styles.scss';
+import { SidebarContext } from '../../contexts/SidebarProvider';
 
-export default function Sidebar(): JSX.Element {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(0);
-  const sidebarRef = useRef<HTMLDivElement>(null);
+export function Sidebar(): JSX.Element {
+  const { isSidebarAwaysShowed, isSidebarOpen } = useContext(SidebarContext);
 
-  useEffect(() => {
-    window.addEventListener('resize', () => {
-      setWindowWidth(window.innerWidth);
-
-      if (window.innerWidth < 750) {
-        document
-          .getElementById('mySidenav')
-          ?.setAttribute('style', 'left: -250px');
-      } else {
-        document
-          .getElementById('mySidenav')
-          ?.setAttribute('style', 'left: 0px');
-      }
-    });
-    setWindowWidth(window.innerWidth);
-  }, []);
-
-  function toggleSidebar(): void {
-    if (isSidebarOpen) {
-      document.getElementById('mySidenav')?.setAttribute('style', 'left: 0px');
-    } else {
-      document
-        .getElementById('mySidenav')
-        ?.setAttribute('style', 'left: -250px');
-    }
-    setIsSidebarOpen(!isSidebarOpen);
-  }
-
-  function handlePerfilItems(): any {
+  function handlePerfilItems(): ReactNode {
     const idPerfil = Number(sessionStorage.getItem(USER_PERFIL_KEY));
 
     return SidebarItems[idPerfil].items.map(item => (
       <li key={`sidebar-item-${item.label}`}>
         <Link style={{ padding: 0 }} to={item.to}>
-          <SidebarItem>
-            <item.icon />
-            <span style={{ paddingLeft: 5 }}>{item.label}</span>
-          </SidebarItem>
+          <ListItem>
+            <Box
+              padding="3"
+              fontSize="1"
+              display="flex"
+              alignItems="center"
+              transition="padding 0.2s"
+              _hover={{
+                backgroundColor: '#31878c',
+                color: 'white',
+                paddingLeft: '4',
+              }}
+            >
+              <item.icon />
+              <span style={{ paddingLeft: 5 }}>{item.label}</span>
+            </Box>
+          </ListItem>
         </Link>
       </li>
     ));
   }
-
   return (
-    <>
-      {windowWidth < 750 && (
-        <Button
-          type="button"
-          id="widgets-aside-open"
-          className="widgets-aside-open"
-          onClick={toggleSidebar}
-        >
-          <FiList />
-        </Button>
-      )}
-      <div id="mySidenav" className="sidenav" ref={sidebarRef}>
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-          {handlePerfilItems()}
-
-          <SidebarItem style={{ position: 'absolute', bottom: 0 }}>
-            Sobre
-          </SidebarItem>
-        </ul>
-      </div>
-    </>
+    <Box
+      className="sidenav"
+      height="calc(100% - 55px)"
+      width="250px"
+      position="fixed"
+      zIndex="10"
+      top={!isSidebarAwaysShowed && isSidebarOpen ? '60px' : '52px'}
+      left={isSidebarAwaysShowed || isSidebarOpen ? 0 : -250}
+      backgroundColor="white"
+      boxShadow="md"
+      transition="all 0.5s"
+      overflowY="auto"
+    >
+      <UnorderedList itemType="none" margin="0">
+        {handlePerfilItems()}
+      </UnorderedList>
+    </Box>
   );
 }

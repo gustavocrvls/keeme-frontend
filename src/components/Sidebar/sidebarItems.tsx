@@ -1,7 +1,7 @@
 import { FiFile, FiHome, FiPackage, FiPlus, FiSearch } from 'react-icons/fi';
 import PERFIS from '../../constants/Perfis';
 
-const SidebarItems = {
+export const SidebarItems = {
   [PERFIS.ADMIN]: {
     items: [
       {
@@ -38,7 +38,7 @@ const SidebarItems = {
         icon: FiHome,
       },
       {
-        label: 'Nova ACC',
+        label: 'Cadastrar ACC',
         to: '/discente/cadastrar-acc',
         icon: FiPlus,
       },
@@ -55,5 +55,3 @@ const SidebarItems = {
     ],
   },
 };
-
-export default SidebarItems;
