@@ -128,7 +128,13 @@ export function DetalhesDaAcc(): JSX.Element {
           <Box width="100%" color="gray.500">
             Tipo de ACC
           </Box>
-          <Box width="100%">{`${acc?.tipo_de_acc.nome} (${acc?.variante_de_acc.descricao || ''})`}</Box>
+          {
+            acc?.variante_de_acc.descricao
+            ?
+              <Box width="100%">{`${acc?.tipo_de_acc.nome} (${acc?.variante_de_acc.descricao || ''})`}</Box>
+            :
+              <Box width="100%">{`${acc?.tipo_de_acc.nome}`}</Box>
+          }
         </Box>
 
         {
