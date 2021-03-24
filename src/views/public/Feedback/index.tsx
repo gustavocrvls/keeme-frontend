@@ -1,13 +1,18 @@
-import { Box, Heading, Textarea } from '@chakra-ui/react';
+import { Button, Flex, Textarea } from '@chakra-ui/react';
 import React from 'react';
-import { Container } from '../../../components/Containers';
+import { Container, LimitedContainer } from '../../../components/Containers';
 import PageTitle from '../../../components/PageTitle';
 
 export function Feedback(): JSX.Element {
   return (
-    <Container>
-      <PageTitle>Feedback</PageTitle>
-      <Textarea />
-    </Container>
+    <LimitedContainer>
+      <>
+        <PageTitle>Feedback</PageTitle>
+        <Textarea />
+        <Flex justifyContent="center">
+          <Button>Enviar</Button>
+        </Flex>
+      </>
+    </LimitedContainer>
   );
 }

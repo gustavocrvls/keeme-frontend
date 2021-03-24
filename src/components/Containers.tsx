@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { SidebarContext } from '../contexts/SidebarProvider';
 
@@ -25,13 +25,11 @@ const Container = (props: any): JSX.Element => {
 };
 
 interface ILimitedContainer {
-  children: JSX.Element;
-  linkBack: string;
-  title: string;
+  children: ReactNode;
 }
 
 const LimitedContainer = (props: ILimitedContainer): JSX.Element => {
-  const { children, linkBack, title } = props;
+  const { children } = props;
   return (
     <BaseContainer>
       <div style={{ margin: '0 10px' }}>{children}</div>

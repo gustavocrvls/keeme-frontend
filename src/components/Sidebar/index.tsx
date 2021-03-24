@@ -60,7 +60,7 @@ export function Sidebar(): JSX.Element {
               alignItems="center"
               transition="padding 0.2s"
               _hover={{
-                backgroundColor: '#31878c',
+                backgroundColor: 'teal',
                 color: 'white',
                 paddingLeft: '4',
               }}
@@ -77,7 +77,7 @@ export function Sidebar(): JSX.Element {
               alignItems="center"
               transition="padding 0.2s"
               _hover={{
-                backgroundColor: '#31878c',
+                backgroundColor: 'teal',
                 color: 'white',
                 paddingLeft: '4',
               }}

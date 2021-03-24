@@ -1,13 +1,16 @@
 import { Heading } from '@chakra-ui/react';
 import React from 'react';
-import { Container } from '../../../components/Containers';
+import { Container, LimitedContainer } from '../../../components/Containers';
+import PageTitle from '../../../components/PageTitle';
 
 export function About(): JSX.Element {
   return (
-    <Container>
-      <Heading as="h1" size="lg">
-        Sobre o Projeto
+    <LimitedContainer>
+      <PageTitle>Sobre o Projeto</PageTitle>
+
+      <Heading as="h2" size="md">
+        O que são ACCs?
       </Heading>
-    </Container>
+    </LimitedContainer>
   );
 }
