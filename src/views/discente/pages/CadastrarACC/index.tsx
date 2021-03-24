@@ -196,7 +196,7 @@ export default function CadastrarAcc(): JSX.Element {
             flexDirection="column"
             justifyContent="space-between"
           >
-            <FormLabel>Pontuação:</FormLabel>
+            <FormLabel>Pontos:</FormLabel>
             <Box marginBottom="2">
               <strong>{points}</strong>
             </Box>
