@@ -108,7 +108,6 @@ export function DetalhesDaAcc(): JSX.Element {
   return (
     <>
       <PageTitle
-        backTo="/discente/minhas-accs"
         actions={(
           <>
             <Tooltip label="Editar" aria-label="Editar" hasArrow>

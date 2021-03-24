@@ -5,16 +5,11 @@ import { useHistory } from 'react-router-dom';
 
 interface PageTitleProps {
   children: ReactNode;
-  backTo: string;
   actions?: ReactNode;
 }
 
-function PageTitle({ children, backTo, actions }: PageTitleProps): JSX.Element {
+function PageTitle({ children, actions }: PageTitleProps): JSX.Element {
   const history = useHistory();
-
-  function goTo() {
-    history.push(backTo);
-  }
 
   return (
     <Flex alignItems="center" marginBottom="5" justifyContent="space-between">
@@ -23,7 +18,7 @@ function PageTitle({ children, backTo, actions }: PageTitleProps): JSX.Element {
           <IconButton
             aria-label="back-button"
             icon={<FiArrowLeft style={{ strokeWidth: 3 }} size="1rem" />}
-            onClick={goTo}
+            onClick={history.goBack}
             size="sm"
             marginRight="5"
             colorScheme="teal"

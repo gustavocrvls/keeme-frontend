@@ -55,7 +55,7 @@ export default function MinhasACCs(): JSX.Element {
 
   return (
     <>
-      <PageTitle backTo="/discente/home">Minhas ACCs</PageTitle>
+      <PageTitle>Minhas ACCs</PageTitle>
 
       <UnorderedList marginLeft="0" styleType="none">
         {accs.length > 0 ? (

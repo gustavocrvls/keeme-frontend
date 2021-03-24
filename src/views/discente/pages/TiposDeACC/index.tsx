@@ -41,7 +41,7 @@ export default function Home(): JSX.Element {
 
   return (
     <>
-      <PageTitle backTo="/discente/home">Tipos de ACC</PageTitle>
+      <PageTitle>Tipos de ACC</PageTitle>
 
       <UnorderedList margin="0" listStyleType="none">
         {tiposDeACC.map(tipo => (

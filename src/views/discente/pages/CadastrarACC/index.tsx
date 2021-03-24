@@ -128,7 +128,7 @@ export default function CadastrarAcc(): JSX.Element {
 
   return (
     <>
-      <PageTitle backTo="/discente/home">Cadastrar ACC</PageTitle>
+      <PageTitle>Cadastrar ACC</PageTitle>
 
       <form onSubmit={handleForm}>
         <Box marginBottom="3">
