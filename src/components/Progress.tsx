@@ -35,7 +35,13 @@ const Progress = (props: ProgressProps): JSX.Element => {
   return (
     <ProgressBar>
       <TotalProgress />
-      <CompletedProgress style={{ width: `${completed}%` }} />
+      <CompletedProgress
+        style={
+          completed === 100
+            ? { width: `${completed}%`, backgroundColor: '#BD3939' }
+            : { width: `${completed}%` }
+        }
+      />
     </ProgressBar>
   );
 };

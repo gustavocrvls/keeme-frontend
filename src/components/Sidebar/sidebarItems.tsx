@@ -1,8 +1,8 @@
 import { FiFile, FiHome, FiPackage, FiPlus, FiSearch } from 'react-icons/fi';
-import ConstPerfis from '../../constants/ConstPerfis';
+import PERFIS from '../../constants/Perfis';
 
-const SidebarItems = {
-  [ConstPerfis.ADMIN]: {
+export const SidebarItems = {
+  [PERFIS.ADMIN]: {
     items: [
       {
         label: 'Coordenadores',
@@ -16,7 +16,7 @@ const SidebarItems = {
       },
     ],
   },
-  [ConstPerfis.COORDENADOR]: {
+  [PERFIS.COORDENADOR]: {
     items: [
       {
         label: 'ACCs Recebidas',
@@ -30,7 +30,7 @@ const SidebarItems = {
       },
     ],
   },
-  [ConstPerfis.DISCENTE]: {
+  [PERFIS.DISCENTE]: {
     items: [
       {
         label: 'Início',
@@ -38,7 +38,7 @@ const SidebarItems = {
         icon: FiHome,
       },
       {
-        label: 'Nova ACC',
+        label: 'Cadastrar ACC',
         to: '/discente/cadastrar-acc',
         icon: FiPlus,
       },
@@ -55,5 +55,3 @@ const SidebarItems = {
     ],
   },
 };
-
-export default SidebarItems;

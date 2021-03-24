@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { ListItem, UnorderedList } from '@chakra-ui/react';
 
-import '../../../../styles/modules/discente/TiposDeAcc.scss';
-
 import PageTitle from '../../../../components/PageTitle';
 
 import { USERID_KEY } from '../../../../services/auth';
@@ -20,6 +18,11 @@ interface TipoDeAcc {
     nome: string;
   };
   pontos_por_unidade: number;
+  variantes_de_acc: {
+    id: number;
+    descricao: string;
+    pontos_por_unidade: 0;
+  }[];
 }
 
 export default function Home(): JSX.Element {
@@ -49,6 +52,7 @@ export default function Home(): JSX.Element {
               completed={tipo.pontuacao ? tipo.pontuacao : 0}
               measurementUnity={tipo.unidade_de_medida.nome}
               pointsPerUnity={tipo.pontos_por_unidade}
+              variants={tipo.variantes_de_acc}
             />
           </ListItem>
         ))}

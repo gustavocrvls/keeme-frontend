@@ -1,10 +1,10 @@
 import React, { ChangeEvent, useState } from 'react';
-import Noty from 'noty';
 
 import { FiFile } from 'react-icons/fi';
 
 import { Button } from '@chakra-ui/react';
-import * as fileConstants from '../../../../../constants/files';
+import { SIZE, SUPORTED_TYPES } from '../../../../../constants/Certificado';
+import { notifyError } from '../../../../../components/Notifications';
 
 interface Props {
   handleFile: (files: Blob) => void;
@@ -26,21 +26,27 @@ const FileUploader = (props: Props): JSX.Element => {
     let files = e.target.files || [];
 
     if (files[0]) {
-      if (files[0].size > fileConstants.MAX_FILE_SIZE) {
+      if (files[0].size > SIZE) {
         files = [];
         setFileName('');
 
-        new Noty({
-          theme: 'nest',
-          type: 'error',
-          layout: 'topRight',
-          text: 'Arquivo muito grande! (máx: 2MB)',
-        }).show();
-      } else {
-        setFileName(files[0].name);
-
-        props.handleFile(files[0]);
+        notifyError('Arquivo muito grande! (máx: 2MB)');
+        return;
       }
+
+      if (!SUPORTED_TYPES.includes(files[0].type)) {
+        files = [];
+        setFileName('');
+
+        notifyError(
+          'Tipo de arquivo não suportado! (Tipos suportados: jpeg, jpg, png e pdf)',
+        );
+        return;
+      }
+
+      setFileName(files[0].name);
+
+      props.handleFile(files[0]);
     }
   };
 
@@ -52,8 +58,10 @@ const FileUploader = (props: Props): JSX.Element => {
         width="100%"
         onClick={handleButton}
         variant="outline"
+        fontWeight="normal"
         textAlign="left"
         justifyContent="start"
+        marginTop="2"
         leftIcon={<FiFile style={{ marginRight: 5 }} />}
       >
         {fileName || 'Escolher um Arquivo'}

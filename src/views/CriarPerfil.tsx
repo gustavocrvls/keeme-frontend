@@ -14,7 +14,7 @@ import {
 import loginVector1 from '../assets/images/login__vector_1.svg';
 import api from '../services/api';
 import { login } from '../services/auth';
-import ConstPerfis from '../constants/ConstPerfis';
+import PERFIS from '../constants/Perfis';
 import { notifyError, notifySuccess } from '../components/Notifications';
 
 const CriarPerfilCard = styled.div`
@@ -109,7 +109,7 @@ export default function CriarPerfil(): JSX.Element {
 
         notifySuccess('Usuário criado com sucesso!');
 
-        if (resultLogin.data.usuario.perfil.id === ConstPerfis.DISCENTE) {
+        if (resultLogin.data.usuario.perfil.id === PERFIS.DISCENTE) {
           history.push('/discente/home');
         }
       }

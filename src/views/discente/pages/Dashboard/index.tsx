@@ -2,18 +2,28 @@
 import React, { useEffect, useState } from 'react';
 import { FiFile, FiPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import { Box, Flex, Grid, GridItem, Heading } from '@chakra-ui/react';
-import ProgressRing from '../../../components/ProgressRing';
-import { CardAcc } from './DetalhesDaPontuacao';
-import api from '../../../services/api';
-import { USERID_KEY } from '../../../services/auth';
+import {
+  Box,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  ListItem,
+  SkeletonCircle,
+  UnorderedList,
+} from '@chakra-ui/react';
+import ProgressRing from '../../../../components/ProgressRing';
+import api from '../../../../services/api';
+import { USERID_KEY } from '../../../../services/auth';
+import { notifyError } from '../../../../components/Notifications';
+import { ACCCard } from '../MinhasACCs/components/ACCCard';
 
 interface IACC {
   id: number;
   id_certificado: number;
   pontos: number;
   quantidade: number;
-  sobre: string;
+  descricao: string;
   status_da_acc: {
     id: number;
     nome: string;
@@ -26,6 +36,11 @@ interface IACC {
       nome: string;
     };
   };
+  variante_de_acc: {
+    id: number;
+    descricao: string;
+    pontos_por_unidade: number;
+  };
 }
 
 export default function Home(): JSX.Element {
@@ -36,28 +51,49 @@ export default function Home(): JSX.Element {
     pontosEmAnalise: 0,
     pontosNegados: 0,
   });
+  const [isLoadingData, setIsLoadingData] = useState(false);
 
   useEffect(() => {
     async function loadData() {
-      const response = await api.get(
-        `accs/user/${sessionStorage.getItem(USERID_KEY)}/completo`,
-      );
+      setIsLoadingData(true);
+      try {
+        const response = await api.get(
+          `accs/user/${sessionStorage.getItem(USERID_KEY)}/completo`,
+        );
 
-      const userProgress = Number(
-        (100 * response.data.resumo.pontosAprovados) / 51,
-      ).toFixed(0);
+        const userProgress = Number(
+          (100 * response.data.resumo.pontosAprovados) / 51,
+        ).toFixed(0);
 
-      setProgress(Number(userProgress));
+        setProgress(Number(userProgress));
 
-      setResumo(response.data.resumo);
-      setLastACCs(response.data.accs);
+        setResumo(response.data.resumo);
+
+        const responseACCs = await api.get(`accs`, {
+          params: {
+            usuario: sessionStorage.getItem(USERID_KEY),
+            sortField: 'criado_em',
+            sortOrder: 'DESC',
+            limit: 3,
+            page: 1,
+          },
+        });
+
+        setLastACCs(responseACCs.data.data);
+      } catch (err) {
+        notifyError(
+          'Não foi possível carregar os dados, por favor, regarregue a tela!',
+        );
+      } finally {
+        setIsLoadingData(false);
+      }
     }
     loadData();
   }, []);
 
   return (
     <>
-      <Heading as="h1" size="lg">
+      <Heading as="h1" size="lg" marginBottom="5">
         Início
       </Heading>
       <Grid
@@ -76,10 +112,14 @@ export default function Home(): JSX.Element {
           padding="4"
         >
           <Flex justifyContent="space-between">
-            <ProgressRing stroke={10} radius={60} progress={progress}>
-              {resumo.pontosAprovados}
-              /51
-            </ProgressRing>
+            {isLoadingData ? (
+              <SkeletonCircle size="25" />
+            ) : (
+              <ProgressRing stroke={10} radius={60} progress={progress}>
+                {resumo.pontosAprovados}
+                /51
+              </ProgressRing>
+            )}
 
             <div
               style={{
@@ -142,7 +182,7 @@ export default function Home(): JSX.Element {
               <Box>
                 <FiPlus />
               </Box>
-              <div>Nova Acc</div>
+              <div>Cadastrar ACC</div>
             </Flex>
           </Link>
         </GridItem>
@@ -200,29 +240,31 @@ export default function Home(): JSX.Element {
         </GridItem>
       </Grid>
 
-      <Heading as="h1" size="md">
+      <Heading as="h2" size="md" marginBottom="5">
         Últimos Envios
       </Heading>
 
-      <ul className="card-list">
-        {lastACCs.map((acc, index) => (
-          <>
-            {index <= 3 ? (
-              <li key={acc.id} className="card-list-item">
-                <CardAcc
+      <UnorderedList styleType="none" margin="0">
+        {lastACCs.map((acc, index) => {
+          if (index <= 3)
+            return (
+              <ListItem key={acc.id} marginBottom="3">
+                <ACCCard
                   id={acc.id}
-                  pontos={acc.pontos}
-                  quantidade={acc.quantidade}
-                  statusDaAcc={acc.status_da_acc}
-                  tipoDeAcc={acc.tipo_de_acc}
+                  title={acc.tipo_de_acc.nome}
+                  description={acc.descricao}
+                  accType={acc.tipo_de_acc}
+                  points={
+                    acc.variante_de_acc.pontos_por_unidade * acc.quantidade
+                  }
+                  quantity={acc.quantidade}
+                  status={acc.status_da_acc}
                 />
-              </li>
-            ) : (
-              <></>
-            )}
-          </>
-        ))}
-      </ul>
+              </ListItem>
+            );
+          return <></>;
+        })}
+      </UnorderedList>
     </>
   );
 }

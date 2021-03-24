@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import { isAuthenticated } from './services/auth';
@@ -15,6 +15,7 @@ import CriarPerfil from './views/CriarPerfil';
 import DiscenteRoutes from './views/discente/routes/index.routes';
 import CoordenadorRoutes from './views/coordenador/routes/index.routes';
 import AdministradorRoutes from './views/administrador/routes/index.routes';
+import { Sidebar } from './components/Sidebar';
 
 interface PrivateRouteProps {
   path: string;
@@ -31,6 +32,7 @@ export function PrivateRoute(props: PrivateRouteProps): JSX.Element {
       render={routeProps =>
         isAuthenticated() ? (
           <>
+            <Sidebar />
             <Header />
             <Container>
               <Component {...routeProps} />

@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import React, { FormEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import ConstPerfis from '../../../constants/ConstPerfis';
+import PERFIS from '../../../constants/Perfis';
 import api from '../../../services/api';
 import { notifyError, notifySuccess } from '../../../components/Notifications';
 
@@ -52,7 +52,7 @@ export default function CadastrarCoordenador(): JSX.Element {
         nome: formNome,
         username: formUsername,
         senha: formSenha,
-        perfil: ConstPerfis.COORDENADOR,
+        perfil: PERFIS.COORDENADOR,
         curso: Number(formIdCurso),
       });
       notifySuccess('Novo coordenador cadastrado!');

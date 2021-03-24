@@ -3,7 +3,7 @@ import { Heading } from '@chakra-ui/react';
 import React, { Component } from 'react';
 import { FiArrowRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import constStatusDaAcc from '../../../constants/statusDaAcc';
+import STATUS_DA_ACC from '../../../constants/StatusDaACC';
 import api from '../../../services/api';
 
 interface IAcc {
@@ -49,9 +49,7 @@ class Dashboard extends Component<IProps, IState> {
   }
 
   async componentDidMount(): Promise<void> {
-    const response = await api.get(
-      `accs/status/${constStatusDaAcc.EM_ANALISE}`,
-    );
+    const response = await api.get(`accs/status/${STATUS_DA_ACC.EM_ANALISE}`);
 
     this.setState({
       accs: response.data,
