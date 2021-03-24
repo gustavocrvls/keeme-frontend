@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import Routes from './routes';
+import { SidebarProvider } from './contexts/SidebarProvider';
 
 import './styles/global.scss';
 
@@ -10,7 +11,9 @@ function App(): JSX.Element {
   return (
     <ChakraProvider theme={theme}>
       <div id="app-content">
-        <Routes />
+        <SidebarProvider>
+          <Routes />
+        </SidebarProvider>
       </div>
     </ChakraProvider>
   );

@@ -16,7 +16,6 @@ import DiscenteRoutes from './views/discente/routes/index.routes';
 import CoordenadorRoutes from './views/coordenador/routes/index.routes';
 import AdministradorRoutes from './views/administrador/routes/index.routes';
 import { Sidebar } from './components/Sidebar';
-import { SidebarProvider } from './contexts/SidebarProvider';
 
 interface PrivateRouteProps {
   path: string;
@@ -33,13 +32,11 @@ export function PrivateRoute(props: PrivateRouteProps): JSX.Element {
       render={routeProps =>
         isAuthenticated() ? (
           <>
-            <SidebarProvider>
-              <Sidebar />
-              <Header />
-              <Container>
-                <Component {...routeProps} />
-              </Container>
-            </SidebarProvider>
+            <Sidebar />
+            <Header />
+            <Container>
+              <Component {...routeProps} />
+            </Container>
           </>
         ) : (
           <>
