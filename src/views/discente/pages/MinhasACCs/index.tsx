@@ -1,6 +1,13 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
-import { Box, Button, ListItem, UnorderedList } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  ListItem,
+  Skeleton,
+  Stack,
+  UnorderedList,
+} from '@chakra-ui/react';
 import { Link, useHistory } from 'react-router-dom';
 import api from '../../../../services/api';
 import { USERID_KEY } from '../../../../services/auth';
@@ -34,12 +41,14 @@ type ACC = {
 
 export default function MinhasACCs(): JSX.Element {
   const [accs, setACCs] = useState<ACC[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const history = useHistory();
 
   useEffect(() => {
     async function loadACCs(): Promise<void> {
       try {
+        setIsLoading(true);
         const response = await api.get(`accs`, {
           params: {
             usuario: sessionStorage.getItem(USERID_KEY),
@@ -48,6 +57,8 @@ export default function MinhasACCs(): JSX.Element {
         setACCs(response.data.data);
       } catch (err) {
         notifyError('Não foi possível carregar as ACCs.');
+      } finally {
+        setIsLoading(false);
       }
     }
     loadACCs();
@@ -57,43 +68,53 @@ export default function MinhasACCs(): JSX.Element {
     <>
       <PageTitle>Minhas ACCs</PageTitle>
 
-      <UnorderedList marginLeft="0" styleType="none">
-        {accs.length > 0 ? (
-          <>
-            {accs.map(acc => (
-              <ListItem key={acc.id} marginBottom="3">
-                <ACCCard
-                  id={acc.id}
-                  title={acc.tipo_de_acc.nome}
-                  description={acc.descricao}
-                  accType={acc.tipo_de_acc}
-                  points={
-                    acc.variante_de_acc.pontos_por_unidade * acc.quantidade
-                  }
-                  quantity={acc.quantidade}
-                  status={acc.status_da_acc}
-                />
-              </ListItem>
-            ))}
-          </>
-        ) : (
-          <>
-            <Box color="gray.500">
-              Que vazio! Que tal começar cadastrando uma
-              <Button
-                variant="link"
-                marginLeft="1"
-                textDecoration="underline"
-                onClick={() => {
-                  history.push('cadastrar-acc');
-                }}
-              >
-                {` Nova ACC?`}
-              </Button>
-            </Box>
-          </>
-        )}
-      </UnorderedList>
+      {!isLoading ? (
+        <UnorderedList marginLeft="0" styleType="none">
+          {accs.length > 0 ? (
+            <>
+              {accs.map(acc => (
+                <ListItem key={acc.id} marginBottom="3">
+                  <ACCCard
+                    id={acc.id}
+                    title={acc.tipo_de_acc.nome}
+                    description={acc.descricao}
+                    accType={acc.tipo_de_acc}
+                    points={
+                      acc.variante_de_acc.pontos_por_unidade * acc.quantidade
+                    }
+                    quantity={acc.quantidade}
+                    status={acc.status_da_acc}
+                  />
+                </ListItem>
+              ))}
+            </>
+          ) : (
+            <>
+              <Box color="gray.500">
+                Que vazio! Que tal começar cadastrando uma
+                <Button
+                  variant="link"
+                  marginLeft="1"
+                  textDecoration="underline"
+                  onClick={() => {
+                    history.push('cadastrar-acc');
+                  }}
+                >
+                  {` Nova ACC?`}
+                </Button>
+              </Box>
+            </>
+          )}
+        </UnorderedList>
+      ) : (
+        <Stack spacing="3">
+          <Skeleton width="100%" height="50px" />
+          <Skeleton width="100%" height="50px" />
+          <Skeleton width="100%" height="50px" />
+          <Skeleton width="100%" height="50px" />
+          <Skeleton width="100%" height="50px" />
+        </Stack>
+      )}
     </>
   );
 }
