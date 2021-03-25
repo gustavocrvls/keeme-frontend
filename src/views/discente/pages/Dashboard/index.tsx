@@ -46,10 +46,10 @@ interface IACC {
 export default function Home(): JSX.Element {
   const [progress, setProgress] = useState(0);
   const [lastACCs, setLastACCs] = useState<Array<IACC>>([]);
-  const [resumo, setResumo] = useState({
-    pontosAprovados: 0,
-    pontosEmAnalise: 0,
-    pontosNegados: 0,
+  const [summary, setSummary] = useState({
+    approved_points: 0,
+    under_analysis: 0,
+    failed_points: 0,
   });
   const [isLoadingData, setIsLoadingData] = useState(false);
 
@@ -58,16 +58,16 @@ export default function Home(): JSX.Element {
       setIsLoadingData(true);
       try {
         const response = await api.get(
-          `accs/user/${sessionStorage.getItem(USERID_KEY)}/completo`,
+          `points/${sessionStorage.getItem(USERID_KEY)}`,
         );
 
         const userProgress = Number(
-          (100 * response.data.resumo.pontosAprovados) / 51,
+          (100 * response.data.approved_points) / 51,
         ).toFixed(0);
 
         setProgress(Number(userProgress));
 
-        setResumo(response.data.resumo);
+        setSummary(response.data);
 
         const responseACCs = await api.get(`accs`, {
           params: {
@@ -116,7 +116,7 @@ export default function Home(): JSX.Element {
               <SkeletonCircle size="25" />
             ) : (
               <ProgressRing stroke={10} radius={60} progress={progress}>
-                {resumo.pontosAprovados}
+                {summary.approved_points}
                 /51
               </ProgressRing>
             )}
@@ -134,7 +134,7 @@ export default function Home(): JSX.Element {
                 >
                   <span style={{ marginRight: 10 }}>Aprovadas: </span>
                   <strong>
-                    {resumo.pontosAprovados}
+                    {summary.approved_points}
                     pts
                   </strong>
                 </li>
@@ -143,7 +143,7 @@ export default function Home(): JSX.Element {
                 >
                   <span style={{ marginRight: 10 }}>Em análise: </span>
                   <strong>
-                    {resumo.pontosEmAnalise}
+                    {summary.under_analysis}
                     pts
                   </strong>
                 </li>
@@ -152,7 +152,7 @@ export default function Home(): JSX.Element {
                 >
                   <span style={{ marginRight: 10 }}>Negadas: </span>
                   <strong>
-                    {resumo.pontosNegados}
+                    {summary.failed_points}
                     pts
                   </strong>
                 </li>

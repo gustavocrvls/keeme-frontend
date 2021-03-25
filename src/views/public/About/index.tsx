@@ -1,6 +1,6 @@
 import { Heading } from '@chakra-ui/react';
 import React from 'react';
-import { Container, LimitedContainer } from '../../../components/Containers';
+import { LimitedContainer } from '../../../components/Containers';
 import PageTitle from '../../../components/PageTitle';
 
 export function About(): JSX.Element {

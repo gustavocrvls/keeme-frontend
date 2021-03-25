@@ -111,10 +111,10 @@ export function DetalhesDaAcc(): JSX.Element {
         actions={(
           <>
             <Tooltip label="Editar" aria-label="Editar" hasArrow>
-              <IconButton aria-label="edit" icon={<FiEdit />} />
+              <IconButton aria-label="edit" icon={<FiEdit />} size="sm" />
             </Tooltip>
             <Tooltip label="Excluir" aria-label="Excluir" hasArrow>
-              <IconButton colorScheme="red" aria-label="delete" icon={<FiTrash />} onClick={() => setIsAlertDeleteOpen(true)} />
+              <IconButton colorScheme="red" aria-label="delete" icon={<FiTrash />} onClick={() => setIsAlertDeleteOpen(true)} size="sm" />
             </Tooltip>
           </>
         )}
