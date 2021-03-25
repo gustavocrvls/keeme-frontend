@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useHistory, useParams, withRouter } from 'react-router-dom';
 import { FiDownload, FiEdit, FiTrash } from 'react-icons/fi';
 
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, Flex, IconButton, SimpleGrid, Stack, Tooltip } from '@chakra-ui/react';
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, Flex, IconButton, SimpleGrid, SkeletonText, Stack, Tooltip } from '@chakra-ui/react';
 import STATUS_DA_ACC from '../../../../constants/StatusDaACC';
 import api from '../../../../services/api';
 import PageTitle from '../../../../components/PageTitle';
@@ -53,6 +53,7 @@ export function DetalhesDaAcc(): JSX.Element {
   const [acc, setACC] = useState<IAcc>();
   const [pontos, setPontos] = useState<number>(0);
   const [isAlertDeleteOpen, setIsAlertDeleteOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const cancelRef = useRef<any>();
 
   const history = useHistory();
@@ -62,6 +63,7 @@ export function DetalhesDaAcc(): JSX.Element {
   useEffect(() => {
     async function loadACC() {
       try {
+        setIsLoading(true);
         const response = await api.get(`accs/${id}`);
         setACC(response.data);
 
@@ -69,6 +71,8 @@ export function DetalhesDaAcc(): JSX.Element {
 
       } catch (err) {
         notifyError('Não foi possível carregar os dados :(')
+      } finally {
+        setIsLoading(false);
       }
     }
     loadACC();
@@ -128,11 +132,19 @@ export function DetalhesDaAcc(): JSX.Element {
             Tipo de ACC
           </Box>
           {
-            acc?.variante_de_acc.descricao
-            ?
-              <Box width="100%">{`${acc?.tipo_de_acc.nome} (${acc?.variante_de_acc.descricao || ''})`}</Box>
+            !isLoading ? (
+              <>
+                {
+                acc?.variante_de_acc.descricao
+                ?
+                  <Box width="100%">{`${acc?.tipo_de_acc.nome} (${acc?.variante_de_acc.descricao || ''})`}</Box>
+                :
+                  <Box width="100%">{`${acc?.tipo_de_acc.nome}`}</Box>
+            }
+              </>
+          )
             :
-              <Box width="100%">{`${acc?.tipo_de_acc.nome}`}</Box>
+              <SkeletonText />
           }
         </Box>
 
@@ -142,7 +154,13 @@ export function DetalhesDaAcc(): JSX.Element {
             <Box width="100%" color="gray.500">
               Criada em
             </Box>
-            <Box width="100%">{new Date(acc?.criado_em).toLocaleString()}</Box>
+            {
+              !isLoading
+              ?
+                <Box width="100%">{new Date(acc?.criado_em).toLocaleString()}</Box>
+              :
+                <SkeletonText noOfLines={1} />
+            }
           </Box>
           )
         }
@@ -156,21 +174,39 @@ export function DetalhesDaAcc(): JSX.Element {
             <Box width="100%" color="gray.500">
               Status
             </Box>
-            <Box width="100%">{handleStatus()}</Box>
+            {
+              !isLoading
+              ?
+                <Box width="100%">{handleStatus()}</Box>
+              :
+                <SkeletonText noOfLines={1} />
+            }
           </Box>
 
           <Box>
             <Box width="100%" color="gray.500">
-              {`${acc?.tipo_de_acc.unidade_de_medida.nome}s`}
+              {`${acc?.tipo_de_acc.unidade_de_medida.nome}s` || 'Horas'}
             </Box>
-            <Box width="100%">{acc?.quantidade}</Box>
+            {
+              !isLoading
+              ?
+                <Box width="100%">{acc?.quantidade}</Box>
+              :
+                <SkeletonText noOfLines={1} />
+            }
           </Box>
 
           <Box>
             <Box width="100%" color="gray.500">
               Pontos
             </Box>
-            <Box width="100%">{pontos}</Box>
+            {
+              !isLoading
+              ?
+                <Box width="100%">{pontos}</Box>
+              :
+                <SkeletonText noOfLines={1} />
+            }
           </Box>
         </Stack>
 
@@ -178,7 +214,13 @@ export function DetalhesDaAcc(): JSX.Element {
           <Box width="100%" color="gray.500">
             Descrição
           </Box>
-          <Box width="100%">{acc?.descricao}</Box>
+          {
+            !isLoading
+          ?
+            <Box width="100%">{acc?.descricao}</Box>
+          :
+            <SkeletonText noOfLines={1} />
+          }
         </Box>
 
         {acc?.status_da_acc.id === STATUS_DA_ACC.APROVADA ||
