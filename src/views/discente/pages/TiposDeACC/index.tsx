@@ -62,6 +62,7 @@ export default function Home(): JSX.Element {
                 completed={type.approved_points}
                 measurementUnity={type.unit_of_measurement.name}
                 variants={type.acc_variants}
+                description={type.description}
               />
             </ListItem>
           ))}

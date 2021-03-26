@@ -7,6 +7,7 @@ import { calcularProgresso } from '../../../../../utils/calculos';
 
 interface AccDetails {
   name: string;
+  description: string;
   limit: number;
   measurementUnity: string;
   completed: number;
@@ -17,17 +18,27 @@ interface AccDetails {
   }[];
 }
 
-const CardTipoDeACC = (props: AccDetails): JSX.Element => {
-  const { name, limit, measurementUnity, completed, variants } = props;
+const CardTipoDeACC = ({
+  name,
+  description,
+  limit,
+  measurementUnity,
+  completed,
+  variants,
+}: AccDetails): JSX.Element => {
   return (
     <Box backgroundColor="white" boxShadow="lg" padding="3" borderRadius="md">
       <Box>
         <strong>{name}</strong>
       </Box>
+      <Box marginBottom="3" color="gray.600" fontSize="sm">
+        {description}
+      </Box>
       <Flex
         justifyContent="space-between"
         alignItems={['flex-start', 'flex-end']}
         flexDirection={['column', 'row']}
+        fontSize="sm"
       >
         <UnorderedList listStyleType="none" margin="0">
           <li>
