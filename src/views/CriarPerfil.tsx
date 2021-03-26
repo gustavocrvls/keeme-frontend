@@ -10,6 +10,8 @@ import {
   FormLabel,
   Input,
   Select,
+  SimpleGrid,
+  Stack,
 } from '@chakra-ui/react';
 import loginVector1 from '../assets/images/login__vector_1.svg';
 import api from '../services/api';
@@ -28,7 +30,7 @@ const CriarPerfilCard = styled.div`
 
   min-height: 400px;
   width: 100%;
-  max-width: 500px;
+  max-width: 900px;
 
   display: flex;
   flex-direction: column;
@@ -105,6 +107,7 @@ export default function CriarPerfil(): JSX.Element {
           resultLogin.data.token,
           resultLogin.data.usuario.id,
           resultLogin.data.usuario.perfil.id,
+          result.data.usuario.nome,
         );
 
         notifySuccess('Usuário criado com sucesso!');
@@ -120,7 +123,7 @@ export default function CriarPerfil(): JSX.Element {
     async function loadCursos() {
       const response = await api.get('cursos');
 
-      setCursos(response.data.cursos);
+      setCursos(response.data.data);
     }
 
     loadCursos();
@@ -151,15 +154,39 @@ export default function CriarPerfil(): JSX.Element {
             />
           </FormControl>
 
-          <FormControl id="usuario" isRequired>
-            <FormLabel>Usuário</FormLabel>
-            <Input
-              type="text"
-              placeholder="Usuário"
-              value={username}
-              onChange={e => setUsername(e.target.value)}
-            />
-          </FormControl>
+          <SimpleGrid columns={[1, 2]} gap="3">
+            <FormControl id="cpf" isRequired>
+              <FormLabel>CPF</FormLabel>
+              <Input
+                type="number"
+                placeholder="CPF"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+              />
+            </FormControl>
+          </SimpleGrid>
+
+          <SimpleGrid columns={[1, 2]} gap="3">
+            <FormControl id="usuario" isRequired>
+              <FormLabel>Usuário</FormLabel>
+              <Input
+                type="text"
+                placeholder="Usuário"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+              />
+            </FormControl>
+
+            <FormControl id="email" isRequired>
+              <FormLabel>E-mail</FormLabel>
+              <Input
+                type="email"
+                placeholder="E-mail"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+              />
+            </FormControl>
+          </SimpleGrid>
 
           <FormControl id="curso" isRequired>
             <FormLabel>Curso</FormLabel>
@@ -176,29 +203,33 @@ export default function CriarPerfil(): JSX.Element {
             </Select>
           </FormControl>
 
-          <FormControl id="senha" isRequired>
-            <FormLabel>Senha</FormLabel>
-            <Input
-              type="password"
-              placeholder="********"
-              value={senha}
-              onChange={e => setSenha(e.target.value)}
-            />
-          </FormControl>
+          <SimpleGrid columns={[1, 2]} gap="3">
+            <FormControl id="senha" isRequired>
+              <FormLabel>Senha</FormLabel>
+              <Input
+                type="password"
+                placeholder="********"
+                value={senha}
+                onChange={e => setSenha(e.target.value)}
+              />
+            </FormControl>
 
-          <FormControl id="senha2" isRequired>
-            <FormLabel>Confirmar Senha</FormLabel>
-            <Input
-              type="password"
-              placeholder="********"
-              value={senha2}
-              onChange={e => setSenha2(e.target.value)}
-            />
-          </FormControl>
+            <FormControl id="senha2" isRequired>
+              <FormLabel>Confirmar Senha</FormLabel>
+              <Input
+                type="password"
+                placeholder="********"
+                value={senha2}
+                onChange={e => setSenha2(e.target.value)}
+              />
+            </FormControl>
+          </SimpleGrid>
 
-          <Button type="submit" width="100%" colorScheme="teal">
-            Criar Perfil
-          </Button>
+          <Flex width="100%" marginTop="7" justifyContent="center">
+            <Button type="submit" colorScheme="teal">
+              Criar Perfil
+            </Button>
+          </Flex>
         </LoginForm>
         <Flex width="100%" marginTop="10">
           <Button onClick={() => history.push('/login')} variant="link">

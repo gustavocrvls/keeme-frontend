@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { FiList, FiLogOut } from 'react-icons/fi';
 
 import { Flex, IconButton, Tooltip } from '@chakra-ui/react';
-import { logout, USER_PERFIL_KEY } from '../../services/auth';
+import { logout, USER_NAME, USER_PERFIL_KEY } from '../../services/auth';
 import PERFIS from '../../constants/Perfis';
 import { HeaderStyle } from './styles';
 import { SidebarContext } from '../../contexts/SidebarProvider';
@@ -55,7 +55,9 @@ export default function Header(): JSX.Element {
       </Flex>
 
       <Flex alignItems="center">
-        <div style={{ marginRight: 10, fontSize: '1rem' }}>Olá!</div>
+        <div style={{ marginRight: 10, fontSize: '1rem' }}>
+          {`Olá, ${sessionStorage.getItem(USER_NAME)?.split(' ')[0]}!`}
+        </div>
         <Tooltip label="Sair" aria-label="Sair">
           <IconButton
             type="button"
