@@ -14,7 +14,12 @@ export function Pagination({
   setCurrentPage,
 }: PaginationProps): JSX.Element {
   return (
-    <Stack direction="row" justifyContent="center" marginTop="10">
+    <Stack
+      direction="row"
+      justifyContent="center"
+      marginTop="10"
+      marginBottom="10"
+    >
       {totalPages > 5 && (
         <Tooltip
           label="Primeira página"

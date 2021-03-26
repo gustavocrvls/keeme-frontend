@@ -8,6 +8,7 @@ import { USERID_KEY } from '../../../../services/auth';
 import api from '../../../../services/api';
 import CardTipoDeACC from './components/CardTipoDeACC';
 import { notifyError } from '../../../../components/Notifications';
+import { Pagination } from '../../../../components/Pagination';
 
 interface ACCTypes {
   id: number;
@@ -29,24 +30,34 @@ interface ACCTypes {
 export default function Home(): JSX.Element {
   const [accTypes, setACCTypes] = useState<Array<ACCTypes>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
+
+  async function loadData(): Promise<void> {
+    try {
+      setIsLoading(true);
+      const response = await api.get(
+        `tipos-de-acc/user/${sessionStorage.getItem(USERID_KEY)}`,
+        {
+          params: {
+            limit: 5,
+            page: currentPage,
+          },
+        },
+      );
+
+      setACCTypes(response.data.data);
+      setTotalPages(response.data.total_pages);
+    } catch (err) {
+      notifyError('Não foi possível carregar as informações :(');
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   useEffect(() => {
-    async function loadData(): Promise<void> {
-      try {
-        setIsLoading(true);
-        const response = await api.get(
-          `tipos-de-acc/user/${sessionStorage.getItem(USERID_KEY)}`,
-        );
-
-        setACCTypes(response.data.data);
-      } catch (err) {
-        notifyError('Não foi possível carregar as informações :(');
-      } finally {
-        setIsLoading(false);
-      }
-    }
     loadData();
-  }, []);
+  }, [currentPage]);
 
   return (
     <>
@@ -76,6 +87,12 @@ export default function Home(): JSX.Element {
           <Skeleton width="100%" height="100px" />
         </Stack>
       )}
+
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </>
   );
 }
