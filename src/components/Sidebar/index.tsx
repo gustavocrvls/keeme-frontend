@@ -1,6 +1,7 @@
 import React, { ReactNode, useContext } from 'react';
 import { Box, ListItem, UnorderedList } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+import { FiInfo, FiMessageSquare } from 'react-icons/fi';
 import { SidebarItems } from './sidebarItems';
 import { USER_PERFIL_KEY } from '../../services/auth';
 import { SidebarContext } from '../../contexts/SidebarProvider';
@@ -12,27 +13,25 @@ export function Sidebar(): JSX.Element {
     const idPerfil = Number(sessionStorage.getItem(USER_PERFIL_KEY));
 
     return SidebarItems[idPerfil].items.map(item => (
-      <li key={`sidebar-item-${item.label}`}>
+      <ListItem key={`sidebar-item-${item.label}`}>
         <Link style={{ padding: 0 }} to={item.to}>
-          <ListItem>
-            <Box
-              padding="3"
-              fontSize="1"
-              display="flex"
-              alignItems="center"
-              transition="padding 0.2s"
-              _hover={{
-                backgroundColor: '#31878c',
-                color: 'white',
-                paddingLeft: '4',
-              }}
-            >
-              <item.icon />
-              <span style={{ paddingLeft: 5 }}>{item.label}</span>
-            </Box>
-          </ListItem>
+          <Box
+            padding="3"
+            fontSize="1"
+            display="flex"
+            alignItems="center"
+            transition="padding 0.2s"
+            _hover={{
+              backgroundColor: '#31878c',
+              color: 'white',
+              paddingLeft: '4',
+            }}
+          >
+            <item.icon />
+            <span style={{ paddingLeft: 5 }}>{item.label}</span>
+          </Box>
         </Link>
-      </li>
+      </ListItem>
     ));
   }
   return (
@@ -51,6 +50,43 @@ export function Sidebar(): JSX.Element {
     >
       <UnorderedList itemType="none" margin="0">
         {handlePerfilItems()}
+
+        <ListItem position="absolute" bottom="0" width="250px">
+          <Link style={{ padding: 0 }} to="/feedback">
+            <Box
+              padding="3"
+              fontSize="1"
+              display="flex"
+              alignItems="center"
+              transition="padding 0.2s"
+              _hover={{
+                backgroundColor: 'teal',
+                color: 'white',
+                paddingLeft: '4',
+              }}
+            >
+              <FiMessageSquare />
+              <span style={{ paddingLeft: 5 }}>Feedback</span>
+            </Box>
+          </Link>
+          <Link style={{ padding: 0 }} to="/about">
+            <Box
+              padding="3"
+              fontSize="1"
+              display="flex"
+              alignItems="center"
+              transition="padding 0.2s"
+              _hover={{
+                backgroundColor: 'teal',
+                color: 'white',
+                paddingLeft: '4',
+              }}
+            >
+              <FiInfo />
+              <span style={{ paddingLeft: 5 }}>Sobre</span>
+            </Box>
+          </Link>
+        </ListItem>
       </UnorderedList>
     </Box>
   );

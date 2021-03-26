@@ -25,11 +25,9 @@ export function SidebarProvider({
       setWindowWidth(window.innerWidth);
     });
     setWindowWidth(window.innerWidth);
-    console.log('aaa');
   }, []);
 
   useEffect(() => {
-    console.log(windowWidth);
     if (windowWidth > 750) setIsSidebarAwaysShowed(true);
     else setIsSidebarAwaysShowed(false);
   }, [windowWidth]);

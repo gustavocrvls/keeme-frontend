@@ -38,7 +38,7 @@ const Progress = (props: ProgressProps): JSX.Element => {
       <CompletedProgress
         style={
           completed === 100
-            ? { width: `${completed}%`, backgroundColor: '#BD3939' }
+            ? { width: `${completed}%`, backgroundColor: '#31878c' }
             : { width: `${completed}%` }
         }
       />

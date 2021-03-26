@@ -1,62 +1,98 @@
 /* eslint-disable camelcase */
 import React, { useEffect, useState } from 'react';
-import { ListItem, UnorderedList } from '@chakra-ui/react';
+import { ListItem, Skeleton, Stack, UnorderedList } from '@chakra-ui/react';
 
 import PageTitle from '../../../../components/PageTitle';
 
 import { USERID_KEY } from '../../../../services/auth';
 import api from '../../../../services/api';
 import CardTipoDeACC from './components/CardTipoDeACC';
+import { notifyError } from '../../../../components/Notifications';
+import { Pagination } from '../../../../components/Pagination';
 
-interface TipoDeAcc {
+interface ACCTypes {
   id: number;
-  nome: string;
-  limite_de_pontos: number;
-  completed: number;
-  pontuacao: number;
-  unidade_de_medida: {
-    nome: string;
+  name: string;
+  description: string;
+  approved_points: number;
+  points_under_analisys: number;
+  unit_of_measurement: {
+    name: string;
   };
-  pontos_por_unidade: number;
-  variantes_de_acc: {
+  point_limit: number;
+  acc_variants: {
     id: number;
-    descricao: string;
-    pontos_por_unidade: 0;
+    description: string;
+    points_per_unity: number;
   }[];
 }
 
 export default function Home(): JSX.Element {
-  const [tiposDeACC, setTiposDeACC] = useState<Array<TipoDeAcc>>([]);
+  const [accTypes, setACCTypes] = useState<Array<ACCTypes>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
-  useEffect(() => {
-    async function loadData(): Promise<void> {
+  async function loadData(): Promise<void> {
+    try {
+      setIsLoading(true);
       const response = await api.get(
-        `tipos-de-acc/usuario/${sessionStorage.getItem(USERID_KEY)}`,
+        `tipos-de-acc/user/${sessionStorage.getItem(USERID_KEY)}`,
+        {
+          params: {
+            limit: 5,
+            page: currentPage,
+          },
+        },
       );
 
-      setTiposDeACC(response.data);
+      setACCTypes(response.data.data);
+      setTotalPages(response.data.total_pages);
+    } catch (err) {
+      notifyError('Não foi possível carregar as informações :(');
+    } finally {
+      setIsLoading(false);
     }
+  }
+
+  useEffect(() => {
     loadData();
-  }, []);
+  }, [currentPage]);
 
   return (
     <>
-      <PageTitle backTo="/discente/home">Tipos de ACC</PageTitle>
+      <PageTitle>Tipos de ACC</PageTitle>
 
-      <UnorderedList margin="0" listStyleType="none">
-        {tiposDeACC.map(tipo => (
-          <ListItem marginBottom="3" key={tipo.id}>
-            <CardTipoDeACC
-              name={tipo.nome}
-              limit={tipo.limite_de_pontos}
-              completed={tipo.pontuacao ? tipo.pontuacao : 0}
-              measurementUnity={tipo.unidade_de_medida.nome}
-              pointsPerUnity={tipo.pontos_por_unidade}
-              variants={tipo.variantes_de_acc}
-            />
-          </ListItem>
-        ))}
-      </UnorderedList>
+      {!isLoading ? (
+        <UnorderedList margin="0" listStyleType="none">
+          {accTypes.map(type => (
+            <ListItem marginBottom="3" key={type.id}>
+              <CardTipoDeACC
+                name={type.name}
+                limit={type.point_limit}
+                completed={type.approved_points}
+                measurementUnity={type.unit_of_measurement.name}
+                variants={type.acc_variants}
+                description={type.description}
+              />
+            </ListItem>
+          ))}
+        </UnorderedList>
+      ) : (
+        <Stack spacing="3">
+          <Skeleton width="100%" height="100px" />
+          <Skeleton width="100%" height="100px" />
+          <Skeleton width="100%" height="100px" />
+          <Skeleton width="100%" height="100px" />
+          <Skeleton width="100%" height="100px" />
+        </Stack>
+      )}
+
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </>
   );
 }

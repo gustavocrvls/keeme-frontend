@@ -1,6 +1,6 @@
 const statusDaAcc = {
-  EM_ANALISE: 1,
-  APROVADA: 2,
+  APROVADA: 1,
+  EM_ANALISE: 2,
   NEGADA: 3,
 };
 

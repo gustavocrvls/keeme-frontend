@@ -16,6 +16,8 @@ import DiscenteRoutes from './views/discente/routes/index.routes';
 import CoordenadorRoutes from './views/coordenador/routes/index.routes';
 import AdministradorRoutes from './views/administrador/routes/index.routes';
 import { Sidebar } from './components/Sidebar';
+import { About } from './views/public/About';
+import { Feedback } from './views/public/Feedback';
 
 interface PrivateRouteProps {
   path: string;
@@ -59,6 +61,9 @@ const Routes = (): JSX.Element => {
         <Route path="/" exact component={Login} />
         <Route path="/login" component={Login} />
         <Route path="/criar-perfil" component={CriarPerfil} />
+
+        <Route path="/about" component={About} />
+        <Route path="/feedback" component={Feedback} />
 
         <Route path="/discente" component={DiscenteRoutes} />
         <Route path="/coordenador" component={CoordenadorRoutes} />
