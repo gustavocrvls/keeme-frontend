@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '../../../components/Button';
 import api from '../../../services/api';
 import { notifyError } from '../../../components/Notifications';
+import PageTitle from '../../../components/PageTitle';
 
 interface IUsuario {
   id: number;
@@ -34,7 +35,7 @@ export default function PesquisarDiscente(): JSX.Element {
           },
         });
 
-        setDiscentes(response.data);
+        setDiscentes(response.data.data);
       } catch (err) {
         notifyError('Ops, algo deu errado! Tente novamente!');
       }
@@ -43,9 +44,7 @@ export default function PesquisarDiscente(): JSX.Element {
 
   return (
     <div>
-      <Heading as="h1" size="lg" marginBottom="5">
-        Pesquisar Discente
-      </Heading>
+      <PageTitle>Pesquisar Discente</PageTitle>
 
       <form onSubmit={search} style={{ width: '100%' }}>
         <Flex width="100%" marginBottom="5">
