@@ -9,24 +9,16 @@ interface AccDetails {
   name: string;
   limit: number;
   measurementUnity: string;
-  pointsPerUnity: number;
   completed: number;
   variants: {
     id: number;
-    descricao: string;
-    pontos_por_unidade: 0;
+    description: string;
+    points_per_unity: number;
   }[];
 }
 
 const CardTipoDeACC = (props: AccDetails): JSX.Element => {
-  const {
-    name,
-    limit,
-    measurementUnity,
-    pointsPerUnity,
-    completed,
-    variants,
-  } = props;
+  const { name, limit, measurementUnity, completed, variants } = props;
   return (
     <Box backgroundColor="white" boxShadow="lg" padding="3" borderRadius="md">
       <Box>
@@ -46,7 +38,7 @@ const CardTipoDeACC = (props: AccDetails): JSX.Element => {
           {variants.length <= 1 ? (
             <li>
               <span>{`Pontos por ${measurementUnity}:`}</span>
-              <strong>{` ${variants[0].pontos_por_unidade}`}</strong>
+              <strong>{` ${variants[0].points_per_unity}`}</strong>
             </li>
           ) : (
             <li>
@@ -54,8 +46,8 @@ const CardTipoDeACC = (props: AccDetails): JSX.Element => {
               <UnorderedList>
                 {variants.map(variant => (
                   <ListItem marginLeft="5">
-                    <span>{`${variant.descricao}: `}</span>
-                    <strong>{variant.pontos_por_unidade}</strong>
+                    <span>{`${variant.description}: `}</span>
+                    <strong>{variant.points_per_unity}</strong>
                   </ListItem>
                 ))}
               </UnorderedList>
