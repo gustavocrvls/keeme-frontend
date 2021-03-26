@@ -84,7 +84,7 @@ class DetalhesDoDiscente extends Component<IMatchProps, IState> {
     const { id } = params;
 
     try {
-      const responseUsuario = await api.get(`usuarios/${id}`);
+      const responseUsuario = await api.get(`users/${id}`);
       const responseAccs = await api.get(`accs/user/${id}/completo`);
 
       const progresso = Number(

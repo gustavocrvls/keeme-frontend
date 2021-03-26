@@ -1,26 +1,26 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { Flex, Heading, IconButton, Input } from '@chakra-ui/react';
+import { Flex, IconButton, Input } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import { Button } from '../../../components/Button';
 import api from '../../../services/api';
 import { notifyError } from '../../../components/Notifications';
 import PageTitle from '../../../components/PageTitle';
 
 interface IUsuario {
   id: number;
-  nome: string;
+  name: string;
   username: string;
-  curso: {
+  course: {
     id: number;
-    nome: string;
+    name: string;
   };
 }
 
 export default function PesquisarDiscente(): JSX.Element {
-  const [discentes, setDiscentes] = useState<Array<IUsuario>>([]);
+  const [students, setDiscentes] = useState<Array<IUsuario>>([]);
   const [nome, setNome] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   async function search(e: React.FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
@@ -29,7 +29,8 @@ export default function PesquisarDiscente(): JSX.Element {
       setDiscentes([]);
     } else {
       try {
-        const response = await api.get('usuarios', {
+        setIsLoading(true);
+        const response = await api.get('users', {
           params: {
             nome,
           },
@@ -38,6 +39,8 @@ export default function PesquisarDiscente(): JSX.Element {
         setDiscentes(response.data.data);
       } catch (err) {
         notifyError('Ops, algo deu errado! Tente novamente!');
+      } finally {
+        setIsLoading(false);
       }
     }
   }
@@ -61,14 +64,15 @@ export default function PesquisarDiscente(): JSX.Element {
             type="submit"
             aria-label="Search Icon"
             icon={<FiSearch size={20} />}
+            isLoading={isLoading}
           />
         </Flex>
       </form>
 
       <div>
         <ul style={{ listStyle: 'none', padding: 0 }}>
-          {discentes.map(discente => (
-            <Link to={`/coordenador/detalhes-do-discente/${discente.id}`}>
+          {students.map(student => (
+            <Link to={`/coordenador/detalhes-do-discente/${student.id}`}>
               <li>
                 <div
                   style={{
@@ -83,8 +87,8 @@ export default function PesquisarDiscente(): JSX.Element {
                     justifyContent: 'space-between',
                   }}
                 >
-                  <div>{discente.nome}</div>
-                  <div>{discente.curso.nome}</div>
+                  <div>{student.name}</div>
+                  <div>{student.course.name}</div>
                 </div>
               </li>
             </Link>

@@ -48,7 +48,7 @@ export default function CadastrarCoordenador(): JSX.Element {
     setIsCreating(true);
 
     try {
-      await api.post('usuarios', {
+      await api.post('users', {
         nome: formNome,
         username: formUsername,
         senha: formSenha,
