@@ -42,13 +42,21 @@ function notifyError(text: string): void {
 }
 
 function notifyWarning(text: string): void {
-  new Noty({
-    text,
-    type: 'warning',
-    theme: NOTY_THEME,
-    timeout: 2000,
-    progressBar: true,
-  }).show();
+  toast({
+    title: 'Sucesso!',
+    status: 'warning',
+    duration: 3000,
+    isClosable: true,
+    position: 'bottom-right',
+    render: props => (
+      <Box m={3} color="white" p={3} bg="yellow.500" borderRadius="md">
+        <p>
+          <strong>Ops!</strong>
+        </p>
+        <p>{text}</p>
+      </Box>
+    ),
+  });
 }
 
 export { notifySuccess, notifyError, notifyWarning };
