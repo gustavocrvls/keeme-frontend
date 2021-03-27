@@ -60,7 +60,7 @@ export default function Login(): JSX.Element {
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const result = await api.post('usuarios/login', {
+    const result = await api.post('users/login', {
       username,
       senha,
     });

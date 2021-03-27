@@ -2,7 +2,7 @@ import React from 'react';
 import { PrivateRoute } from '../../../routes';
 
 import { Dashboard } from '../pages/Dashboard';
-import PesquisarDiscente from '../pages/PesquisarDiscente';
+import { SearchStudent } from '../pages/SearchStudent';
 import DetalhesDaAccCoordenador from '../pages/DetalhesDaAcc';
 import DetalhesDoDiscente from '../pages/DetalhesDoDiscente';
 
@@ -12,10 +12,10 @@ const Routes = (): JSX.Element => {
       <PrivateRoute path="/coordenador/home" component={Dashboard} />
       <PrivateRoute
         path="/coordenador/pesquisar-discente"
-        component={PesquisarDiscente}
+        component={SearchStudent}
       />
       <PrivateRoute
-        path="/coordenador/detalhes-do-discente/:id"
+        path="/coordinator/student-details/:id"
         component={DetalhesDoDiscente}
       />
       <PrivateRoute

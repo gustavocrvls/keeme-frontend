@@ -67,9 +67,10 @@ const Routes = (): JSX.Element => {
 
         <Route path="/discente" component={DiscenteRoutes} />
         <Route path="/coordenador" component={CoordenadorRoutes} />
+        <Route path="/coordinator" component={CoordenadorRoutes} />
         <Route path="/administrador" component={AdministradorRoutes} />
 
-        <Redirect to="/login" />
+        {/* <Redirect to="/login" /> */}
       </Switch>
     </BrowserRouter>
   );

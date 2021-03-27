@@ -1,4 +1,4 @@
-import { Flex, Skeleton, Stack, UnorderedList } from '@chakra-ui/react';
+import { Box, Flex, Skeleton, Stack, UnorderedList } from '@chakra-ui/react';
 import React from 'react';
 import { FiArrowRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
@@ -20,16 +20,17 @@ export function ReceivedACCsList({
                   <li>
                     <Flex
                       backgroundColor="white"
-                      boxShadow="md"
                       padding="3"
                       marginBottom="3"
                       justifyContent="space-between"
+                      boxShadow="md"
+                      borderRadius="md"
                     >
                       <div>
                         <div>
                           <strong>{acc.usuario.nome}</strong>
                         </div>
-                        <div>{acc.tipo_de_acc.nome}</div>
+                        <Box fontSize="sm">{acc.tipo_de_acc.nome}</Box>
                       </div>
                       <div
                         style={{
