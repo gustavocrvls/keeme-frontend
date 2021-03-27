@@ -9,15 +9,15 @@ import { notifyError } from './components/Notifications';
 import { Container } from './components/Containers';
 import Header from './components/Header';
 
-import Login from './views/Login';
-import CriarPerfil from './views/CriarPerfil';
+import Login from './modules/Login';
+import CriarPerfil from './modules/CriarPerfil';
 
-import DiscenteRoutes from './views/discente/routes/index.routes';
-import CoordenadorRoutes from './views/coordenador/routes/index.routes';
-import AdministradorRoutes from './views/administrador/routes/index.routes';
+import DiscenteRoutes from './modules/discente/routes/index.routes';
+import CoordenadorRoutes from './modules/coordenador/routes/index.routes';
+import AdministradorRoutes from './modules/administrador/routes/index.routes';
 import { Sidebar } from './components/Sidebar';
-import { About } from './views/public/About';
-import { Feedback } from './views/public/Feedback';
+import { About } from './modules/public/About';
+import { Feedback } from './modules/public/Feedback';
 
 interface PrivateRouteProps {
   path: string;
