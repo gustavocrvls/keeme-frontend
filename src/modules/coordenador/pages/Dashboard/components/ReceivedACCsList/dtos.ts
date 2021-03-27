@@ -1,6 +1,6 @@
-import { IACC } from '../../dtos';
+import { IReceivedACC } from '../../dtos';
 
 export interface ReceivedACCsListProps {
-  accs: IACC[];
+  accs: IReceivedACC[];
   isLoading: boolean;
 }

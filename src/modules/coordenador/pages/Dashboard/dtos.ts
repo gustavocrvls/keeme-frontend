@@ -1,27 +1,17 @@
-export interface IACC {
+export interface IReceivedACC {
   id: number;
-  id_certificado: number;
-  pontos: number;
-  quantidade: number;
-  sobre: string;
-  status_da_acc: {
+  quantity: number;
+  user: {
     id: number;
-    nome: string;
+    name: string;
+    cpf: string;
   };
-  tipo_de_acc: {
+  acc_type: {
     id: number;
-    nome: string;
-    unidade_de_medida: {
+    name: string;
+    unity_of_measurement: {
       id: number;
-      nome: string;
+      name: string;
     };
-  };
-  usuario: {
-    curso: {
-      id: number;
-      nome: string;
-    };
-    id: number;
-    nome: string;
   };
 }

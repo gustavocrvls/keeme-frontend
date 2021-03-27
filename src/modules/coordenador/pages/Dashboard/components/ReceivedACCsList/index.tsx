@@ -1,13 +1,22 @@
-import { Box, Flex, Skeleton, Stack, UnorderedList } from '@chakra-ui/react';
-import React from 'react';
+import {
+  Box,
+  Flex,
+  IconButton,
+  Skeleton,
+  Stack,
+  Text,
+  UnorderedList,
+} from '@chakra-ui/react';
 import { FiArrowRight } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { ReceivedACCsListProps } from './dtos';
 
 export function ReceivedACCsList({
   accs,
   isLoading,
 }: ReceivedACCsListProps): JSX.Element {
+  const history = useHistory();
+
   return (
     <>
       <Flex justifyContent="flex-end">{`${accs.length || 0} ACCs`}</Flex>
@@ -16,34 +25,32 @@ export function ReceivedACCsList({
           <UnorderedList listStyleType="none" margin="0">
             {accs.length &&
               accs.map(acc => (
-                <Link to={`/coordenador/detalhes-da-acc/${acc.id}`}>
-                  <li>
-                    <Flex
-                      backgroundColor="white"
-                      padding="3"
-                      marginBottom="3"
-                      justifyContent="space-between"
-                      boxShadow="md"
-                      borderRadius="md"
-                    >
-                      <div>
-                        <div>
-                          <strong>{acc.usuario.nome}</strong>
-                        </div>
-                        <Box fontSize="sm">{acc.tipo_de_acc.nome}</Box>
-                      </div>
-                      <div
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <FiArrowRight size={20} />
-                      </div>
-                    </Flex>
-                  </li>
-                </Link>
+                <li>
+                  <Flex
+                    backgroundColor="white"
+                    padding="3"
+                    marginBottom="3"
+                    justifyContent="space-between"
+                    boxShadow="md"
+                    borderRadius="md"
+                    alignItems="center"
+                  >
+                    <Box>
+                      <Flex>
+                        <strong>{acc.user.name}</strong>
+                      </Flex>
+                      <Text fontSize="sm">{acc.acc_type.name}</Text>
+                    </Box>
+                    <IconButton
+                      aria-label="choose-acc"
+                      icon={<FiArrowRight size={20} />}
+                      variant="ghost"
+                      onClick={() => {
+                        history.push(`/coordinator/acc-details/${acc.id}`);
+                      }}
+                    />
+                  </Flex>
+                </li>
               ))}
           </UnorderedList>
         ) : (

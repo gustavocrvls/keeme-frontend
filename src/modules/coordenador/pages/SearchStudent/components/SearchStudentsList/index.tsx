@@ -42,7 +42,7 @@ export function SearchStudentsList({
                 <Tooltip label="Detalhes do discente" hasArrow>
                   <IconButton
                     aria-label="choose-user"
-                    icon={<FiArrowRight />}
+                    icon={<FiArrowRight size={20} />}
                     variant="ghost"
                     onClick={() => {
                       history.push(

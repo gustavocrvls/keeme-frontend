@@ -19,7 +19,7 @@ const Routes = (): JSX.Element => {
         component={DetalhesDoDiscente}
       />
       <PrivateRoute
-        path="/coordenador/detalhes-da-acc/:id"
+        path="/coordinator/acc-details/:id"
         component={DetalhesDaAccCoordenador}
       />
     </>

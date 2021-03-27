@@ -5,10 +5,10 @@ import { notifyError } from '../../../../components/Notifications';
 import STATUS_DA_ACC from '../../../../constants/StatusDaACC';
 import api from '../../../../services/api';
 import { ReceivedACCsList } from './components/ReceivedACCsList';
-import { IACC } from './dtos';
+import { IReceivedACC } from './dtos';
 
 export function Dashboard(): JSX.Element {
-  const [accs, setACCs] = useState<IACC[]>([]);
+  const [accs, setACCs] = useState<IReceivedACC[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
