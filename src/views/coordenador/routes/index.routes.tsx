@@ -1,8 +1,7 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
 import { PrivateRoute } from '../../../routes';
 
-import Dashboard from '../pages/Dashboard';
+import { Dashboard } from '../pages/Dashboard';
 import PesquisarDiscente from '../pages/PesquisarDiscente';
 import DetalhesDaAccCoordenador from '../pages/DetalhesDaAcc';
 import DetalhesDoDiscente from '../pages/DetalhesDoDiscente';

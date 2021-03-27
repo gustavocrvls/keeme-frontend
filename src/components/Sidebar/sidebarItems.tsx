@@ -19,7 +19,7 @@ export const SidebarItems = {
   [PERFIS.COORDENADOR]: {
     items: [
       {
-        label: 'ACCs Recebidas',
+        label: 'Início',
         to: '/coordenador/home',
         icon: FiHome,
       },
