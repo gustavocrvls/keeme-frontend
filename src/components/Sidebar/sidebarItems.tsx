@@ -6,12 +6,12 @@ export const SidebarItems = {
     items: [
       {
         label: 'Coordenadores',
-        to: '/administrador/home',
+        to: '/administrator/home',
         icon: FiHome,
       },
       {
         label: 'Tipos de ACC',
-        to: '/administrador/tipos-de-acc',
+        to: '/administrator/tipos-de-acc',
         icon: FiPackage,
       },
     ],

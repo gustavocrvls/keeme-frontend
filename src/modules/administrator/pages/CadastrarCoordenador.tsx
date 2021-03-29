@@ -56,7 +56,7 @@ export default function CadastrarCoordenador(): JSX.Element {
         curso: Number(formIdCurso),
       });
       notifySuccess('Novo coordenador cadastrado!');
-      history.push('/administrador/home');
+      history.push('/administrator/home');
     } catch (err) {
       notifyError('Não foi possível cadastrar o coordenador...');
     } finally {

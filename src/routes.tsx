@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import { isAuthenticated } from './services/auth';
@@ -14,7 +14,7 @@ import CriarPerfil from './modules/CriarPerfil';
 
 import DiscenteRoutes from './modules/discente/routes/index.routes';
 import CoordenadorRoutes from './modules/coordenador/routes/index.routes';
-import AdministradorRoutes from './modules/administrador/routes/index.routes';
+import AdministratorRoutes from './modules/administrator/routes/index.routes';
 import { Sidebar } from './components/Sidebar';
 import { About } from './modules/public/About';
 import { Feedback } from './modules/public/Feedback';
@@ -68,7 +68,7 @@ const Routes = (): JSX.Element => {
         <Route path="/discente" component={DiscenteRoutes} />
         <Route path="/coordenador" component={CoordenadorRoutes} />
         <Route path="/coordinator" component={CoordenadorRoutes} />
-        <Route path="/administrador" component={AdministradorRoutes} />
+        <Route path="/administrator" component={AdministratorRoutes} />
 
         {/* <Redirect to="/login" /> */}
       </Switch>

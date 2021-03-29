@@ -123,13 +123,13 @@ class TiposDeACC extends React.Component<RouteComponentProps, IState> {
   goToCadastrarTipoDeACC = (): void => {
     const { history } = this.props;
 
-    history.push('/administrador/cadastrar-tipo-de-acc');
+    history.push('/administrator/cadastrar-tipo-de-acc');
   };
 
   goToEditarTipoDeACC = (idTipoDeACC: number): void => {
     const { history } = this.props;
 
-    history.push(`/administrador/editar-tipo-de-acc/${idTipoDeACC}`);
+    history.push(`/administrator/editar-tipo-de-acc/${idTipoDeACC}`);
   };
 
   render(): JSX.Element {

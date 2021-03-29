@@ -80,7 +80,7 @@ export default function Login(): JSX.Element {
         history.push('/coordenador/home');
       }
       if (result.data.usuario.perfil.id === PERFIS.ADMIN) {
-        history.push('/administrador/home');
+        history.push('/administrator/home');
       }
     } else {
       notifyError('Usuário e/ou senha incorretos!');

@@ -81,7 +81,7 @@ class CadastrarTipoDeACC extends React.Component<RouteComponentProps, IState> {
         unidadeDeMedida: idUnidadeDeMedida,
       });
       notifySuccess('Novo Tipo de ACC cadastrado!');
-      history.push('/administrador/tipos-de-acc');
+      history.push('/administrator/tipos-de-acc');
     } catch (err) {
       notifyError('Não foi possível cadastrar o Tipo de ACC...');
     } finally {

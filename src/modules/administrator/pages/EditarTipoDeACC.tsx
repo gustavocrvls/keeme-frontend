@@ -108,7 +108,7 @@ class EditarTipoDeACC extends React.Component<IMatchProps, IState> {
         unidade_de_medida: idUnidadeDeMedida,
       });
       notifySuccess('O Tipo de ACC foi atualizado!');
-      history.push('/administrador/tipos-de-acc');
+      history.push('/administrator/tipos-de-acc');
     } catch (err) {
       notifyError('Não foi possível atualizar o Tipo de ACC...');
     } finally {
