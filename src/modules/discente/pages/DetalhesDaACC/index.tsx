@@ -49,11 +49,11 @@ interface ParamTypes {
 }
 
 export function DetalhesDaAcc(): JSX.Element {
-  const downloadRef = useRef<HTMLAnchorElement>(null);
   const [acc, setACC] = useState<IAcc>();
   const [pontos, setPontos] = useState<number>(0);
   const [isAlertDeleteOpen, setIsAlertDeleteOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const downloadRef = useRef<HTMLAnchorElement>(null);
   const cancelRef = useRef<any>();
 
   const history = useHistory();

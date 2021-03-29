@@ -50,6 +50,7 @@ export default function CadastrarAcc(): JSX.Element {
   const [certificado, setCertificado] = useState<Blob>();
   const [accVariantId, setACCVariantId] = useState<string | number>();
   const [points, setPoints] = useState<number>();
+  const [isSending, setIsSending] = useState<boolean>(false);
 
   const history = useHistory();
 
@@ -68,6 +69,8 @@ export default function CadastrarAcc(): JSX.Element {
       if (!file.size) {
         notifyError('Anexe um certificado!');
       }
+
+      setIsSending(true);
 
       formData.append('descricao', descricao);
       formData.append('quantidade', quantidade);
@@ -239,7 +242,7 @@ export default function CadastrarAcc(): JSX.Element {
           </div>
         </Box>
         <Flex justifyContent="center">
-          <Button type="submit" colorScheme="teal">
+          <Button type="submit" colorScheme="teal" isLoading={isSending}>
             Cadastrar
           </Button>
         </Flex>

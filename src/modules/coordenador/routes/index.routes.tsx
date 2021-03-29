@@ -3,7 +3,7 @@ import { PrivateRoute } from '../../../routes';
 
 import { Dashboard } from '../pages/Dashboard';
 import { SearchStudent } from '../pages/SearchStudent';
-import DetalhesDaAccCoordenador from '../pages/DetalhesDaAcc';
+import { ACCDetails } from '../pages/ACCDetails';
 import DetalhesDoDiscente from '../pages/DetalhesDoDiscente';
 
 const Routes = (): JSX.Element => {
@@ -20,7 +20,7 @@ const Routes = (): JSX.Element => {
       />
       <PrivateRoute
         path="/coordinator/acc-details/:id"
-        component={DetalhesDaAccCoordenador}
+        component={ACCDetails}
       />
     </>
   );
