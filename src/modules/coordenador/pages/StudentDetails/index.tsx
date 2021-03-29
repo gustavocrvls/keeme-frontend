@@ -7,6 +7,7 @@ import { notifyError } from '../../../../components/Notifications';
 import { IStudent, IACC, ParamTypes, ISummary } from './dtos';
 import PageTitle from '../../../../components/PageTitle';
 import { ACCList } from './components/ACCList';
+import { Pagination } from '../../../../components/Pagination';
 
 export function StudentDetails(): JSX.Element {
   const [student, setStudent] = useState<IStudent>();
@@ -164,6 +165,11 @@ export function StudentDetails(): JSX.Element {
       </Flex>
 
       <ACCList isLoading={isLoadingACCs} accs={accs} />
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 }

@@ -74,13 +74,13 @@ export function SearchStudent(): JSX.Element {
 
       {search.length > 0 && isSearched && !isLoading && !students.length && (
         <Text fontSize="sm" color="gray.600">
-          Não foram encontrados discentes com esse CPF/Nome.
+          Não foram encontrados discentes com esse CPF/Nome
         </Text>
       )}
 
       {!search.length && !students.length && (
         <Text fontSize="sm" color="gray.600">
-          Escreva algum Nome ou CPF para buscar.
+          Escreva algum Nome ou CPF para buscar
         </Text>
       )}
 
