@@ -47,6 +47,7 @@ module.exports = {
     ],
     camelcase: 'off',
     'import/prefer-default-export': 'off',
+    'react/react-in-jsx-scope': 'off',
   },
   settings: {
     'import/resolver': {
