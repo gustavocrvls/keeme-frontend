@@ -4,7 +4,7 @@ import { PrivateRoute } from '../../../routes';
 import { Dashboard } from '../pages/Dashboard';
 import { SearchStudent } from '../pages/SearchStudent';
 import { ACCDetails } from '../pages/ACCDetails';
-import DetalhesDoDiscente from '../pages/DetalhesDoDiscente';
+import { StudentDetails } from '../pages/StudentDetails';
 
 const Routes = (): JSX.Element => {
   return (
@@ -16,7 +16,7 @@ const Routes = (): JSX.Element => {
       />
       <PrivateRoute
         path="/coordinator/student-details/:id"
-        component={DetalhesDoDiscente}
+        component={StudentDetails}
       />
       <PrivateRoute
         path="/coordinator/acc-details/:id"
