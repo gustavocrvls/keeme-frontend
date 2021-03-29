@@ -96,7 +96,7 @@ export function Dashboard(): JSX.Element {
         <Button
           colorScheme="teal"
           size="sm"
-          onClick={() => history.push('/administrador/create-coordinator')}
+          onClick={() => history.push('/administrator/register-coordinator')}
         >
           Cadastrar coordenador
         </Button>
