@@ -11,13 +11,14 @@ import {
   Input,
   Select,
   SimpleGrid,
-  Stack,
 } from '@chakra-ui/react';
 import loginVector1 from '../assets/images/login__vector_1.svg';
 import api from '../services/api';
 import { login } from '../services/auth';
 import PERFIS from '../constants/Perfis';
 import { notifyError, notifySuccess } from '../components/Notifications';
+import { isValidCPF } from '../utils/validations';
+import { cpfMask } from '../utils/masks';
 
 const CriarPerfilCard = styled.div`
   padding: 20px;
@@ -67,10 +68,13 @@ type Curso = {
 
 export default function CriarPerfil(): JSX.Element {
   const [nome, setNome] = useState('');
+  const [cpf, setCPF] = useState('');
+  const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [senha, setSenha] = useState('');
   const [senha2, setSenha2] = useState('');
   const [idCurso, setIdCurso] = useState('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [cursos, setCursos] = useState<Curso[]>([]);
 
@@ -78,6 +82,11 @@ export default function CriarPerfil(): JSX.Element {
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!isValidCPF(cpf.replace(/\D/g, ''))) {
+      notifyError('CPF inválido!');
+      return;
+    }
 
     if (senha.length < 8) {
       notifyError('A senha deve ter mais de 8 caracteres!');
@@ -89,15 +98,17 @@ export default function CriarPerfil(): JSX.Element {
       return;
     }
 
-    const result = await api.post('usuarios/create-discente', {
+    const result = await api.post('users/create-discente', {
       nome,
       username,
+      cpf,
+      email,
       senha,
-      curso: idCurso, // TODO
+      curso: idCurso,
     });
 
     if (result.status === 201) {
-      const resultLogin = await api.post('usuarios/login', {
+      const resultLogin = await api.post('users/login', {
         username,
         senha,
       });
@@ -107,7 +118,7 @@ export default function CriarPerfil(): JSX.Element {
           resultLogin.data.token,
           resultLogin.data.usuario.id,
           resultLogin.data.usuario.perfil.id,
-          result.data.usuario.nome,
+          resultLogin.data.usuario.nome,
         );
 
         notifySuccess('Usuário criado com sucesso!');
@@ -119,14 +130,21 @@ export default function CriarPerfil(): JSX.Element {
     }
   };
 
+  async function loadCursos() {
+    const response = await api.get('cursos');
+
+    setCursos(response.data.data);
+  }
+
   useEffect(() => {
-    async function loadCursos() {
-      const response = await api.get('cursos');
-
-      setCursos(response.data.data);
+    try {
+      setIsLoading(true);
+      loadCursos();
+    } catch (err) {
+      notifyError('Não foi possível carregar os cursos :(');
+    } finally {
+      setIsLoading(false);
     }
-
-    loadCursos();
   }, []);
 
   return (
@@ -158,30 +176,32 @@ export default function CriarPerfil(): JSX.Element {
             <FormControl id="cpf" isRequired>
               <FormLabel>CPF</FormLabel>
               <Input
-                type="number"
+                type="text"
                 placeholder="CPF"
-                value={username}
-                onChange={e => setUsername(e.target.value)}
+                value={cpfMask(cpf)}
+                onChange={e => {
+                  setCPF(e.target.value);
+                }}
               />
             </FormControl>
           </SimpleGrid>
 
           <SimpleGrid columns={[1, 2]} gap="3">
-            <FormControl id="usuario" isRequired>
-              <FormLabel>Usuário</FormLabel>
-              <Input
-                type="text"
-                placeholder="Usuário"
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-              />
-            </FormControl>
-
             <FormControl id="email" isRequired>
               <FormLabel>E-mail</FormLabel>
               <Input
                 type="email"
                 placeholder="E-mail"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
+            </FormControl>
+
+            <FormControl id="usuario" isRequired>
+              <FormLabel>Usuário</FormLabel>
+              <Input
+                type="text"
+                placeholder="Usuário"
                 value={username}
                 onChange={e => setUsername(e.target.value)}
               />
@@ -210,6 +230,7 @@ export default function CriarPerfil(): JSX.Element {
                 type="password"
                 placeholder="********"
                 value={senha}
+                minLength={8}
                 onChange={e => setSenha(e.target.value)}
               />
             </FormControl>
@@ -226,7 +247,12 @@ export default function CriarPerfil(): JSX.Element {
           </SimpleGrid>
 
           <Flex width="100%" marginTop="7" justifyContent="center">
-            <Button type="submit" colorScheme="teal">
+            <Button
+              type="submit"
+              colorScheme="teal"
+              isLoading={isLoading}
+              loadingText="Criar Perfil"
+            >
               Criar Perfil
             </Button>
           </Flex>
