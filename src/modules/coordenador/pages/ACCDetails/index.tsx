@@ -225,16 +225,48 @@ export function ACCDetails(): JSX.Element {
             <SkeletonText noOfLines={1} />
           )}
         </Box>
+
+        {acc?.status_da_acc.id === STATUS_DA_ACC.APROVADA ||
+          (acc?.status_da_acc.id === STATUS_DA_ACC.NEGADA && (
+            <SimpleGrid columns={[1, 2]}>
+              <Box>
+                <Box width="100%" color="gray.500">
+                  Avaliada por
+                </Box>
+                <Box width="100%">{acc?.avaliacao_da_acc.usuario.nome}</Box>
+              </Box>
+              <Box>
+                <Box width="100%" color="gray.500">
+                  Data da Avaliação
+                </Box>
+                <Box width="100%">
+                  {new Date(acc?.avaliacao_da_acc.criado_em).toLocaleString()}
+                </Box>
+              </Box>
+            </SimpleGrid>
+          ))}
+
+        {acc?.status_da_acc.id === STATUS_DA_ACC.NEGADA && (
+          <Box>
+            <Box width="100%" color="gray.500">
+              Motivo da Reprovação
+            </Box>
+            <Box width="100%">{acc?.avaliacao_da_acc.descricao}</Box>
+          </Box>
+        )}
       </Stack>
-      <Flex marginTop="5" justifyContent="center">
-        <Button
-          colorScheme="gray"
-          leftIcon={<FiDownload />}
-          onClick={() => downloadRef.current?.click()}
-        >
-          Baixar Certificado
-        </Button>
-      </Flex>
+
+      {!isLoading && (
+        <Flex marginTop="5" justifyContent="center">
+          <Button
+            colorScheme="gray"
+            leftIcon={<FiDownload />}
+            onClick={() => downloadRef.current?.click()}
+          >
+            Baixar Certificado
+          </Button>
+        </Flex>
+      )}
       <a
         style={{ visibility: 'hidden' }}
         href={`${process.env.REACT_APP_API}/certificados/${acc?.certificado.id}`}
@@ -243,17 +275,26 @@ export function ACCDetails(): JSX.Element {
         baixar
       </a>
 
-      <Stack spacing="3" justifyContent="center" direction="row">
-        <Button
-          colorScheme="red"
-          onClick={() => setIsModalAssessmentOpen(true)}
-        >
-          Reprovar
-        </Button>
-        <Button colorScheme="teal" onClick={() => setIsAlertApproveOpen(true)}>
-          Aprovar
-        </Button>
-      </Stack>
+      {acc?.status_da_acc.id === STATUS_DA_ACC.APROVADA ||
+      acc?.status_da_acc.id === STATUS_DA_ACC.NEGADA ||
+      isLoading ? (
+        <></>
+      ) : (
+        <Stack spacing="3" justifyContent="center" direction="row">
+          <Button
+            colorScheme="red"
+            onClick={() => setIsModalAssessmentOpen(true)}
+          >
+            Reprovar
+          </Button>
+          <Button
+            colorScheme="teal"
+            onClick={() => setIsAlertApproveOpen(true)}
+          >
+            Aprovar
+          </Button>
+        </Stack>
+      )}
 
       <AlertDialog
         isOpen={isAlertApproveOpen}

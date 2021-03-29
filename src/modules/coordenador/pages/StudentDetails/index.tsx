@@ -81,7 +81,7 @@ export function StudentDetails(): JSX.Element {
         borderRadius="md"
         boxShadow="md"
         padding="3"
-        marginBottom="3"
+        marginBottom="5"
         justifyContent="space-between"
       >
         <Box>

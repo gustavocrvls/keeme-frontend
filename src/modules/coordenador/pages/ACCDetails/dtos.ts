@@ -32,6 +32,15 @@ export interface IACCWithUser {
   certificado: {
     id: number;
   };
+  avaliacao_da_acc: {
+    id: number;
+    criado_em: Date;
+    descricao: string;
+    usuario: {
+      id: number;
+      nome: string;
+    };
+  };
 }
 
 export interface ParamTypes {
