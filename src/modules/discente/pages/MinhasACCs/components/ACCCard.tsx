@@ -16,20 +16,19 @@ import statusDaAcc from '../../../../../constants/StatusDaACC';
 interface ACCCardProps {
   id: number;
   title: string;
-  description: string;
   accType: {
     id: number;
-    nome: string;
-    unidade_de_medida: {
+    name: string;
+    unity_of_measurement: {
       id: number;
-      nome: string;
+      name: string;
     };
   };
   points: number;
   quantity: number;
   status: {
     id: number;
-    nome: string;
+    name: string;
   };
 }
 
@@ -37,7 +36,6 @@ export function ACCCard({
   id,
   title,
   accType,
-  description,
   points,
   quantity,
   status,
@@ -45,13 +43,13 @@ export function ACCCard({
   function handleStatus() {
     switch (status.id) {
       case statusDaAcc.APROVADA:
-        return <strong style={{ color: 'teal' }}>{status.nome}</strong>;
+        return <strong style={{ color: 'teal' }}>{status.name}</strong>;
 
       case statusDaAcc.EM_ANALISE:
-        return <strong style={{ color: 'gray' }}>{status.nome}</strong>;
+        return <strong style={{ color: 'gray' }}>{status.name}</strong>;
 
       case statusDaAcc.NEGADA:
-        return <strong style={{ color: 'tomato' }}>{status.nome}</strong>;
+        return <strong style={{ color: 'tomato' }}>{status.name}</strong>;
       default:
         return <></>;
     }
@@ -72,7 +70,7 @@ export function ACCCard({
         <Box>
           <SimpleGrid columns={[1, 3]}>
             <Box>
-              <span>{`${accType.unidade_de_medida.nome}s: `}</span>
+              <span>{`${accType.unity_of_measurement.name}s: `}</span>
               <strong>{quantity}</strong>
             </Box>
             <Box>

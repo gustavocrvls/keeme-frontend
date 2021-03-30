@@ -20,26 +20,25 @@ import { ACCCard } from '../MinhasACCs/components/ACCCard';
 
 interface IACC {
   id: number;
-  id_certificado: number;
-  pontos: number;
-  quantidade: number;
-  descricao: string;
-  status_da_acc: {
+  points: number;
+  quantity: number;
+  description: string;
+  acc_status: {
     id: number;
-    nome: string;
+    name: string;
   };
-  tipo_de_acc: {
+  acc_type: {
     id: number;
-    nome: string;
-    unidade_de_medida: {
+    name: string;
+    unity_of_measurement: {
       id: number;
-      nome: string;
+      name: string;
     };
   };
-  variante_de_acc: {
+  acc_variant: {
     id: number;
-    descricao: string;
-    pontos_por_unidade: number;
+    description: string;
+    points_per_unity: number;
   };
 }
 
@@ -72,7 +71,7 @@ export default function Home(): JSX.Element {
         const responseACCs = await api.get(`accs`, {
           params: {
             usuario: sessionStorage.getItem(USERID_KEY),
-            sortField: 'criado_em',
+            sortField: 'created_at',
             sortOrder: 'DESC',
             limit: 3,
             page: 1,
@@ -251,14 +250,11 @@ export default function Home(): JSX.Element {
               <ListItem key={acc.id} marginBottom="3">
                 <ACCCard
                   id={acc.id}
-                  title={acc.tipo_de_acc.nome}
-                  description={acc.descricao}
-                  accType={acc.tipo_de_acc}
-                  points={
-                    acc.variante_de_acc.pontos_por_unidade * acc.quantidade
-                  }
-                  quantity={acc.quantidade}
-                  status={acc.status_da_acc}
+                  title={acc.acc_type.name}
+                  accType={acc.acc_type}
+                  points={acc.acc_variant.points_per_unity * acc.quantity}
+                  quantity={acc.quantity}
+                  status={acc.acc_status}
                 />
               </ListItem>
             );
