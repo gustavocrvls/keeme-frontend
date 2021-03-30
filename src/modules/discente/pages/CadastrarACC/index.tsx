@@ -26,19 +26,17 @@ import PageTitle from '../../../../components/PageTitle';
 
 interface TipoDeAcc {
   id: number;
-  nome: string;
-  limite_de_pontos: number;
-  completed: number;
-  pontuacao: number;
-  unidade_de_medida: {
+  name: string;
+  point_limit: number;
+  unity_of_measurement: {
     id: number;
-    nome: string;
+    name: string;
   };
-  pontos_por_unidade: number;
-  variantes_de_acc: {
+  points_per_unity: number;
+  acc_variants: {
     id: number;
-    descricao: string;
-    pontos_por_unidade: 0;
+    description: string;
+    points_per_unity: 0;
   }[];
 }
 
@@ -50,6 +48,7 @@ export default function CadastrarAcc(): JSX.Element {
   const [certificado, setCertificado] = useState<Blob>();
   const [accVariantId, setACCVariantId] = useState<string | number>();
   const [points, setPoints] = useState<number>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
 
   const history = useHistory();
@@ -72,12 +71,12 @@ export default function CadastrarAcc(): JSX.Element {
 
       setIsSending(true);
 
-      formData.append('descricao', descricao);
-      formData.append('quantidade', quantidade);
-      formData.append('idUsuario', userID);
-      formData.append('tipoDeAcc', idTipoDeAcc);
-      formData.append('certificado', file);
-      formData.append('variante_de_acc', String(accVariantId));
+      formData.append('description', descricao);
+      formData.append('quantity', quantidade);
+      formData.append('user', userID);
+      formData.append('acc_type', idTipoDeAcc);
+      formData.append('certificate', file);
+      formData.append('acc_variant', String(accVariantId));
 
       const response = await api.post('accs/create', formData, {
         headers: {
@@ -96,21 +95,27 @@ export default function CadastrarAcc(): JSX.Element {
   };
 
   const loadTiposDeAcc = async () => {
-    const response = await api.get('tipos-de-acc', {
-      params: {
-        sortField: 'nome',
-        sortOrder: 'ASC',
-      },
-    });
-    setTiposDeAcc(response.data.data);
+    try {
+      setIsLoading(true);
+      const response = await api.get('acc-types', {
+        params: {
+          sortField: 'name',
+          sortOrder: 'ASC',
+        },
+      });
+      setTiposDeAcc(response.data.data);
+      setIsLoading(false);
+    } catch (err) {
+      notifyError('Não foi possível carregar os tipos de acc :(');
+    }
   };
 
   function handleACCTypeId(e: ChangeEvent<HTMLSelectElement>) {
     setIdTipoDeAcc(e.target.value);
     setACCVariantId(
       String(
-        tiposDeAcc.find(t => t.id === Number(e.target.value))
-          ?.variantes_de_acc[0].id,
+        tiposDeAcc.find(t => t.id === Number(e.target.value))?.acc_variants[0]
+          .id,
       ),
     );
   }
@@ -123,8 +128,8 @@ export default function CadastrarAcc(): JSX.Element {
     const pt =
       tiposDeAcc
         .find(t => t.id === Number(idTipoDeAcc))
-        ?.variantes_de_acc.find(variant => variant.id === Number(accVariantId))
-        ?.pontos_por_unidade || 0;
+        ?.acc_variants.find(variant => variant.id === Number(accVariantId))
+        ?.points_per_unity || 0;
 
     setPoints(pt * Number(quantidade));
   }, [accVariantId, quantidade]);
@@ -144,7 +149,7 @@ export default function CadastrarAcc(): JSX.Element {
             >
               {tiposDeAcc.map(tipoDeAcc => (
                 <option key={tipoDeAcc.id} value={tipoDeAcc.id}>
-                  {tipoDeAcc.nome}
+                  {tipoDeAcc.name}
                 </option>
               ))}
             </Select>
@@ -157,20 +162,19 @@ export default function CadastrarAcc(): JSX.Element {
           value={accVariantId}
         >
           <Stack>
-            {tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))
-              ?.variantes_de_acc &&
-              tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))
-                ?.variantes_de_acc.length !== 1 &&
+            {tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))?.acc_variants &&
+              tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))?.acc_variants
+                .length !== 1 &&
               tiposDeAcc
                 .find(t => t.id === Number(idTipoDeAcc))
-                ?.variantes_de_acc.map(variant => (
+                ?.acc_variants.map(variant => (
                   <Radio
                     key={variant.id}
                     colorScheme="teal"
                     value={String(variant.id)}
                     name="variant"
                   >
-                    {variant.descricao}
+                    {variant.description}
                   </Radio>
                 ))}
           </Stack>
@@ -181,14 +185,14 @@ export default function CadastrarAcc(): JSX.Element {
             <FormLabel>
               {`Quantidade de ${
                 tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))
-                  ?.unidade_de_medida.nome || 'Hora'
+                  ?.unity_of_measurement.name || 'Hora'
               }s`}
             </FormLabel>
             <Input
               type="quantidade"
               placeholder={`${
                 tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))
-                  ?.unidade_de_medida.nome || 'Hora'
+                  ?.unity_of_measurement.name || 'Hora'
               }s`}
               value={quantidade}
               onChange={e => setQuantidade(e.target.value)}
@@ -242,7 +246,12 @@ export default function CadastrarAcc(): JSX.Element {
           </div>
         </Box>
         <Flex justifyContent="center">
-          <Button type="submit" colorScheme="teal" isLoading={isSending}>
+          <Button
+            type="submit"
+            colorScheme="teal"
+            isLoading={isSending}
+            disabled={isLoading}
+          >
             Cadastrar
           </Button>
         </Flex>

@@ -3,7 +3,7 @@ import React from 'react';
 import { PrivateRoute } from '../../../routes';
 
 import { Dashboard } from '../pages/Dashboard';
-import { RegisterCoordinator } from '../pages/RegisterCoordinator';
+import { RegisterCoordinator } from '../pages/RegisterCoordenator';
 import TiposDeACC from '../pages/TiposDeACC';
 import CadastrarTipoDeACC from '../pages/CadastrarTipoDeACC';
 import EditarTipoDeACC from '../pages/EditarTipoDeACC';

@@ -63,7 +63,7 @@ const LoginForm = styled.form`
 
 type Curso = {
   id: number;
-  nome: string;
+  name: string;
 };
 
 export default function CriarPerfil(): JSX.Element {
@@ -98,32 +98,32 @@ export default function CriarPerfil(): JSX.Element {
       return;
     }
 
-    const result = await api.post('users/create-discente', {
-      nome,
+    const result = await api.post('users/register-student', {
+      name: nome,
       username,
       cpf,
       email,
-      senha,
-      curso: idCurso,
+      password: senha,
+      course: idCurso,
     });
 
     if (result.status === 201) {
       const resultLogin = await api.post('users/login', {
         username,
-        senha,
+        password: senha,
       });
 
       if (resultLogin.data.auth) {
         login(
           resultLogin.data.token,
-          resultLogin.data.usuario.id,
-          resultLogin.data.usuario.perfil.id,
-          resultLogin.data.usuario.nome,
+          resultLogin.data.user.id,
+          resultLogin.data.user.profile.id,
+          resultLogin.data.user.name,
         );
 
         notifySuccess('Usuário criado com sucesso!');
 
-        if (resultLogin.data.usuario.perfil.id === PERFIS.DISCENTE) {
+        if (resultLogin.data.user.profile.id === PERFIS.DISCENTE) {
           history.push('/discente/home');
         }
       }
@@ -131,7 +131,7 @@ export default function CriarPerfil(): JSX.Element {
   };
 
   async function loadCursos() {
-    const response = await api.get('cursos');
+    const response = await api.get('courses');
 
     setCursos(response.data.data);
   }
@@ -217,7 +217,7 @@ export default function CriarPerfil(): JSX.Element {
             >
               {cursos.map(curso => (
                 <option key={curso.id} value={curso.id}>
-                  {curso.nome}
+                  {curso.name}
                 </option>
               ))}
             </Select>

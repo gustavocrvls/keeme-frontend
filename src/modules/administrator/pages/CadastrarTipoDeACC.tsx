@@ -73,7 +73,7 @@ class CadastrarTipoDeACC extends React.Component<RouteComponentProps, IState> {
     });
 
     try {
-      await api.post('tipos-de-acc', {
+      await api.post('acc-types', {
         nome,
         pontosPorUnidade,
         limiteDePontos,
@@ -81,7 +81,7 @@ class CadastrarTipoDeACC extends React.Component<RouteComponentProps, IState> {
         unidadeDeMedida: idUnidadeDeMedida,
       });
       notifySuccess('Novo Tipo de ACC cadastrado!');
-      history.push('/administrator/tipos-de-acc');
+      history.push('/administrator/acc-types');
     } catch (err) {
       notifyError('Não foi possível cadastrar o Tipo de ACC...');
     } finally {
