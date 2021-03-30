@@ -14,13 +14,13 @@ api.interceptors.request.use(async config => {
   return headerConfig;
 });
 
-api.interceptors.response.use(async response => {
-  if (response.data.auth === false) {
-    sessionStorage.clear();
-    document.location.reload();
-  }
+// api.interceptors.response.use(async response => {
+//   if (response.data.auth === false) {
+//     sessionStorage.clear();
+//     document.location.reload();
+//   }
 
-  return response;
-});
+//   return response;
+// });
 
 export default api;

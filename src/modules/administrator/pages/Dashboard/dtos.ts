@@ -1,10 +1,10 @@
 export interface IUser {
   id: number;
-  nome: string;
+  name: string;
 }
 
 export interface ICourse {
   id: number;
-  nome: string;
-  usuarios: IUser[];
+  name: string;
+  users: IUser[];
 }

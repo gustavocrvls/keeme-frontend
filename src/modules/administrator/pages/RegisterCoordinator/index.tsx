@@ -41,9 +41,9 @@ export function RegisterCoordinator(): JSX.Element {
   async function loadCursos(): Promise<void> {
     try {
       setIsLoading(true);
-      const response = await api.get('cursos', {
+      const response = await api.get('courses', {
         params: {
-          sortField: 'nome',
+          sortField: 'name',
         },
       });
       setCourses(response.data.data);
@@ -80,13 +80,13 @@ export function RegisterCoordinator(): JSX.Element {
 
     try {
       await api.post('users', {
-        nome: coordinatorName,
+        name: coordinatorName,
         cpf: coordinatorCPF,
         email: coordinatorEmail,
         username: coordinatorUsername,
-        senha: coordinatorPassword,
-        perfil: PERFIS.COORDENADOR,
-        curso: Number(coordinatorCourse),
+        password: coordinatorPassword,
+        profile: PERFIS.COORDENADOR,
+        course: Number(coordinatorCourse),
       });
       notifySuccess('Novo coordenador cadastrado!');
       history.push('/administrator/home');
@@ -159,7 +159,7 @@ export function RegisterCoordinator(): JSX.Element {
             >
               {courses.map(curso => (
                 <option key={curso.id} value={curso.id}>
-                  {curso.nome}
+                  {curso.name}
                 </option>
               ))}
             </Select>

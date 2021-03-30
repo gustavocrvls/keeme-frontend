@@ -62,9 +62,7 @@ export function Dashboard(): JSX.Element {
       let newCourses = coursesState.map(course => {
         return {
           ...course,
-          usuarios: course.usuarios.filter(
-            usuario => usuario.id !== userToBeDeleted,
-          ),
+          usuarios: course.users.filter(user => user.id !== userToBeDeleted),
         };
       });
 
@@ -107,11 +105,11 @@ export function Dashboard(): JSX.Element {
           <>
             <li>
               <Heading as="h3" size="sm">
-                {course.nome}
+                {course.name}
               </Heading>
             </li>
             <ul style={{ listStyle: 'none', margin: 0, marginBottom: 30 }}>
-              {course.usuarios.map(user => (
+              {course.users.map(user => (
                 <li>
                   <Flex
                     boxShadow="md"
@@ -123,7 +121,7 @@ export function Dashboard(): JSX.Element {
                     justifyContent="space-between"
                     alignItems="center"
                   >
-                    <span>{user.nome}</span>
+                    <span>{user.name}</span>
                     <Tooltip label="Excluir" aria-label="Excluir">
                       <IconButton
                         size="sm"
