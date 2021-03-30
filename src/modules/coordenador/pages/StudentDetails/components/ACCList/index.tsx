@@ -19,13 +19,11 @@ export function ACCList({ accs, isLoading }: ACCListProps): JSX.Element {
                 <ListItem key={acc.id} marginBottom="3">
                   <ACCCard
                     id={acc.id}
-                    title={acc.tipo_de_acc.nome}
-                    accType={acc.tipo_de_acc}
-                    points={
-                      acc.variante_de_acc.pontos_por_unidade * acc.quantidade
-                    }
-                    quantity={acc.quantidade}
-                    status={acc.status_da_acc}
+                    title={acc.acc_type.name}
+                    accType={acc.acc_type}
+                    points={acc.acc_variant.points_per_unity * acc.quantity}
+                    quantity={acc.quantity}
+                    status={acc.acc_status}
                   />
                 </ListItem>
               ))}

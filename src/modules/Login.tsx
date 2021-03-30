@@ -54,7 +54,7 @@ const LoginForm = styled.form`
 
 export default function Login(): JSX.Element {
   const [username, setUsername] = useState('');
-  const [senha, setSenha] = useState('');
+  const [password, setSenha] = useState('');
 
   const history = useHistory();
 
@@ -62,24 +62,24 @@ export default function Login(): JSX.Element {
     e.preventDefault();
     const result = await api.post('users/login', {
       username,
-      senha,
+      password,
     });
 
     if (result.data.auth) {
       login(
         result.data.token,
-        result.data.usuario.id,
-        result.data.usuario.perfil.id,
-        result.data.usuario.nome,
+        result.data.user.id,
+        result.data.user.profile.id,
+        result.data.user.name,
       );
 
-      if (result.data.usuario.perfil.id === PERFIS.DISCENTE) {
+      if (result.data.user.profile.id === PERFIS.DISCENTE) {
         history.push('/discente/home');
       }
-      if (result.data.usuario.perfil.id === PERFIS.COORDENADOR) {
+      if (result.data.user.profile.id === PERFIS.COORDENADOR) {
         history.push('/coordenador/home');
       }
-      if (result.data.usuario.perfil.id === PERFIS.ADMIN) {
+      if (result.data.user.profile.id === PERFIS.ADMIN) {
         history.push('/administrator/home');
       }
     } else {
@@ -116,7 +116,7 @@ export default function Login(): JSX.Element {
             <Input
               type="password"
               placeholder="********"
-              value={senha}
+              value={password}
               onChange={e => setSenha(e.target.value)}
             />
           </FormControl>

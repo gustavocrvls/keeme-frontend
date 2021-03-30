@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, useContext } from 'react';
 import styled from 'styled-components';
 import { SidebarContext } from '../contexts/SidebarProvider';
 
@@ -10,9 +10,11 @@ const BaseContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const Container = (props: any): JSX.Element => {
-  const { children } = props;
+interface ContainerProps {
+  children: ReactNode;
+}
 
+const Container = ({ children }: ContainerProps): JSX.Element => {
   const { isSidebarAwaysShowed } = useContext(SidebarContext);
 
   return (

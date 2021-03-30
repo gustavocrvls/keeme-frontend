@@ -3,7 +3,7 @@ import React from 'react';
 import { PrivateRoute } from '../../../routes';
 
 import { Dashboard } from '../pages/Dashboard';
-import CadastrarCoordenador from '../pages/CadastrarCoordenador';
+import { RegisterCoordinator } from '../pages/RegisterCoordenator';
 import TiposDeACC from '../pages/TiposDeACC';
 import CadastrarTipoDeACC from '../pages/CadastrarTipoDeACC';
 import EditarTipoDeACC from '../pages/EditarTipoDeACC';
@@ -13,8 +13,8 @@ const Routes = (): JSX.Element => {
     <>
       <PrivateRoute path="/administrator/home" component={Dashboard} />
       <PrivateRoute
-        path="/administrator/create-coordinator"
-        component={CadastrarCoordenador}
+        path="/administrator/register-coordinator"
+        component={RegisterCoordinator}
       />
       <PrivateRoute path="/administrator/tipos-de-acc" component={TiposDeACC} />
       <PrivateRoute

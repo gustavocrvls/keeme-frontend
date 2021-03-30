@@ -21,6 +21,8 @@ export function Dashboard(): JSX.Element {
           params: {
             page: currentPage,
             limit: 10,
+            sortField: 'created_at',
+            sortOrder: 'DESC',
           },
         },
       );

@@ -9,47 +9,10 @@ import STATUS_DA_ACC from '../../../../constants/StatusDaACC';
 import api from '../../../../services/api';
 import PageTitle from '../../../../components/PageTitle';
 import { notifyError, notifySuccess } from '../../../../components/Notifications';
-
-interface IAcc {
-  id: number;
-  id_certificado: number;
-  pontos: number;
-  quantidade: number;
-  descricao: string;
-  criado_em: Date;
-  status_da_acc: {
-    id: number;
-    nome: string;
-  };
-  tipo_de_acc: {
-    id: number;
-    nome: string;
-    unidade_de_medida: {
-      id: number;
-      nome: string;
-    };
-  };
-  avaliacao_da_acc: {
-    id: number;
-    criado_em: Date;
-    descricao: string;
-    usuario: {
-      id: number;
-      nome: string;
-    };
-  };
-  variante_de_acc: {
-    id: number,
-    descricao: string,
-    pontos_por_unidade: number
-  };
-}
-interface ParamTypes {
-  id: string;
-}
+import { IACC, ParamTypes } from './dtos';
 
 export function DetalhesDaAcc(): JSX.Element {
-  const [acc, setACC] = useState<IAcc>();
+  const [acc, setACC] = useState<IACC>();
   const [pontos, setPontos] = useState<number>(0);
   const [isAlertDeleteOpen, setIsAlertDeleteOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -67,7 +30,7 @@ export function DetalhesDaAcc(): JSX.Element {
         const response = await api.get(`accs/${id}`);
         setACC(response.data);
 
-        setPontos(response.data.quantidade * response.data.variante_de_acc.pontos_por_unidade)
+        setPontos(response.data.quantity * response.data.acc_variant.points_per_unity)
 
       } catch (err) {
         notifyError('Não foi possível carregar os dados :(')
@@ -79,20 +42,20 @@ export function DetalhesDaAcc(): JSX.Element {
   }, []);
 
   function handleStatus() {
-    switch (acc?.status_da_acc.id) {
+    switch (acc?.acc_status.id) {
       case STATUS_DA_ACC.APROVADA:
         return (
-          <strong style={{ color: 'teal' }}>{acc.status_da_acc.nome}</strong>
+          <strong style={{ color: 'teal' }}>{acc.acc_status.name}</strong>
         );
 
       case STATUS_DA_ACC.EM_ANALISE:
         return (
-          <strong style={{ color: 'gray' }}>{acc.status_da_acc.nome}</strong>
+          <strong style={{ color: 'gray' }}>{acc.acc_status.name}</strong>
         );
 
       case STATUS_DA_ACC.NEGADA:
         return (
-          <strong style={{ color: 'tomato' }}>{acc.status_da_acc.nome}</strong>
+          <strong style={{ color: 'tomato' }}>{acc.acc_status.name}</strong>
         );
       default:
         return <></>;
@@ -135,11 +98,11 @@ export function DetalhesDaAcc(): JSX.Element {
             !isLoading ? (
               <>
                 {
-                acc?.variante_de_acc.descricao
+                acc?.acc_variant.description
                 ?
-                  <Box width="100%">{`${acc?.tipo_de_acc.nome} (${acc?.variante_de_acc.descricao || ''})`}</Box>
+                  <Box width="100%">{`${acc?.acc_type.name} (${acc?.acc_variant.description || ''})`}</Box>
                 :
-                  <Box width="100%">{`${acc?.tipo_de_acc.nome}`}</Box>
+                  <Box width="100%">{`${acc?.acc_type.name}`}</Box>
             }
               </>
           )
@@ -149,7 +112,7 @@ export function DetalhesDaAcc(): JSX.Element {
         </Box>
 
         {
-          acc?.criado_em && (
+          acc?.created_at && (
           <Box>
             <Box width="100%" color="gray.500">
               Criada em
@@ -157,7 +120,7 @@ export function DetalhesDaAcc(): JSX.Element {
             {
               !isLoading
               ?
-                <Box width="100%">{new Date(acc?.criado_em).toLocaleString()}</Box>
+                <Box width="100%">{new Date(acc?.created_at).toLocaleString()}</Box>
               :
                 <SkeletonText noOfLines={1} />
             }
@@ -185,12 +148,12 @@ export function DetalhesDaAcc(): JSX.Element {
 
           <Box>
             <Box width="100%" color="gray.500">
-              {`${acc?.tipo_de_acc.unidade_de_medida.nome}s` || 'Horas'}
+              {`${acc?.acc_type.unity_of_measurement.name}s` || 'Horas'}
             </Box>
             {
               !isLoading
               ?
-                <Box width="100%">{acc?.quantidade}</Box>
+                <Box width="100%">{acc?.quantity}</Box>
               :
                 <SkeletonText noOfLines={1} />
             }
@@ -217,36 +180,36 @@ export function DetalhesDaAcc(): JSX.Element {
           {
             !isLoading
           ?
-            <Box width="100%">{acc?.descricao}</Box>
+            <Box width="100%">{acc?.description}</Box>
           :
             <SkeletonText noOfLines={1} />
           }
         </Box>
 
-        {acc?.status_da_acc.id === STATUS_DA_ACC.APROVADA ||
-          (acc?.status_da_acc.id === STATUS_DA_ACC.NEGADA && (
+        {acc?.acc_status.id === STATUS_DA_ACC.APROVADA ||
+          (acc?.acc_status.id === STATUS_DA_ACC.NEGADA && (
             <SimpleGrid columns={[1, 2]}>
               <Box>
                 <Box width="100%" color="gray.500">
                   Avaliada por
                 </Box>
-                <Box width="100%">{acc?.avaliacao_da_acc.usuario.nome}</Box>
+                <Box width="100%">{acc?.acc_assessment.user.name}</Box>
               </Box>
               <Box>
                 <Box width="100%" color="gray.500">
                   Data da Avaliação
                 </Box>
-                <Box width="100%">{new Date(acc?.avaliacao_da_acc.criado_em).toLocaleString()}</Box>
+                <Box width="100%">{new Date(acc?.acc_assessment.created_at).toLocaleString()}</Box>
               </Box>
             </SimpleGrid>
           ))}
 
-        {acc?.status_da_acc.id === STATUS_DA_ACC.NEGADA && (
+        {acc?.acc_status.id === STATUS_DA_ACC.NEGADA && (
           <Box>
             <Box width="100%" color="gray.500">
               Motivo da Reprovação
             </Box>
-            <Box width="100%">{acc?.avaliacao_da_acc.descricao}</Box>
+            <Box width="100%">{acc?.acc_assessment.description}</Box>
           </Box>
         )}
 
@@ -260,7 +223,7 @@ export function DetalhesDaAcc(): JSX.Element {
           </Button>
           <a
             style={{ visibility: 'hidden' }}
-            href={`${process.env.REACT_APP_API}/certificados/${acc?.id_certificado}`}
+            href={`${process.env.REACT_APP_API}/certificates/${acc?.certificate.id}`}
             ref={downloadRef}
           >
             baixar
@@ -285,7 +248,7 @@ export function DetalhesDaAcc(): JSX.Element {
                 Tem certeza que deseja excluir a ACC?
               </p>
               {
-                acc?.status_da_acc.id === STATUS_DA_ACC.APROVADA &&
+                acc?.acc_status.id === STATUS_DA_ACC.APROVADA &&
                 <p>A pontuação obtida nessa ACC será retirada da sua contagem total de pontos.</p>
               }
               <p>

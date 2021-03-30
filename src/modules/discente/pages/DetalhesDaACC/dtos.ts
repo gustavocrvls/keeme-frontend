@@ -1,4 +1,4 @@
-export interface IACCWithUser {
+export interface IACC {
   id: number;
   points: number;
   quantity: number;
@@ -12,14 +12,6 @@ export interface IACCWithUser {
     id: number;
     name: string;
     unity_of_measurement: {
-      id: number;
-      name: string;
-    };
-  };
-  user: {
-    id: number;
-    name: string;
-    course: {
       id: number;
       name: string;
     };

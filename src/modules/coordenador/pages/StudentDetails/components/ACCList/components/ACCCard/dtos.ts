@@ -3,16 +3,16 @@ export interface ACCCardProps {
   title: string;
   accType: {
     id: number;
-    nome: string;
-    unidade_de_medida: {
+    name: string;
+    unity_of_measurement: {
       id: number;
-      nome: string;
+      name: string;
     };
   };
   points: number;
   quantity: number;
   status: {
     id: number;
-    nome: string;
+    name: string;
   };
 }

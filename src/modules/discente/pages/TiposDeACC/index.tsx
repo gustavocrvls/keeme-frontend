@@ -37,7 +37,7 @@ export default function Home(): JSX.Element {
     try {
       setIsLoading(true);
       const response = await api.get(
-        `tipos-de-acc/user/${sessionStorage.getItem(USERID_KEY)}`,
+        `acc-types/user/${sessionStorage.getItem(USERID_KEY)}`,
         {
           params: {
             limit: 5,
