@@ -56,7 +56,7 @@ export default function MinhasACCs(): JSX.Element {
           usuario: sessionStorage.getItem(USERID_KEY),
           limit: 5,
           page: currentPage,
-          sortField: 'status_da_acc',
+          sortField: 'acc_status',
           sortOrder: 'ASC',
         },
       });
