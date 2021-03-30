@@ -104,7 +104,7 @@ export function ACCDetails(): JSX.Element {
       const response = await api.get(`accs/${id}`);
       setACC(response.data);
       setPoints(
-        response.data.quantidade * response.data.acc_variant.pontos_por_unidade,
+        response.data.quantity * response.data.acc_variant.points_per_unity,
       );
     } catch (error) {
       notifyError('Não foi possível carregar os detalhes da ACC :(');
@@ -264,7 +264,7 @@ export function ACCDetails(): JSX.Element {
       )}
       <a
         style={{ visibility: 'hidden' }}
-        href={`${process.env.REACT_APP_API}/certificados/${acc?.certificate.id}`}
+        href={`${process.env.REACT_APP_API}/certificates/${acc?.certificate.id}`}
         ref={downloadRef}
       >
         baixar
