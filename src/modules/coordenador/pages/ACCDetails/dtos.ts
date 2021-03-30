@@ -1,44 +1,44 @@
 export interface IACCWithUser {
   id: number;
-  pontos: number;
-  quantidade: number;
-  descricao: string;
-  criado_em: Date;
-  status_da_acc: {
+  points: number;
+  quantity: number;
+  description: string;
+  created_at: Date;
+  acc_status: {
     id: number;
-    nome: string;
+    name: string;
   };
-  tipo_de_acc: {
+  acc_type: {
     id: number;
-    nome: string;
-    unidade_de_medida: {
+    name: string;
+    unity_of_measurement: {
       id: number;
-      nome: string;
+      name: string;
     };
   };
-  usuario: {
+  user: {
     id: number;
-    nome: string;
-    curso: {
+    name: string;
+    course: {
       id: number;
-      nome: string;
+      name: string;
     };
   };
-  variante_de_acc: {
+  acc_variant: {
     id: number;
-    descricao: string;
-    pontos_por_unidade: number;
+    description: string;
+    points_per_unity: number;
   };
-  certificado: {
+  certificate: {
     id: number;
   };
-  avaliacao_da_acc: {
+  acc_assessment: {
     id: number;
-    criado_em: Date;
-    descricao: string;
-    usuario: {
+    created_at: Date;
+    description: string;
+    user: {
       id: number;
-      nome: string;
+      name: string;
     };
   };
 }

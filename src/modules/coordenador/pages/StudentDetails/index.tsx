@@ -50,10 +50,10 @@ export function StudentDetails(): JSX.Element {
       setIsLoadingACCs(true);
       const response = await api.get(`accs`, {
         params: {
-          usuario: id,
+          user: id,
           limit: 5,
           page: currentPage,
-          sortField: 'status_da_acc',
+          sortField: 'acc_status',
           sortOrder: 'ASC',
         },
       });
@@ -91,7 +91,7 @@ export function StudentDetails(): JSX.Element {
               Nome
             </Box>
             {!isLoadingData ? (
-              <Box width="100%">{student?.nome}</Box>
+              <Box width="100%">{student?.name}</Box>
             ) : (
               <SkeletonText noOfLines={1} />
             )}

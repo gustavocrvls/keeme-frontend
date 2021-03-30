@@ -1,37 +1,37 @@
 export interface IStudent {
   id: number;
-  nome: string;
+  name: string;
   email: string;
   cpf: string;
   username: string;
-  curso: {
+  course: {
     id: number;
-    nome: string;
+    namse: string;
   };
 }
 
 export interface IACC {
   id: number;
-  id_certificado: number;
-  pontos: number;
-  quantidade: number;
-  sobre: string;
-  status_da_acc: {
+  certificate_id: number;
+  points: number;
+  quantity: number;
+  description: string;
+  acc_status: {
     id: number;
-    nome: string;
+    name: string;
   };
-  tipo_de_acc: {
+  acc_type: {
     id: number;
-    nome: string;
-    unidade_de_medida: {
+    name: string;
+    unity_of_measurement: {
       id: number;
-      nome: string;
+      name: string;
     };
   };
-  variante_de_acc: {
+  acc_variant: {
     id: number;
-    descricao: string;
-    pontos_por_unidade: number;
+    description: string;
+    points_per_unity: number;
   };
 }
 
