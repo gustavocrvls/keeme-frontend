@@ -51,7 +51,7 @@ export default function Header(): JSX.Element {
             onClick={toggleSidebarOpen}
           />
         )}
-        <Link to={`/${perfil}/home`}>Gestor de ACCs</Link>
+        <Link to={`/${perfil}/home`}>KeeMe</Link>
       </Flex>
 
       <Flex alignItems="center">
