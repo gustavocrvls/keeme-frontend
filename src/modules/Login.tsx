@@ -1,9 +1,11 @@
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable prettier/prettier */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
-import { Button, Flex, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { Button, Flex, FormControl, FormLabel, Input, Link } from '@chakra-ui/react';
 import loginVector1 from '../assets/images/login__vector_1.svg';
 import loginVector2 from '../assets/images/login__vector_2.svg';
 import api from '../services/api';
@@ -130,6 +132,17 @@ export default function Login(): JSX.Element {
           </Button>
         </Flex>
       </LoginCard>
+      <Flex
+        justifyContent="center"
+        position={["absolute"]}
+        color={['white', 'black']}
+        bottom="0"
+        right={['unset', 0]}
+        margin="3"
+        fontSize="sm"
+      >
+        developed with <del style={{margin: '0 4px'}}>coffee</del>  ❤ by <Link style={{margin: '0 4px'}} href="https://github.com/gustavocrvls" isExternal>@gustavocrvls</Link>
+      </Flex>
     </div>
   );
 }

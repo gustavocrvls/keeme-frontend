@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
 import {
+  Box,
   Button,
   Flex,
   FormControl,
@@ -148,16 +149,14 @@ export default function CriarPerfil(): JSX.Element {
   }, []);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        backgroundImage: `url("${loginVector1}")`,
-        backgroundColor: '#f0f0f0',
-        backgroundRepeat: 'no-repeat',
-      }}
+    <Flex
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100vh"
+      backgroundSize={['cover', 'contain']}
+      backgroundImage={`url("${loginVector1}")`}
+      backgroundRepeat="no-repeat"
+      backgroundColor="#f0f0f0"
     >
       <CriarPerfilCard>
         <CriarPerfilCardTitle>KeeMe</CriarPerfilCardTitle>
@@ -263,6 +262,6 @@ export default function CriarPerfil(): JSX.Element {
           </Button>
         </Flex>
       </CriarPerfilCard>
-    </div>
+    </Flex>
   );
 }
