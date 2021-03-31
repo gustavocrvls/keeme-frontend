@@ -53,7 +53,7 @@ export default function MinhasACCs(): JSX.Element {
       setIsLoading(true);
       const response = await api.get(`accs`, {
         params: {
-          usuario: sessionStorage.getItem(USERID_KEY),
+          user: sessionStorage.getItem(USERID_KEY),
           limit: 5,
           page: currentPage,
           sortField: 'acc_status',

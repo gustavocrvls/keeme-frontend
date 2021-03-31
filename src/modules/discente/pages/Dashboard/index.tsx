@@ -70,7 +70,7 @@ export default function Home(): JSX.Element {
 
         const responseACCs = await api.get(`accs`, {
           params: {
-            usuario: sessionStorage.getItem(USERID_KEY),
+            user: sessionStorage.getItem(USERID_KEY),
             sortField: 'created_at',
             sortOrder: 'DESC',
             limit: 3,
