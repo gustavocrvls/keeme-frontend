@@ -67,6 +67,7 @@ export default function CadastrarAcc(): JSX.Element {
 
       if (!file.size) {
         notifyError('Anexe um certificado!');
+        return;
       }
 
       setIsSending(true);
