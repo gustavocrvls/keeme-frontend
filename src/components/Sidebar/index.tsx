@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext } from 'react';
+import React, { ReactNode, useContext, useRef } from 'react';
 import { Box, ListItem, UnorderedList } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { FiInfo, FiMessageSquare } from 'react-icons/fi';
@@ -7,7 +7,9 @@ import { USER_PERFIL_KEY } from '../../services/auth';
 import { SidebarContext } from '../../contexts/SidebarProvider';
 
 export function Sidebar(): JSX.Element {
-  const { isSidebarAwaysShowed, isSidebarOpen } = useContext(SidebarContext);
+  const { isSidebarAwaysShowed, isSidebarOpen, sidebarRef } = useContext(
+    SidebarContext,
+  );
 
   function handlePerfilItems(): ReactNode {
     const idPerfil = Number(sessionStorage.getItem(USER_PERFIL_KEY));
@@ -34,6 +36,7 @@ export function Sidebar(): JSX.Element {
       </ListItem>
     ));
   }
+
   return (
     <Box
       className="sidenav"
@@ -47,6 +50,7 @@ export function Sidebar(): JSX.Element {
       boxShadow="md"
       transition="all 0.5s"
       overflowY="auto"
+      ref={sidebarRef}
     >
       <UnorderedList itemType="none" margin="0">
         {handlePerfilItems()}

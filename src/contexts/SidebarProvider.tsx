@@ -1,9 +1,16 @@
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 interface SidebarContextData {
   isSidebarOpen: boolean;
   isSidebarAwaysShowed: boolean;
   windowWidth: number;
+  sidebarRef: any;
   toggleSidebarOpen: () => void;
 }
 
@@ -19,6 +26,11 @@ export function SidebarProvider({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarAwaysShowed, setIsSidebarAwaysShowed] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const sidebarRef = useRef<any>();
+
+  function toggleSidebarOpen() {
+    setIsSidebarOpen(!isSidebarOpen);
+  }
 
   useEffect(() => {
     window.addEventListener('resize', () => {
@@ -32,9 +44,14 @@ export function SidebarProvider({
     else setIsSidebarAwaysShowed(false);
   }, [windowWidth]);
 
-  function toggleSidebarOpen() {
-    setIsSidebarOpen(!isSidebarOpen);
-  }
+  useEffect(() => {
+    document.addEventListener('mousedown', event => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setIsSidebarOpen(false);
+      }
+      // console.log(sidebarRef.current);
+    });
+  }, [sidebarRef]);
 
   return (
     <SidebarContext.Provider
@@ -43,6 +60,7 @@ export function SidebarProvider({
         isSidebarAwaysShowed,
         windowWidth,
         toggleSidebarOpen,
+        sidebarRef,
       }}
     >
       {children}
