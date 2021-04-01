@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { notifyError } from '../../../../components/Notifications';
 import STATUS_DA_ACC from '../../../../constants/StatusDaACC';
 import api from '../../../../services/api';
+import { USER_COURSE_KEY } from '../../../../services/auth';
 import { ReceivedACCsList } from './components/ReceivedACCsList';
 import { IReceivedACC } from './dtos';
 
@@ -19,6 +20,7 @@ export function Dashboard(): JSX.Element {
         `accs/status/${STATUS_DA_ACC.EM_ANALISE}`,
         {
           params: {
+            course_id: sessionStorage.getItem(USER_COURSE_KEY),
             page: currentPage,
             limit: 10,
             sortField: 'created_at',

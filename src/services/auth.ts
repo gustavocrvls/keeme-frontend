@@ -1,7 +1,8 @@
-export const TOKEN_KEY = '@gestor-de-accs:token';
-export const USERID_KEY = '@gestor-de-accs:user-id';
-export const USER_PERFIL_KEY = '@gestor-de-accs:user-perfil';
-export const USER_NAME = '@gestor-de-accs:user-name';
+export const TOKEN_KEY = '@keeme:token';
+export const USERID_KEY = '@keeme:user-id';
+export const USER_PERFIL_KEY = '@keeme:user-perfil';
+export const USER_NAME_KEY = '@keeme:user-name';
+export const USER_COURSE_KEY = '@keeme:user-course';
 
 export const isAuthenticated = (): boolean =>
   sessionStorage.getItem(TOKEN_KEY) !== null;
@@ -11,11 +12,13 @@ export const login = (
   userId: string,
   userPerfil: string,
   userName: string,
+  userCourse: string,
 ): void => {
   sessionStorage.setItem(TOKEN_KEY, token);
   sessionStorage.setItem(USERID_KEY, userId);
   sessionStorage.setItem(USER_PERFIL_KEY, userPerfil);
-  sessionStorage.setItem(USER_NAME, userName);
+  sessionStorage.setItem(USER_NAME_KEY, userName);
+  sessionStorage.setItem(USER_COURSE_KEY, userCourse);
 };
 export const logout = (): void => {
   sessionStorage.removeItem(TOKEN_KEY);
