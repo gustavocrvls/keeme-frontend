@@ -1,15 +1,20 @@
-import React, { ReactNode, useContext, useRef } from 'react';
+import React, { ReactNode, useContext, useEffect, useRef } from 'react';
 import { Box, ListItem, UnorderedList } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { FiInfo, FiMessageSquare } from 'react-icons/fi';
 import { SidebarItems } from './sidebarItems';
 import { USER_PERFIL_KEY } from '../../services/auth';
 import { SidebarContext } from '../../contexts/SidebarProvider';
 
 export function Sidebar(): JSX.Element {
-  const { isSidebarAwaysShowed, isSidebarOpen, sidebarRef } = useContext(
-    SidebarContext,
-  );
+  const {
+    isSidebarAwaysShowed,
+    isSidebarOpen,
+    sidebarRef,
+    toggleSidebarOpen,
+  } = useContext(SidebarContext);
+  const history = useHistory();
+  const location = useLocation();
 
   function handlePerfilItems(): ReactNode {
     const idPerfil = Number(sessionStorage.getItem(USER_PERFIL_KEY));
@@ -23,6 +28,12 @@ export function Sidebar(): JSX.Element {
             display="flex"
             alignItems="center"
             transition="padding 0.2s"
+            backgroundColor={
+              location.pathname.includes(item.to) ? 'gray.200' : 'white'
+            }
+            borderLeft={
+              location.pathname.includes(item.to) ? '5px solid #31878c' : 'none'
+            }
             _hover={{
               backgroundColor: '#31878c',
               color: 'white',
@@ -37,6 +48,12 @@ export function Sidebar(): JSX.Element {
     ));
   }
 
+  useEffect(() => {
+    history.listen(() => {
+      if (isSidebarOpen) toggleSidebarOpen();
+    });
+  }, []);
+
   return (
     <Box
       className="sidenav"
@@ -44,7 +61,7 @@ export function Sidebar(): JSX.Element {
       width="250px"
       position="fixed"
       zIndex="10"
-      top={!isSidebarAwaysShowed && isSidebarOpen ? '60px' : '52px'}
+      top={!isSidebarAwaysShowed ? '60px' : '52px'}
       left={isSidebarAwaysShowed || isSidebarOpen ? 0 : -250}
       backgroundColor="white"
       boxShadow="md"

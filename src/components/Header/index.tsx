@@ -49,6 +49,7 @@ export default function Header(): JSX.Element {
             icon={<FiList size={20} />}
             display="flex"
             onClick={toggleSidebarOpen}
+            size="sm"
           />
         )}
         <Link to={`/${perfil}/home`}>KeeMe</Link>
