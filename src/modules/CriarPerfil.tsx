@@ -120,6 +120,7 @@ export default function CriarPerfil(): JSX.Element {
           resultLogin.data.user.id,
           resultLogin.data.user.profile.id,
           resultLogin.data.user.name,
+          result.data.user.course.id,
         );
 
         notifySuccess('Usuário criado com sucesso!');
