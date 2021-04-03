@@ -79,7 +79,7 @@ export default function Login(): JSX.Element {
         result.data.user.id,
         result.data.user.profile.id,
         result.data.user.name,
-        result.data.user.course.id,
+        result.data.user.course ? result.data.user.course.id : 0,
       );
 
       if (result.data.user.profile.id === PERFIS.DISCENTE) {
