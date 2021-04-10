@@ -115,7 +115,7 @@ export default function Login(): JSX.Element {
             <FormLabel>Usuário</FormLabel>
             <Input
               type="text"
-              placeholder="Nome"
+              placeholder="Usuário"
               value={username}
               onChange={e => setUsername(e.target.value)}
             />
