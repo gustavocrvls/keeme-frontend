@@ -251,7 +251,7 @@ export default function CadastrarAcc(): JSX.Element {
             type="submit"
             colorScheme="teal"
             isLoading={isSending}
-            disabled={isLoading}
+            disabled={isLoading || isSending}
           >
             Cadastrar
           </Button>
