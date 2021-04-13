@@ -56,6 +56,11 @@ export function ACCDetails(): JSX.Element {
         await api.put(`accs/update/${id}/status`, {
           new_status: status,
         });
+        await api.post(`accs-assessments`, {
+          acc_status: status,
+          user: sessionStorage.getItem(USERID_KEY),
+          acc: id,
+        });
         notifySuccess('A ACC foi aprovada!');
         history.goBack();
       } catch (err) {

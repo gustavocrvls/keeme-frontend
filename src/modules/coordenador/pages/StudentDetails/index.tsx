@@ -134,7 +134,7 @@ export function StudentDetails(): JSX.Element {
                 <li
                   style={{ display: 'flex', justifyContent: 'space-between' }}
                 >
-                  <span style={{ marginRight: 10 }}>Aprovadas: </span>
+                  <span style={{ marginRight: 10 }}>Aprovados: </span>
                   <strong>
                     {summary.approved_points}
                     pts
@@ -152,7 +152,7 @@ export function StudentDetails(): JSX.Element {
                 <li
                   style={{ display: 'flex', justifyContent: 'space-between' }}
                 >
-                  <span style={{ marginRight: 10 }}>Negadas: </span>
+                  <span style={{ marginRight: 10 }}>Reprovados: </span>
                   <strong>
                     {summary.failed_points}
                     pts
