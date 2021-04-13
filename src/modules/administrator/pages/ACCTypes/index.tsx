@@ -23,6 +23,7 @@ import {
   notifyError,
   notifySuccess,
 } from '../../../../components/Notifications';
+import { Pagination } from '../../../../components/Pagination';
 import api from '../../../../services/api';
 import { ACCTypesList } from './components/ACCTypesList';
 import { IACCType } from './dtos';
@@ -32,6 +33,8 @@ export function ACCTypes(): JSX.Element {
   const [accTypeToBeDeleted, setACCTypeToBeDeleted] = useState(0);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   const cancelRef = useRef<HTMLButtonElement>(null);
 
@@ -43,10 +46,11 @@ export function ACCTypes(): JSX.Element {
 
       const response = await api.get('/acc-types', {
         params: {
-          page: 2,
-          limit: 3,
+          page: currentPage,
+          limit: 5,
         },
       });
+      setTotalPages(response.data.total_pages);
       setACCTypes(response.data.data);
     } catch (err) {
       notifyError('Não foi possível carregar os tipos de ACC :(');
@@ -57,7 +61,7 @@ export function ACCTypes(): JSX.Element {
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [currentPage]);
 
   function handleACCTypeToBeDeleted(id: number): void {
     setACCTypeToBeDeleted(id);
@@ -103,6 +107,12 @@ export function ACCTypes(): JSX.Element {
           history.push(`/administrator/acc-types/update/${id}`);
         }}
         deleteACCType={(id: number) => handleACCTypeToBeDeleted(id)}
+      />
+
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
       />
 
       <AlertDialog
