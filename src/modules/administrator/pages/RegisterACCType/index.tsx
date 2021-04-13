@@ -15,11 +15,13 @@ import {
   NumberInputStepper,
   Select,
   SimpleGrid,
+  Stack,
   Switch,
   Textarea,
+  Tooltip,
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
-import { FiPlusCircle } from 'react-icons/fi';
+import { FiPlusCircle, FiTrash } from 'react-icons/fi';
 import api from '../../../../services/api';
 import {
   notifyError,
@@ -185,44 +187,95 @@ export function RegisterACCType(): JSX.Element {
         </Box>
         {hasVariants && (
           <Box marginBottom="3">
-            <SimpleGrid columns={11} spacing="3">
-              <GridItem colSpan={5}>
-                <FormControl id="variant-description">
-                  <FormLabel>Descrição</FormLabel>
-                  <Input
-                    type="number"
-                    placeholder="Descrição"
-                    value={pointLimit}
-                    onChange={e => setPointLimit(e.target.value)}
-                  />
-                </FormControl>
-              </GridItem>
-              <GridItem colSpan={5}>
-                <FormControl id="variant-points-per-unity">
-                  <FormLabel>
-                    {`Pontos por ${
-                      unitsOfMeasurement
-                        .find(u => u.id === Number(unityOfMeasurement))
-                        ?.name.toLowerCase() || 'hora'
-                    }`}
-                  </FormLabel>
-                  <NumberInput
-                    value={accVariants[0].points_per_unity}
-                    onChange={value => handlePointsPerUnity(Number(value))}
-                    min={0}
-                  >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
-                </FormControl>
-              </GridItem>
-              <GridItem colSpan={1} alignSelf="end">
-                <IconButton aria-label="add variant" icon={<FiPlusCircle />} />
-              </GridItem>
-            </SimpleGrid>
+            {accVariants.map((accVariant, index) => (
+              <Stack
+                key={`acc-variant-${accVariant.description}`}
+                direction="row"
+                spacing="3"
+                width="100%"
+                alignItems="flex-end"
+                marginBottom="3"
+              >
+                <Box width="100%">
+                  <FormControl id="variant-description" width="100%">
+                    {!index && <FormLabel>Descrição</FormLabel>}
+                    <Input
+                      type="text"
+                      placeholder="Descrição"
+                      value={accVariant.description}
+                    />
+                  </FormControl>
+                </Box>
+                <Box width="100%">
+                  <FormControl id="variant-points-per-unity">
+                    {!index && (
+                      <FormLabel>
+                        {`Pontos por ${
+                          unitsOfMeasurement
+                            .find(u => u.id === Number(unityOfMeasurement))
+                            ?.name.toLowerCase() || 'hora'
+                        }`}
+                      </FormLabel>
+                    )}
+                    <NumberInput
+                      value={accVariant.points_per_unity}
+                      onChange={value => {
+                        setACCVariants(
+                          accVariants.map((accV, i) => {
+                            if (i === index)
+                              return {
+                                ...accV,
+                                points_per_unity: Number(value),
+                              };
+                            return accV;
+                          }),
+                        );
+                      }}
+                      min={0}
+                    >
+                      <NumberInputField />
+                      <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                      </NumberInputStepper>
+                    </NumberInput>
+                  </FormControl>
+                </Box>
+                <Box>
+                  {(index === accVariants.length - 1 && (
+                    <Tooltip label="Adicionar mais uma variante" hasArrow>
+                      <IconButton
+                        aria-label="add variant"
+                        icon={<FiPlusCircle />}
+                        colorScheme="teal"
+                        isDisabled={
+                          !accVariant.description &&
+                          !accVariant.points_per_unity
+                        }
+                        onClick={() => {
+                          const accVariantsState = [...accVariants];
+                          accVariantsState.push({ points_per_unity: 0 });
+                          setACCVariants(accVariantsState);
+                        }}
+                      />
+                    </Tooltip>
+                  )) || (
+                    <Tooltip label="Excluir variante" hasArrow>
+                      <IconButton
+                        aria-label="add variant"
+                        icon={<FiTrash />}
+                        colorScheme="red"
+                        onClick={() => {
+                          setACCVariants(
+                            accVariants.filter((accV, i) => i !== index),
+                          );
+                        }}
+                      />
+                    </Tooltip>
+                  )}
+                </Box>
+              </Stack>
+            ))}
           </Box>
         )}
         <Box marginBottom="3">
