@@ -1,31 +1,18 @@
+/* eslint-disable prettier/prettier */
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Box,
   Button,
-  Flex,
-  GridItem,
-  Heading,
-  IconButton,
-  SimpleGrid,
-  Skeleton,
-  Stack,
-  Tooltip,
 } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
-import { FiEdit, FiTrash } from 'react-icons/fi';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   notifyError,
   notifySuccess,
 } from '../../../../components/Notifications';
+import PageTitle from '../../../../components/PageTitle';
 import { Pagination } from '../../../../components/Pagination';
 import api from '../../../../services/api';
 import { ACCTypesList } from './components/ACCTypesList';
+import { AlertDeleteACCType } from './components/AlertDeleteACCType';
 import { IACCType } from './dtos';
 
 export function ACCTypes(): JSX.Element {
@@ -35,8 +22,6 @@ export function ACCTypes(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
-
-  const cancelRef = useRef<HTMLButtonElement>(null);
 
   const history = useHistory();
 
@@ -89,16 +74,19 @@ export function ACCTypes(): JSX.Element {
 
   return (
     <div>
-      <Flex justifyContent="space-between" alignItems="center" marginBottom="5">
-        <Heading as="h1">Tipos de ACC</Heading>
-        <Button
-          colorScheme="teal"
-          size="sm"
-          onClick={() => history.push('/administrator/acc-types/new')}
-        >
-          Cadastrar novo
-        </Button>
-      </Flex>
+      <PageTitle
+        actions={(
+          <Button
+            colorScheme="teal"
+            size="sm"
+            onClick={() => history.push('/administrator/acc-types/new')}
+          >
+            Cadastrar novo
+          </Button>
+        )}
+      >
+        Tipos de ACC
+      </PageTitle>
 
       <ACCTypesList
         accTypes={accTypes}
@@ -115,39 +103,12 @@ export function ACCTypes(): JSX.Element {
         setCurrentPage={setCurrentPage}
       />
 
-      <AlertDialog
-        isOpen={isAlertOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={() => setACCTypeToBeDeleted(0)}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Excluir Tipo de ACC
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              Tem certeza que deseja excluir o tipo de ACC? Essa ação não pode
-              ser desfeita.
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button
-                ref={cancelRef}
-                onClick={() => {
-                  setIsAlertOpen(false);
-                  setACCTypeToBeDeleted(0);
-                }}
-              >
-                Cancelar
-              </Button>
-              <Button colorScheme="red" onClick={deleteACCType} ml={3}>
-                Excluir
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+      <AlertDeleteACCType
+        deleteACCType={deleteACCType}
+        isAlertOpen={isAlertOpen}
+        setACCTypeToBeDeleted={setACCTypeToBeDeleted}
+        setIsAlertOpen={setIsAlertOpen}
+      />
     </div>
   );
 }
