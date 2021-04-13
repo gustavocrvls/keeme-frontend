@@ -6,12 +6,20 @@ import {
   FormControl,
   FormLabel,
   GridItem,
+  IconButton,
   Input,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Select,
   SimpleGrid,
+  Switch,
   Textarea,
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
+import { FiPlusCircle } from 'react-icons/fi';
 import api from '../../../../services/api';
 import {
   notifyError,
@@ -20,7 +28,7 @@ import {
 import { IACCVariant, IUnityOfMeasurement } from './dtos';
 import PageTitle from '../../../../components/PageTitle';
 
-export function RegisterACCType() {
+export function RegisterACCType(): JSX.Element {
   const [unitsOfMeasurement, setUnitsOfMeasurement] = useState<
     IUnityOfMeasurement[]
   >([]);
@@ -29,9 +37,13 @@ export function RegisterACCType() {
   const [unityOfMeasurement, setUnityOfMeasurement] = useState('');
   const [description, setDescription] = useState('');
   const [pointLimit, setPointLimit] = useState('');
-  const [accVariants, setACCVariants] = useState<IACCVariant>(
-    {} as IACCVariant,
-  );
+  const [accVariants, setACCVariants] = useState<IACCVariant[]>([
+    {
+      points_per_unity: 0,
+    },
+  ]);
+
+  const [hasVariants, setHasVariants] = useState(false);
 
   const history = useHistory();
 
@@ -71,6 +83,14 @@ export function RegisterACCType() {
     }
   }
 
+  function handlePointsPerUnity(value: number) {
+    const accVariantsState = accVariants;
+
+    accVariantsState[0].points_per_unity = value;
+
+    setACCVariants([...accVariantsState]);
+  }
+
   useEffect(() => {
     loadData();
   }, []);
@@ -82,7 +102,7 @@ export function RegisterACCType() {
       <form onSubmit={handleForm}>
         <Box marginBottom="3">
           <FormControl id="nome">
-            <FormLabel>Nome da Atividade</FormLabel>
+            <FormLabel>Nome da atividade</FormLabel>
             <Input
               type="name"
               placeholder="Nome da atividade"
@@ -96,10 +116,10 @@ export function RegisterACCType() {
           <SimpleGrid columns={[1, 3]} spacing={2}>
             <GridItem>
               <FormControl id="limite">
-                <FormLabel>Limite de Pontos</FormLabel>
+                <FormLabel>Limite de pontos</FormLabel>
                 <Input
                   type="number"
-                  placeholder="Limite da pontos"
+                  placeholder="Limite de pontos"
                   value={pointLimit}
                   onChange={e => setPointLimit(e.target.value)}
                 />
@@ -108,7 +128,7 @@ export function RegisterACCType() {
 
             <GridItem>
               <FormControl id="unityOfMeasurement">
-                <FormLabel>Unidade De Medida</FormLabel>
+                <FormLabel>Unidade de medida</FormLabel>
                 <Select
                   placeholder="Escolha uma unidade"
                   value={Number(unityOfMeasurement)}
@@ -124,32 +144,87 @@ export function RegisterACCType() {
             </GridItem>
 
             <GridItem>
-              {/* <FormControl id="pontosPorUnidade">
-                <FormLabel>
-                  {`Pontos por ${
-                    unitsOfMeasurement.find(
-                      u => u.id === Number(unityOfMeasurement),
-                    )?.name || 'Hora'
-                  }`}
-                </FormLabel>
-                <Input
-                  type="number"
-                  placeholder={`Pontos por ${
-                    unitsOfMeasurement.find(
-                      u => u.id === Number(unityOfMeasurement),
-                    )?.name || 'Hora'
-                  }`}
-                  value={point}
-                  onChange={e => {
-                    this.setState({
-                      pontosPorUnidade: e.target.value,
-                    });
-                  }}
-                />
-              </FormControl> */}
+              {unityOfMeasurement && !hasVariants && (
+                <FormControl id="pontosPorUnidade">
+                  <FormLabel>
+                    {`Pontos por ${
+                      unitsOfMeasurement
+                        .find(u => u.id === Number(unityOfMeasurement))
+                        ?.name.toLowerCase() || 'hora'
+                    }`}
+                  </FormLabel>
+
+                  <NumberInput
+                    value={accVariants[0].points_per_unity}
+                    onChange={value => handlePointsPerUnity(Number(value))}
+                    min={0}
+                  >
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
+              )}
             </GridItem>
           </SimpleGrid>
         </Box>
+        <Box marginBottom="3">
+          <FormControl display="flex" alignItems="center">
+            <FormLabel htmlFor="email-alerts" mb="0">
+              Possui variações
+            </FormLabel>
+            <Switch
+              id="email-alerts"
+              colorScheme="teal"
+              checked={hasVariants}
+              onChange={e => setHasVariants(e.target.checked)}
+            />
+          </FormControl>
+        </Box>
+        {hasVariants && (
+          <Box marginBottom="3">
+            <SimpleGrid columns={11} spacing="3">
+              <GridItem colSpan={5}>
+                <FormControl id="variant-description">
+                  <FormLabel>Descrição</FormLabel>
+                  <Input
+                    type="number"
+                    placeholder="Descrição"
+                    value={pointLimit}
+                    onChange={e => setPointLimit(e.target.value)}
+                  />
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={5}>
+                <FormControl id="variant-points-per-unity">
+                  <FormLabel>
+                    {`Pontos por ${
+                      unitsOfMeasurement
+                        .find(u => u.id === Number(unityOfMeasurement))
+                        ?.name.toLowerCase() || 'hora'
+                    }`}
+                  </FormLabel>
+                  <NumberInput
+                    value={accVariants[0].points_per_unity}
+                    onChange={value => handlePointsPerUnity(Number(value))}
+                    min={0}
+                  >
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
+              </GridItem>
+              <GridItem colSpan={1} alignSelf="end">
+                <IconButton aria-label="add variant" icon={<FiPlusCircle />} />
+              </GridItem>
+            </SimpleGrid>
+          </Box>
+        )}
         <Box marginBottom="3">
           <FormControl id="descricao">
             <FormLabel>Descrição</FormLabel>
