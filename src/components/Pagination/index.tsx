@@ -39,6 +39,7 @@ export function Pagination({
         .splice(0, 5)
         .map(value => (
           <Button
+            key={`pagination--page-${value}`}
             colorScheme={currentPage === value + 1 ? 'teal' : 'gray'}
             onClick={() => setCurrentPage(value + 1)}
           >

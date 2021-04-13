@@ -52,7 +52,7 @@ export function ACCTypeCard({
                 <span>{`Pontos por ${accType.unity_of_measurement.name}:`}</span>
                 <UnorderedList>
                   {accType.acc_variants.map(variant => (
-                    <ListItem marginLeft="5">
+                    <ListItem marginLeft="5" key={variant.id}>
                       <span>{`${variant.description}: `}</span>
                       <strong>{variant.points_per_unity}</strong>
                     </ListItem>

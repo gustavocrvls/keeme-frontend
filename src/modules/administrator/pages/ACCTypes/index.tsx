@@ -33,6 +33,8 @@ export function ACCTypes(): JSX.Element {
         params: {
           page: currentPage,
           limit: 5,
+          sortField: 'name',
+          sortOrder: 'ASC'
         },
       });
       setTotalPages(response.data.total_pages);

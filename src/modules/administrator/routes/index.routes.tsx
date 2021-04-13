@@ -1,11 +1,9 @@
-import React from 'react';
-// import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { PrivateRoute } from '../../../routes';
 
 import { Dashboard } from '../pages/Dashboard';
 import { RegisterCoordinator } from '../pages/RegisterCoordenator';
 import { ACCTypes } from '../pages/ACCTypes';
-import CadastrarTipoDeACC from '../pages/CadastrarTipoDeACC';
+import { RegisterACCType } from '../pages/RegisterACCType';
 import EditarTipoDeACC from '../pages/EditarTipoDeACC';
 
 const Routes = (): JSX.Element => {
@@ -16,10 +14,14 @@ const Routes = (): JSX.Element => {
         path="/administrator/register-coordinator"
         component={RegisterCoordinator}
       />
-      <PrivateRoute path="/administrator/acc-types" component={ACCTypes} />
+      <PrivateRoute
+        path="/administrator/acc-types"
+        exact
+        component={ACCTypes}
+      />
       <PrivateRoute
         path="/administrator/acc-types/new"
-        component={CadastrarTipoDeACC}
+        component={RegisterACCType}
       />
       <PrivateRoute
         path="/administrator/acc-types/update/:id"
