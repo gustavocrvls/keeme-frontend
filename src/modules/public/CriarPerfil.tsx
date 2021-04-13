@@ -13,13 +13,13 @@ import {
   Select,
   SimpleGrid,
 } from '@chakra-ui/react';
-import loginVector1 from '../assets/images/login__vector_1.svg';
-import api from '../services/api';
-import { login } from '../services/auth';
-import PERFIS from '../constants/Perfis';
-import { notifyError, notifySuccess } from '../components/Notifications';
-import { isValidCPF } from '../utils/validations';
-import { cpfMask } from '../utils/masks';
+import loginVector1 from '../../assets/images/login__vector_1.svg';
+import api from '../../services/api';
+import { login } from '../../services/auth';
+import PERFIS from '../../constants/Perfis';
+import { notifyError, notifySuccess } from '../../components/Notifications';
+import { isValidCPF } from '../../utils/validations';
+import { cpfMask } from '../../utils/masks';
 
 const CriarPerfilCard = styled.div`
   padding: 20px;
@@ -48,10 +48,6 @@ const CriarPerfilCardTitle = styled.h1`
 
 const LoginForm = styled.form`
   width: 100%;
-
-  input {
-    width: 100%;
-  }
 
   label {
     color: #4d6f80;

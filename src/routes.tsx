@@ -9,8 +9,8 @@ import { notifyError } from './components/Notifications';
 import { Container } from './components/Containers';
 import Header from './components/Header';
 
-import Login from './modules/Login';
-import CriarPerfil from './modules/CriarPerfil';
+import Login from './modules/public/Login';
+import CriarPerfil from './modules/public/CriarPerfil';
 
 import DiscenteRoutes from './modules/discente/routes/index.routes';
 import CoordenadorRoutes from './modules/coordenador/routes/index.routes';

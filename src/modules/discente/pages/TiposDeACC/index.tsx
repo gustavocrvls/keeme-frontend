@@ -27,7 +27,7 @@ interface ACCTypes {
   }[];
 }
 
-export default function Home(): JSX.Element {
+export default function ACCTypes(): JSX.Element {
   const [accTypes, setACCTypes] = useState<Array<ACCTypes>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);

@@ -11,7 +11,7 @@ export const SidebarItems = {
       },
       {
         label: 'Tipos de ACC',
-        to: '/administrator/tipos-de-acc',
+        to: '/administrator/acc-types',
         icon: FiPackage,
       },
     ],

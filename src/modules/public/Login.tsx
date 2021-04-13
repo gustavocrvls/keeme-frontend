@@ -11,13 +11,13 @@ import {
   Input,
   Link,
 } from '@chakra-ui/react';
-import loginVector1 from '../assets/images/login__vector_1.svg';
-import loginVector2 from '../assets/images/login__vector_2.svg';
-import api from '../services/api';
-import { login } from '../services/auth';
-import PERFIS from '../constants/Perfis';
-import { notifyError } from '../components/Notifications';
-import { Footer } from '../components/Footer';
+import loginVector1 from '../../assets/images/login__vector_1.svg';
+import loginVector2 from '../../assets/images/login__vector_2.svg';
+import api from '../../services/api';
+import { login } from '../../services/auth';
+import PERFIS from '../../constants/Perfis';
+import { notifyError } from '../../components/Notifications';
+import { Footer } from '../../components/Footer';
 
 const LoginCard = styled.div`
   padding: 20px;
@@ -44,55 +44,49 @@ const LoginCardTitle = styled.h1`
   font-size: 36px;
 `;
 
-const LoginForm = styled.form`
-  width: 100%;
-
-  input {
-    width: 100%;
-  }
-
-  label {
-    color: #4d6f80;
-  }
-
-  div {
-    margin-bottom: 10px;
-  }
-`;
-
 export default function Login(): JSX.Element {
   const [username, setUsername] = useState('');
   const [password, setSenha] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const result = await api.post('users/login', {
-      username,
-      password,
-    });
+    setIsLoading(true);
 
-    if (result.data.auth) {
-      login(
-        result.data.token,
-        result.data.user.id,
-        result.data.user.profile.id,
-        result.data.user.name,
-        result.data.user.course ? result.data.user.course.id : 0,
-      );
+    try {
+      const result = await api.post('users/login', {
+        username,
+        password,
+      });
 
-      if (result.data.user.profile.id === PERFIS.DISCENTE) {
-        history.push('/discente/home');
+      if (result.data.auth) {
+        login(
+          result.data.token,
+          result.data.user.id,
+          result.data.user.profile.id,
+          result.data.user.name,
+          result.data.user.course ? result.data.user.course.id : 0,
+        );
+
+        if (result.data.user.profile.id === PERFIS.DISCENTE) {
+          history.push('/discente/home');
+        }
+        if (result.data.user.profile.id === PERFIS.COORDENADOR) {
+          history.push('/coordenador/home');
+        }
+        if (result.data.user.profile.id === PERFIS.ADMIN) {
+          history.push('/administrator/home');
+        }
+      } else {
+        notifyError('Usuário e/ou senha incorretos!');
+        setIsLoading(false);
       }
-      if (result.data.user.profile.id === PERFIS.COORDENADOR) {
-        history.push('/coordenador/home');
-      }
-      if (result.data.user.profile.id === PERFIS.ADMIN) {
-        history.push('/administrator/home');
-      }
-    } else {
-      notifyError('Usuário e/ou senha incorretos!');
+    } catch (err) {
+      notifyError('Não foi possível fazer login :(');
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -110,9 +104,9 @@ export default function Login(): JSX.Element {
     >
       <LoginCard>
         <LoginCardTitle>KeeMe</LoginCardTitle>
-        <LoginForm onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} style={{ width: '100%' }}>
           <FormControl id="username">
-            <FormLabel>Usuário</FormLabel>
+            <FormLabel color="gray.500">Usuário</FormLabel>
             <Input
               type="text"
               placeholder="Usuário"
@@ -120,8 +114,8 @@ export default function Login(): JSX.Element {
               onChange={e => setUsername(e.target.value)}
             />
           </FormControl>
-          <FormControl id="password">
-            <FormLabel>Senha</FormLabel>
+          <FormControl id="password" marginTop="1">
+            <FormLabel color="gray.500">Senha</FormLabel>
             <Input
               type="password"
               placeholder="********"
@@ -129,10 +123,16 @@ export default function Login(): JSX.Element {
               onChange={e => setSenha(e.target.value)}
             />
           </FormControl>
-          <Button type="submit" width="100%" colorScheme="teal">
+          <Button
+            type="submit"
+            width="100%"
+            colorScheme="teal"
+            isLoading={isLoading}
+            marginTop="5"
+          >
             Entrar
           </Button>
-        </LoginForm>
+        </form>
         <Flex justifyContent="flex-end" width="100%" marginTop="10">
           <Button onClick={() => history.push('/criar-perfil')} variant="link">
             Não possui perfil ainda?
