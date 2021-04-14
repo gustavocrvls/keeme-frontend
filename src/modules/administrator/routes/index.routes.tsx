@@ -1,7 +1,7 @@
 import { PrivateRoute } from '../../../routes';
 
 import { Dashboard } from '../pages/Dashboard';
-import { RegisterCoordinator } from '../pages/RegisterCoordenator';
+import { RegisterCoordinator } from '../pages/RegisterCoordinator';
 import { ACCTypes } from '../pages/ACCTypes';
 import { RegisterACCType } from '../pages/RegisterACCType';
 import { EditACCType } from '../pages/EditACCType';
@@ -12,6 +12,10 @@ const Routes = (): JSX.Element => {
       <PrivateRoute path="/administrator/home" component={Dashboard} />
       <PrivateRoute
         path="/administrator/coordinator/new"
+        component={RegisterCoordinator}
+      />
+      <PrivateRoute
+        path="/administrator/coordinator/update/:id"
         component={RegisterCoordinator}
       />
       <PrivateRoute

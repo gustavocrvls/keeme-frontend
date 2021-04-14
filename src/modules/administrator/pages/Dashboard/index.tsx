@@ -10,10 +10,11 @@ import {
   Flex,
   Heading,
   IconButton,
+  Stack,
   Tooltip,
 } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
-import { FiTrash } from 'react-icons/fi';
+import { FiEdit, FiTrash } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 import PERFIS from '../../../../constants/Perfis';
 import api from '../../../../services/api';
@@ -89,7 +90,7 @@ export function Dashboard(): JSX.Element {
 
       <Flex justifyContent="space-between" alignItems="center" marginBottom={3}>
         <Heading as="h2" size="md">
-          Coordenadores do Sistema
+          Coordenadores
         </Heading>
         <Button
           colorScheme="teal"
@@ -114,24 +115,43 @@ export function Dashboard(): JSX.Element {
                   <Flex
                     boxShadow="md"
                     marginBottom="3"
-                    padding="2"
+                    padding="3"
                     borderRadius="md"
-                    // _hover={{ shadow: 'xl' }}
                     transition="all 0.2s"
                     justifyContent="space-between"
                     alignItems="center"
                   >
                     <span>{user.name}</span>
-                    <Tooltip label="Excluir" aria-label="Excluir">
-                      <IconButton
-                        size="sm"
-                        colorScheme="red"
-                        variant="ghost"
-                        aria-label="Trash Icon"
-                        icon={<FiTrash size={18} />}
-                        onClick={() => handleUserToBeDeleted(user.id)}
-                      />
-                    </Tooltip>
+                    <Stack
+                      alignItems="flex-start"
+                      marginLeft="5"
+                      spacing="2"
+                      direction="row"
+                    >
+                      <Tooltip label="Editar" aria-label="Editar">
+                        <IconButton
+                          size="sm"
+                          variant="ghost"
+                          aria-label="Trash Icon"
+                          icon={<FiEdit size={20} />}
+                          onClick={() => {
+                            history.push(
+                              `/administrator/coordinator/update/${user.id}`,
+                            );
+                          }}
+                        />
+                      </Tooltip>
+                      <Tooltip label="Excluir" aria-label="Excluir">
+                        <IconButton
+                          size="sm"
+                          colorScheme="red"
+                          variant="ghost"
+                          aria-label="Trash Icon"
+                          icon={<FiTrash size={20} />}
+                          onClick={() => handleUserToBeDeleted(user.id)}
+                        />
+                      </Tooltip>
+                    </Stack>
                   </Flex>
                 </li>
               ))}
