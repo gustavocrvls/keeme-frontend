@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-import React from 'react';
 import { Box, Flex, UnorderedList, ListItem } from '@chakra-ui/react';
 
 import { Progress } from '../../../../../components/Progress';
@@ -56,7 +54,7 @@ const CardTipoDeACC = ({
               <span>{`Pontos por ${measurementUnity}:`}</span>
               <UnorderedList>
                 {variants.map(variant => (
-                  <ListItem marginLeft="5">
+                  <ListItem marginLeft="5" key={variant.id}>
                     <span>{`${variant.description}: `}</span>
                     <strong>{variant.points_per_unity}</strong>
                   </ListItem>

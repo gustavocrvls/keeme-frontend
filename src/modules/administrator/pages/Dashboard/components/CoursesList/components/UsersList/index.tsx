@@ -43,7 +43,7 @@ export function UsersList({
                   size="sm"
                   variant="ghost"
                   aria-label="Trash Icon"
-                  icon={<FiEdit size={20} />}
+                  icon={<FiEdit size={18} />}
                   onClick={() => editCoordinator(user.id)}
                 />
               </Tooltip>
@@ -53,7 +53,7 @@ export function UsersList({
                   colorScheme="red"
                   variant="ghost"
                   aria-label="Trash Icon"
-                  icon={<FiTrash size={20} />}
+                  icon={<FiTrash size={18} />}
                   onClick={() => deleteCoordinator(user.id)}
                 />
               </Tooltip>

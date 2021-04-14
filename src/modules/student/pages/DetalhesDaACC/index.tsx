@@ -1,8 +1,7 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable camelcase */
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useHistory, useParams, withRouter } from 'react-router-dom';
-import { FiDownload, FiEdit, FiTrash } from 'react-icons/fi';
+import { FiDownload, FiTrash } from 'react-icons/fi';
 
 import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, Flex, IconButton, SimpleGrid, SkeletonText, Stack, Tooltip } from '@chakra-ui/react';
 import STATUS_DA_ACC from '../../../../constants/StatusDaACC';

@@ -1,5 +1,4 @@
-/* eslint-disable camelcase */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ListItem, Skeleton, Stack, UnorderedList } from '@chakra-ui/react';
 
 import PageTitle from '../../../../components/PageTitle';

@@ -1,15 +1,5 @@
-/* eslint-disable camelcase */
-import {
-  Box,
-  Flex,
-  ListItem,
-  SimpleGrid,
-  Stack,
-  UnorderedList,
-} from '@chakra-ui/react';
-import React from 'react';
+import { Box, Flex, SimpleGrid } from '@chakra-ui/react';
 import { FiArrowRight } from 'react-icons/fi';
-import { GiPlainCircle } from 'react-icons/gi';
 import { Link } from 'react-router-dom';
 import statusDaAcc from '../../../../../constants/StatusDaACC';
 

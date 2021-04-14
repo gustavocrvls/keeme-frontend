@@ -1,5 +1,4 @@
-/* eslint-disable camelcase */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiFile, FiPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import {
