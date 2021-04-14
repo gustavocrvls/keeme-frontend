@@ -113,7 +113,7 @@ export function EditCoordinator(): JSX.Element {
     try {
       await api.put(`users/${id}`, data);
       notifySuccess('Usuário atualizado!');
-      // history.push('/administrator/home');
+      history.push('/administrator/home');
     } catch (err) {
       notifyError('Não foi possível atualizar o usuário :(');
     } finally {

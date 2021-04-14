@@ -6,11 +6,13 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
+  Box,
   Button,
   Flex,
   Heading,
   IconButton,
   Stack,
+  Text,
   Tooltip,
 } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
@@ -23,6 +25,7 @@ import {
   notifySuccess,
 } from '../../../../components/Notifications';
 import { ICourse } from './dtos';
+import { CoursesList } from './components/CoursesList';
 
 export function Dashboard(): JSX.Element {
   const [courses, setCourses] = useState<ICourse[]>([]);
@@ -101,64 +104,13 @@ export function Dashboard(): JSX.Element {
         </Button>
       </Flex>
 
-      <ul style={{ listStyle: 'none', margin: 0 }}>
-        {courses.map(course => (
-          <>
-            <li>
-              <Heading as="h3" size="sm">
-                {course.name}
-              </Heading>
-            </li>
-            <ul style={{ listStyle: 'none', margin: 0, marginBottom: 30 }}>
-              {course.users.map(user => (
-                <li>
-                  <Flex
-                    boxShadow="md"
-                    marginBottom="3"
-                    padding="3"
-                    borderRadius="md"
-                    transition="all 0.2s"
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <span>{user.name}</span>
-                    <Stack
-                      alignItems="flex-start"
-                      marginLeft="5"
-                      spacing="2"
-                      direction="row"
-                    >
-                      <Tooltip label="Editar" aria-label="Editar">
-                        <IconButton
-                          size="sm"
-                          variant="ghost"
-                          aria-label="Trash Icon"
-                          icon={<FiEdit size={20} />}
-                          onClick={() => {
-                            history.push(
-                              `/administrator/coordinator/update/${user.id}`,
-                            );
-                          }}
-                        />
-                      </Tooltip>
-                      <Tooltip label="Excluir" aria-label="Excluir">
-                        <IconButton
-                          size="sm"
-                          colorScheme="red"
-                          variant="ghost"
-                          aria-label="Trash Icon"
-                          icon={<FiTrash size={20} />}
-                          onClick={() => handleUserToBeDeleted(user.id)}
-                        />
-                      </Tooltip>
-                    </Stack>
-                  </Flex>
-                </li>
-              ))}
-            </ul>
-          </>
-        ))}
-      </ul>
+      <CoursesList
+        courses={courses}
+        deleteCoordinator={handleUserToBeDeleted}
+        editCoordinator={id => {
+          history.push(`/administrator/coordinator/update/${id}`);
+        }}
+      />
 
       <AlertDialog
         isOpen={isAlertDeleteUserOpen}
