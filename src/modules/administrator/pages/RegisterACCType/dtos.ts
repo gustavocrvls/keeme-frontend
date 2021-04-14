@@ -4,6 +4,7 @@ export interface IUnityOfMeasurement {
 }
 
 export interface IACCVariant {
+  id: number;
   points_per_unity: number;
   description?: string;
 }

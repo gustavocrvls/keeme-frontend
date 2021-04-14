@@ -38,9 +38,10 @@ export function RegisterACCType(): JSX.Element {
   const [name, setName] = useState('');
   const [unityOfMeasurement, setUnityOfMeasurement] = useState('');
   const [description, setDescription] = useState('');
-  const [pointLimit, setPointLimit] = useState('');
+  const [pointLimit, setPointLimit] = useState(0);
   const [accVariants, setACCVariants] = useState<IACCVariant[]>([
     {
+      id: new Date().getTime(),
       points_per_unity: 0,
     },
   ]);
@@ -65,6 +66,21 @@ export function RegisterACCType(): JSX.Element {
 
   async function handleForm(e: FormEvent) {
     e.preventDefault();
+
+    let variants = [];
+
+    if (accVariants.length === 1)
+      variants.push({ points_per_unity: accVariants[0].points_per_unity });
+    if (accVariants.length > 1) {
+      variants = accVariants.filter(
+        accV => accV.description && accV.description?.length > 0,
+      );
+      variants = variants.map(v => ({
+        points_per_unity: v.points_per_unity,
+        description: v.description,
+      }));
+    }
+
     try {
       setIsLoading(true);
       await api.post('acc-types', {
@@ -72,12 +88,12 @@ export function RegisterACCType(): JSX.Element {
         point_limit: pointLimit,
         description,
         unity_of_measurement: unityOfMeasurement,
-        acc_variants: accVariants,
+        acc_variants: variants,
       });
 
       notifySuccess('Novo Tipo de ACC cadastrado!');
 
-      history.push('/administrator/acc-types');
+      // history.push('/administrator/acc-types');
     } catch (err) {
       notifyError('Não foi possível cadastrar o Tipo de ACC :(');
     } finally {
@@ -103,7 +119,7 @@ export function RegisterACCType(): JSX.Element {
 
       <form onSubmit={handleForm}>
         <Box marginBottom="3">
-          <FormControl id="nome">
+          <FormControl id="nome" isRequired>
             <FormLabel>Nome da atividade</FormLabel>
             <Input
               type="name"
@@ -117,19 +133,24 @@ export function RegisterACCType(): JSX.Element {
         <Box marginBottom="3">
           <SimpleGrid columns={[1, 3]} spacing={2}>
             <GridItem>
-              <FormControl id="limite">
+              <FormControl id="limite" isRequired>
                 <FormLabel>Limite de pontos</FormLabel>
-                <Input
-                  type="number"
-                  placeholder="Limite de pontos"
+                <NumberInput
                   value={pointLimit}
-                  onChange={e => setPointLimit(e.target.value)}
-                />
+                  onChange={value => setPointLimit(Number(value))}
+                  min={0}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
               </FormControl>
             </GridItem>
 
             <GridItem>
-              <FormControl id="unityOfMeasurement">
+              <FormControl id="unityOfMeasurement" isRequired>
                 <FormLabel>Unidade de medida</FormLabel>
                 <Select
                   placeholder="Escolha uma unidade"
@@ -147,7 +168,7 @@ export function RegisterACCType(): JSX.Element {
 
             <GridItem>
               {unityOfMeasurement && !hasVariants && (
-                <FormControl id="pontosPorUnidade">
+                <FormControl id="pontosPorUnidade" isRequired>
                   <FormLabel>
                     {`Pontos por ${
                       unitsOfMeasurement
@@ -173,7 +194,7 @@ export function RegisterACCType(): JSX.Element {
           </SimpleGrid>
         </Box>
         <Box marginBottom="3">
-          <FormControl display="flex" alignItems="center">
+          <FormControl display="flex" alignItems="center" isRequired>
             <FormLabel htmlFor="email-alerts" mb="0">
               Possui variações
             </FormLabel>
@@ -189,7 +210,7 @@ export function RegisterACCType(): JSX.Element {
           <Box marginBottom="3">
             {accVariants.map((accVariant, index) => (
               <Stack
-                key={`acc-variant-${accVariant.description}`}
+                key={accVariant.id}
                 direction="row"
                 spacing="3"
                 width="100%"
@@ -197,17 +218,33 @@ export function RegisterACCType(): JSX.Element {
                 marginBottom="3"
               >
                 <Box width="100%">
-                  <FormControl id="variant-description" width="100%">
+                  <FormControl
+                    id={`variant-description-${index}`}
+                    width="100%"
+                    isRequired
+                  >
                     {!index && <FormLabel>Descrição</FormLabel>}
                     <Input
                       type="text"
                       placeholder="Descrição"
-                      value={accVariant.description}
+                      value={accVariant.description || ''}
+                      onChange={value => {
+                        setACCVariants(
+                          accVariants.map((accV, i) => {
+                            if (i === index)
+                              return {
+                                ...accV,
+                                description: String(value.target.value),
+                              };
+                            return accV;
+                          }),
+                        );
+                      }}
                     />
                   </FormControl>
                 </Box>
                 <Box width="100%">
-                  <FormControl id="variant-points-per-unity">
+                  <FormControl id="variant-points-per-unity" isRequired>
                     {!index && (
                       <FormLabel>
                         {`Pontos por ${
@@ -249,12 +286,15 @@ export function RegisterACCType(): JSX.Element {
                         icon={<FiPlusCircle />}
                         colorScheme="teal"
                         isDisabled={
-                          !accVariant.description &&
+                          !accVariant.description ||
                           !accVariant.points_per_unity
                         }
                         onClick={() => {
                           const accVariantsState = [...accVariants];
-                          accVariantsState.push({ points_per_unity: 0 });
+                          accVariantsState.push({
+                            id: new Date().getTime(),
+                            points_per_unity: 0,
+                          });
                           setACCVariants(accVariantsState);
                         }}
                       />
@@ -279,7 +319,7 @@ export function RegisterACCType(): JSX.Element {
           </Box>
         )}
         <Box marginBottom="3">
-          <FormControl id="descricao">
+          <FormControl id="descricao" isRequired>
             <FormLabel>Descrição</FormLabel>
             <Textarea
               value={description}
