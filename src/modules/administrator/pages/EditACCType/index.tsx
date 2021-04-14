@@ -13,8 +13,11 @@ import {
   Textarea,
 } from '@chakra-ui/react';
 import { RouteComponentProps } from 'react-router-dom';
-import api from '../../../services/api';
-import { notifyError, notifySuccess } from '../../../components/Notifications';
+import api from '../../../../services/api';
+import {
+  notifyError,
+  notifySuccess,
+} from '../../../../components/Notifications';
 
 interface IUnidadeDeMedida {
   id: number;
@@ -38,7 +41,7 @@ interface IMatchParams {
 
 type IMatchProps = RouteComponentProps<IMatchParams>;
 
-class EditarTipoDeACC extends React.Component<IMatchProps, IState> {
+export class EditACCType extends React.Component<IMatchProps, IState> {
   constructor(props: IMatchProps) {
     super(props);
     this.state = {
@@ -240,5 +243,3 @@ class EditarTipoDeACC extends React.Component<IMatchProps, IState> {
     );
   }
 }
-
-export default EditarTipoDeACC;

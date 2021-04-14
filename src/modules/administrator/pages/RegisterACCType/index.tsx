@@ -93,7 +93,7 @@ export function RegisterACCType(): JSX.Element {
 
       notifySuccess('Novo Tipo de ACC cadastrado!');
 
-      // history.push('/administrator/acc-types');
+      history.push('/administrator/acc-types');
     } catch (err) {
       notifyError('Não foi possível cadastrar o Tipo de ACC :(');
     } finally {
