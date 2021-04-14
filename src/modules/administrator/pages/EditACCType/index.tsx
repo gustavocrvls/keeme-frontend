@@ -205,7 +205,7 @@ export function EditACCType(): JSX.Element {
           </SimpleGrid>
         </Box>
         <Box marginBottom="3">
-          <FormControl display="flex" alignItems="center" isRequired>
+          <FormControl display="flex" alignItems="center">
             <FormLabel htmlFor="email-alerts" mb="0">
               Possui variações
             </FormLabel>

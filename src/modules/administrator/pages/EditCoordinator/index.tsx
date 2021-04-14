@@ -3,39 +3,41 @@ import {
   Button,
   Flex,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
   Select,
   SimpleGrid,
+  Switch,
 } from '@chakra-ui/react';
-import React, { FormEvent, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { FormEvent, useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import PERFIS from '../../../../constants/Perfis';
 import api from '../../../../services/api';
 import {
   notifyError,
   notifySuccess,
 } from '../../../../components/Notifications';
-import { ICourse } from './dtos';
+import { ICourse, ParamTypes } from './dtos';
 import PageTitle from '../../../../components/PageTitle';
 import { cpfMask } from '../../../../utils/masks';
 import { isValidCPF } from '../../../../utils/validations';
 
-export function RegisterCoordinator(): JSX.Element {
+export function EditCoordinator(): JSX.Element {
   const [courses, setCourses] = useState<Array<ICourse>>([]);
-
-  const [coordinatorName, setCoordinatorName] = useState('');
-  const [coordinatorUsername, setCoordinatorUsername] = useState('');
-  const [coordinatorEmail, setCoordinatorEmail] = useState('');
-  const [coordinatorCPF, setCoordinatorCPF] = useState('');
-  const [coordinatorCourse, setCoordinatorCourse] = useState('');
-  const [coordinatorPassword, setCoordinatorPassword] = useState('');
-  const [coordinatorPassword2, setCoordinatorPassword2] = useState('');
-
+  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [cpf, setCPF] = useState('');
+  const [course, setCourse] = useState('');
+  const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
   const [isCreating, setIsCreating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasNewPassword, setHasNewPassword] = useState(false);
 
   const history = useHistory();
+  const { id } = useParams<ParamTypes>();
 
   async function loadCursos(): Promise<void> {
     try {
@@ -53,24 +55,42 @@ export function RegisterCoordinator(): JSX.Element {
     }
   }
 
+  async function loadData(): Promise<void> {
+    try {
+      setIsLoading(true);
+      const response = await api.get(`users/${id}`);
+
+      setName(response.data.name);
+      setCPF(response.data.cpf);
+      setEmail(response.data.email);
+      setUsername(response.data.username);
+      setCourse(response.data.course.id);
+    } catch (err) {
+      notifyError('Não foi possível carregar os cursos :(');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   useEffect(() => {
     loadCursos();
+    loadData();
   }, []);
 
   async function handleForm(e: FormEvent): Promise<void> {
     e.preventDefault();
 
-    if (!isValidCPF(coordinatorCPF.replace(/\D/g, ''))) {
+    if (!isValidCPF(cpf.replace(/\D/g, ''))) {
       notifyError('CPF inválido!');
       return;
     }
 
-    if (coordinatorPassword.length < 8) {
+    if (password.length < 8) {
       notifyError('A senha deve ter mais de 8 caracteres!');
       return;
     }
 
-    if (coordinatorPassword !== coordinatorPassword2) {
+    if (password !== password2) {
       notifyError('As senhas não estão iguais!');
       return;
     }
@@ -79,13 +99,13 @@ export function RegisterCoordinator(): JSX.Element {
 
     try {
       await api.post('users', {
-        name: coordinatorName,
-        cpf: coordinatorCPF,
-        email: coordinatorEmail,
-        username: coordinatorUsername,
-        password: coordinatorPassword,
+        name,
+        cpf: cpf.replace(/\D/g, ''),
+        email,
+        username,
+        password,
         profile: PERFIS.COORDENADOR,
-        course: Number(coordinatorCourse),
+        course: Number(course),
       });
       notifySuccess('Novo coordenador cadastrado!');
       history.push('/administrator/home');
@@ -98,7 +118,7 @@ export function RegisterCoordinator(): JSX.Element {
 
   return (
     <div>
-      <PageTitle>Cadastrar Coordenador</PageTitle>
+      <PageTitle>Editar Coordenador</PageTitle>
 
       <form onSubmit={handleForm}>
         <Box marginBottom="3">
@@ -107,8 +127,8 @@ export function RegisterCoordinator(): JSX.Element {
             <Input
               type="text"
               placeholder="Nome"
-              value={coordinatorName}
-              onChange={e => setCoordinatorName(e.target.value)}
+              value={name}
+              onChange={e => setName(e.target.value)}
             />
           </FormControl>
         </Box>
@@ -119,8 +139,8 @@ export function RegisterCoordinator(): JSX.Element {
               <Input
                 type="text"
                 placeholder="CPF"
-                value={cpfMask(coordinatorCPF)}
-                onChange={e => setCoordinatorCPF(e.target.value)}
+                value={cpfMask(cpf)}
+                onChange={e => setCPF(e.target.value)}
               />
             </FormControl>
           </SimpleGrid>
@@ -132,8 +152,8 @@ export function RegisterCoordinator(): JSX.Element {
               <Input
                 type="email"
                 placeholder="E-mail"
-                value={coordinatorEmail}
-                onChange={e => setCoordinatorEmail(e.target.value)}
+                value={email}
+                onChange={e => setEmail(e.target.value)}
               />
             </FormControl>
 
@@ -142,8 +162,8 @@ export function RegisterCoordinator(): JSX.Element {
               <Input
                 type="text"
                 placeholder="Usuário"
-                value={coordinatorUsername}
-                onChange={e => setCoordinatorUsername(e.target.value)}
+                value={username}
+                onChange={e => setUsername(e.target.value)}
               />
             </FormControl>
           </SimpleGrid>
@@ -153,8 +173,8 @@ export function RegisterCoordinator(): JSX.Element {
             <FormLabel>Curso</FormLabel>
             <Select
               placeholder="Curso"
-              value={coordinatorCourse}
-              onChange={e => setCoordinatorCourse(e.target.value)}
+              value={course}
+              onChange={e => setCourse(e.target.value)}
             >
               {courses.map(curso => (
                 <option key={curso.id} value={curso.id}>
@@ -165,35 +185,51 @@ export function RegisterCoordinator(): JSX.Element {
           </FormControl>
         </Box>
         <Box marginBottom="3">
-          <SimpleGrid columns={2} spacing={2}>
-            <FormControl id="senha" isRequired>
-              <FormLabel>Senha</FormLabel>
-              <Input
-                type="password"
-                value={coordinatorPassword}
-                onChange={e => setCoordinatorPassword(e.target.value)}
-                placeholder="Nome"
-              />
-            </FormControl>
-
-            <FormControl id="senha2" isRequired>
-              <FormLabel>Confirmar Senha</FormLabel>
-              <Input
-                type="password"
-                placeholder="Nome"
-                value={coordinatorPassword2}
-                onChange={e => setCoordinatorPassword2(e.target.value)}
-              />
-            </FormControl>
-          </SimpleGrid>
+          <FormControl display="flex" alignItems="center">
+            <FormLabel htmlFor="email-alerts" mb="0">
+              Alterar senha
+            </FormLabel>
+            <Switch
+              id="email-alerts"
+              colorScheme="teal"
+              checked={hasNewPassword}
+              onChange={e => setHasNewPassword(e.target.checked)}
+            />
+          </FormControl>
         </Box>
+        {hasNewPassword && (
+          <Box marginBottom="3">
+            <SimpleGrid columns={2} spacing={2}>
+              <FormControl id="senha" isRequired>
+                <FormLabel>Senha</FormLabel>
+                <Input
+                  type="password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  placeholder="Nome"
+                />
+                <FormHelperText>Mínimo de 8 caracteres</FormHelperText>
+              </FormControl>
+
+              <FormControl id="senha2" isRequired>
+                <FormLabel>Confirmar Senha</FormLabel>
+                <Input
+                  type="password"
+                  placeholder="Nome"
+                  value={password2}
+                  onChange={e => setPassword2(e.target.value)}
+                />
+              </FormControl>
+            </SimpleGrid>
+          </Box>
+        )}
         <Flex justifyContent="center">
           <Button
             type="submit"
             isLoading={isCreating || isLoading}
             colorScheme="teal"
           >
-            Cadastrar
+            Confirmar edição
           </Button>
         </Flex>
       </form>

@@ -3,6 +3,7 @@ import {
   Button,
   Flex,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
   Select,
@@ -80,7 +81,7 @@ export function RegisterCoordinator(): JSX.Element {
     try {
       await api.post('users', {
         name: coordinatorName,
-        cpf: coordinatorCPF,
+        cpf: coordinatorCPF.replace(/\D/g, ''),
         email: coordinatorEmail,
         username: coordinatorUsername,
         password: coordinatorPassword,
@@ -174,6 +175,7 @@ export function RegisterCoordinator(): JSX.Element {
                 onChange={e => setCoordinatorPassword(e.target.value)}
                 placeholder="Nome"
               />
+              <FormHelperText>Mínimo de 8 caracteres</FormHelperText>
             </FormControl>
 
             <FormControl id="senha2" isRequired>
@@ -184,6 +186,7 @@ export function RegisterCoordinator(): JSX.Element {
                 value={coordinatorPassword2}
                 onChange={e => setCoordinatorPassword2(e.target.value)}
               />
+              <FormHelperText>Mínimo de 8 caracteres</FormHelperText>
             </FormControl>
           </SimpleGrid>
         </Box>
