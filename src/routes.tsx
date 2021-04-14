@@ -12,8 +12,8 @@ import Header from './components/Header';
 import Login from './modules/public/Login';
 import CriarPerfil from './modules/public/CriarPerfil';
 
-import DiscenteRoutes from './modules/discente/routes/index.routes';
-import CoordenadorRoutes from './modules/coordenador/routes/index.routes';
+import DiscenteRoutes from './modules/student/routes/index.routes';
+import CoordenadorRoutes from './modules/coordinator/routes/index.routes';
 import AdministratorRoutes from './modules/administrator/routes/index.routes';
 import { Sidebar } from './components/Sidebar';
 import { About } from './modules/public/About';
@@ -65,8 +65,7 @@ const Routes = (): JSX.Element => {
         <Route path="/about" component={About} />
         <Route path="/feedback" component={Feedback} />
 
-        <Route path="/discente" component={DiscenteRoutes} />
-        <Route path="/coordenador" component={CoordenadorRoutes} />
+        <Route path="/student" component={DiscenteRoutes} />
         <Route path="/coordinator" component={CoordenadorRoutes} />
         <Route path="/administrator" component={AdministratorRoutes} />
 

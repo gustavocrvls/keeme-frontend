@@ -25,12 +25,12 @@ export const SidebarItems = {
     items: [
       {
         label: 'Início',
-        to: '/coordenador/home',
+        to: '/coordinator/home',
         icon: FiHome,
       },
       {
         label: 'Pesquisar Discente',
-        to: '/coordenador/pesquisar-discente',
+        to: '/coordinator/search-student/',
         icon: FiSearch,
       },
     ],
@@ -39,22 +39,22 @@ export const SidebarItems = {
     items: [
       {
         label: 'Início',
-        to: '/discente/home',
+        to: '/student/home',
         icon: FiHome,
       },
       {
         label: 'Cadastrar ACC',
-        to: '/discente/cadastrar-acc',
+        to: '/student/cadastrar-acc',
         icon: FiPlus,
       },
       {
         label: 'Minhas ACCs',
-        to: '/discente/minhas-accs',
+        to: '/student/minhas-accs',
         icon: FiFile,
       },
       {
         label: 'Tipos de ACC',
-        to: '/discente/tipos-de-acc',
+        to: '/student/tipos-de-acc',
         icon: FiPackage,
       },
     ],

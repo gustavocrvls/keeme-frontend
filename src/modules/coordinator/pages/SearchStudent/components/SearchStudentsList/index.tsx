@@ -45,9 +45,7 @@ export function SearchStudentsList({
                     icon={<FiArrowRight size={20} />}
                     variant="ghost"
                     onClick={() => {
-                      history.push(
-                        `/coordinator/student-details/${student.id}`,
-                      );
+                      history.push(`/coordinator/search-student/${student.id}`);
                     }}
                   />
                 </Tooltip>

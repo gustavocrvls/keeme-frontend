@@ -21,13 +21,13 @@ export default function Header(): JSX.Element {
 
     switch (Number(sessionPerfil)) {
       case PERFIS.ADMIN:
-        setPerfil('administrador');
+        setPerfil('administrator');
         break;
       case PERFIS.COORDENADOR:
-        setPerfil('coordenador');
+        setPerfil('coordinator');
         break;
       case PERFIS.DISCENTE:
-        setPerfil('discente');
+        setPerfil('student');
         break;
       default:
         break;

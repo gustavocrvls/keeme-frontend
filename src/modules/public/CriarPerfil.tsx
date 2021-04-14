@@ -122,7 +122,7 @@ export default function CriarPerfil(): JSX.Element {
         notifySuccess('Usuário criado com sucesso!');
 
         if (resultLogin.data.user.profile.id === PERFIS.DISCENTE) {
-          history.push('/discente/home');
+          history.push('/student/home');
         }
       }
     }

@@ -9,13 +9,13 @@ import { StudentDetails } from '../pages/StudentDetails';
 const Routes = (): JSX.Element => {
   return (
     <>
-      <PrivateRoute path="/coordenador/home" component={Dashboard} />
+      <PrivateRoute path="/coordinator/home" component={Dashboard} />
       <PrivateRoute
-        path="/coordenador/pesquisar-discente"
+        path="/coordinator/search-student/"
         component={SearchStudent}
       />
       <PrivateRoute
-        path="/coordinator/student-details/:id"
+        path="/coordinator/search-student/:id"
         component={StudentDetails}
       />
       <PrivateRoute

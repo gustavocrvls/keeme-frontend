@@ -71,10 +71,10 @@ export default function Login(): JSX.Element {
         );
 
         if (result.data.user.profile.id === PERFIS.DISCENTE) {
-          history.push('/discente/home');
+          history.push('/student/home');
         }
         if (result.data.user.profile.id === PERFIS.COORDENADOR) {
-          history.push('/coordenador/home');
+          history.push('/coordinator/home');
         }
         if (result.data.user.profile.id === PERFIS.ADMIN) {
           history.push('/administrator/home');
