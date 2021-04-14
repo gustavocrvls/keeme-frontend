@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -6,240 +6,351 @@ import {
   FormControl,
   FormLabel,
   GridItem,
-  Heading,
+  IconButton,
   Input,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Select,
   SimpleGrid,
+  Stack,
+  Switch,
   Textarea,
+  Tooltip,
 } from '@chakra-ui/react';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import { FiPlusCircle, FiTrash } from 'react-icons/fi';
 import api from '../../../../services/api';
 import {
   notifyError,
   notifySuccess,
 } from '../../../../components/Notifications';
+import { IACCVariant, IUnityOfMeasurement, ParamTypes } from './dtos';
+import PageTitle from '../../../../components/PageTitle';
 
-interface IUnidadeDeMedida {
-  id: number;
-  nome: string;
-}
+export function EditACCType(): JSX.Element {
+  const [unitsOfMeasurement, setUnitsOfMeasurement] = useState<
+    IUnityOfMeasurement[]
+  >([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [name, setName] = useState('');
+  const [unityOfMeasurement, setUnityOfMeasurement] = useState('');
+  const [description, setDescription] = useState('');
+  const [pointLimit, setPointLimit] = useState(0);
+  const [accVariants, setACCVariants] = useState<IACCVariant[]>([
+    {
+      id: new Date().getTime(),
+      points_per_unity: 0,
+    },
+  ]);
+  const [hasVariants, setHasVariants] = useState(false);
 
-interface IState {
-  unidadesDeMedida: Array<IUnidadeDeMedida>;
-  isCreating: boolean;
+  const history = useHistory();
+  const { id } = useParams<ParamTypes>();
 
-  nome: string;
-  idUnidadeDeMedida: number;
-  pontosPorUnidade: string;
-  limiteDePontos: string;
-  descricao: string;
-}
-
-interface IMatchParams {
-  id: string;
-}
-
-type IMatchProps = RouteComponentProps<IMatchParams>;
-
-export class EditACCType extends React.Component<IMatchProps, IState> {
-  constructor(props: IMatchProps) {
-    super(props);
-    this.state = {
-      unidadesDeMedida: [],
-      isCreating: false,
-
-      nome: '',
-      idUnidadeDeMedida: 0,
-      pontosPorUnidade: '',
-      limiteDePontos: '',
-      descricao: '',
-    };
-  }
-
-  async componentDidMount(): Promise<void> {
+  async function loadData() {
     try {
-      const responseUnidades = await api.get('unidades-de-medida');
+      setIsLoading(true);
 
-      this.setState({
-        unidadesDeMedida: responseUnidades.data.unidadesDeMedida,
-      });
+      const responseUnitsOfMeasurement = await api.get('units-of-measurement');
 
-      const { match } = this.props;
-      const { params } = match;
-      const { id } = params;
+      setUnitsOfMeasurement(responseUnitsOfMeasurement.data.data);
 
-      const responseTiposDeACC = await api.get(`tipos-de-acc/${id}`);
+      const responseACCType = await api.get(`acc-types/${id}`);
 
-      this.setState({
-        nome: responseTiposDeACC.data.tipoDeACC.nome,
-        idUnidadeDeMedida: responseTiposDeACC.data.tipoDeACC.unidade_de_medida,
-        pontosPorUnidade: responseTiposDeACC.data.tipoDeACC.pontos_por_unidade,
-        descricao: responseTiposDeACC.data.tipoDeACC.sobre,
-        limiteDePontos: responseTiposDeACC.data.tipoDeACC.limite_de_pontos,
-      });
+      setName(responseACCType.data.name);
+      setPointLimit(responseACCType.data.point_limit);
+      setDescription(responseACCType.data.description);
+      setUnityOfMeasurement(responseACCType.data.unity_of_measurement.id);
+
+      setACCVariants(responseACCType.data.acc_variants);
+
+      if (responseACCType.data.acc_variants.length > 1) setHasVariants(true);
     } catch (err) {
-      notifyError('Não foi possível carregar os dados...');
+      notifyError('Não foi possível carregar os dados :(');
+    } finally {
+      setIsLoading(false);
     }
   }
 
-  handleForm = async (e: FormEvent): Promise<void> => {
+  async function handleForm(e: FormEvent) {
     e.preventDefault();
 
-    const {
-      nome,
-      idUnidadeDeMedida,
-      pontosPorUnidade,
-      limiteDePontos,
-      descricao,
-    } = this.state;
+    let variants = [];
 
-    const { history, match } = this.props;
-
-    const { params } = match;
-    const { id } = params;
-
-    this.setState({
-      isCreating: true,
-    });
+    if (accVariants.length === 1)
+      variants.push({ points_per_unity: accVariants[0].points_per_unity });
+    if (accVariants.length > 1) {
+      variants = accVariants.filter(
+        accV => accV.description && accV.description?.length > 0,
+      );
+      variants = variants.map(v => ({
+        points_per_unity: v.points_per_unity,
+        description: v.description,
+      }));
+    }
 
     try {
-      await api.put(`tipos-de-acc/${id}`, {
-        nome,
-        pontos_por_unidade: pontosPorUnidade,
-        limite_de_pontos: limiteDePontos,
-        sobre: descricao,
-        unidade_de_medida: idUnidadeDeMedida,
+      setIsLoading(true);
+      await api.put(`acc-types/${id}`, {
+        name,
+        point_limit: pointLimit,
+        description,
+        unity_of_measurement: unityOfMeasurement,
+        acc_variants: variants,
       });
-      notifySuccess('O Tipo de ACC foi atualizado!');
-      history.push('/administrator/tipos-de-acc');
+
+      notifySuccess('Novo Tipo de ACC cadastrado!');
+
+      history.push('/administrator/acc-types');
     } catch (err) {
-      notifyError('Não foi possível atualizar o Tipo de ACC...');
+      notifyError('Não foi possível cadastrar o Tipo de ACC :(');
     } finally {
-      this.setState({
-        isCreating: false,
-      });
+      setIsLoading(false);
     }
-  };
+  }
 
-  render(): JSX.Element {
-    const {
-      unidadesDeMedida,
-      isCreating,
-      nome,
-      idUnidadeDeMedida,
-      pontosPorUnidade,
-      limiteDePontos,
-      descricao,
-    } = this.state;
+  function handlePointsPerUnity(value: number) {
+    const accVariantsState = accVariants;
 
-    return (
-      <div>
-        <Heading as="h1">Editar Tipo de ACC</Heading>
+    accVariantsState[0].points_per_unity = value;
 
-        <form onSubmit={this.handleForm}>
-          <Box marginBottom="3">
-            <FormControl id="nome">
-              <FormLabel>Nome da Atividade</FormLabel>
-              <Input
-                type="nome"
-                placeholder="Nome da Atividade"
-                value={nome}
-                onChange={e => this.setState({ nome: e.target.value })}
-              />
-            </FormControl>
-          </Box>
+    setACCVariants([...accVariantsState]);
+  }
 
-          <Box marginBottom="3">
-            <SimpleGrid columns={12} spacing={2}>
-              <GridItem colSpan={6}>
-                <FormControl id="unidadeDeMedida">
-                  <FormLabel>Unidade De Medida</FormLabel>
-                  <Select
-                    placeholder="Unidade De Medida"
-                    value={idUnidadeDeMedida}
-                    onChange={e => {
-                      this.setState({
-                        idUnidadeDeMedida: Number(e.target.value),
-                      });
-                    }}
-                  >
-                    {unidadesDeMedida.map(unidade => (
-                      <option key={unidade.id} value={unidade.id}>
-                        {unidade.nome}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
-              </GridItem>
+  useEffect(() => {
+    loadData();
+  }, []);
 
-              <GridItem colSpan={3}>
-                <FormControl id="pontosPorUnidade">
+  return (
+    <div>
+      <PageTitle>Editar Tipo de ACC</PageTitle>
+
+      <form onSubmit={handleForm}>
+        <Box marginBottom="3">
+          <FormControl id="nome" isRequired>
+            <FormLabel>Nome da atividade</FormLabel>
+            <Input
+              type="name"
+              placeholder="Nome da atividade"
+              value={name}
+              onChange={e => setName(e.target.value)}
+            />
+          </FormControl>
+        </Box>
+
+        <Box marginBottom="3">
+          <SimpleGrid columns={[1, 3]} spacing={2}>
+            <GridItem>
+              <FormControl id="limite" isRequired>
+                <FormLabel>Limite de pontos</FormLabel>
+                <NumberInput
+                  value={pointLimit}
+                  onChange={value => setPointLimit(Number(value))}
+                  min={0}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+            </GridItem>
+
+            <GridItem>
+              <FormControl id="unityOfMeasurement" isRequired>
+                <FormLabel>Unidade de medida</FormLabel>
+                <Select
+                  placeholder="Escolha uma unidade"
+                  value={Number(unityOfMeasurement)}
+                  onChange={e => setUnityOfMeasurement(e.target.value)}
+                >
+                  {unitsOfMeasurement.map(unity => (
+                    <option key={unity.id} value={unity.id}>
+                      {unity.name}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+            </GridItem>
+
+            <GridItem>
+              {unityOfMeasurement && !hasVariants && (
+                <FormControl id="pontosPorUnidade" isRequired>
                   <FormLabel>
                     {`Pontos por ${
-                      unidadesDeMedida.find(u => u.id === idUnidadeDeMedida)
-                        ?.nome || 'Hora'
+                      unitsOfMeasurement
+                        .find(u => u.id === Number(unityOfMeasurement))
+                        ?.name.toLowerCase() || 'hora'
                     }`}
                   </FormLabel>
-                  <Input
-                    type="number"
-                    placeholder={`Pontos por ${
-                      unidadesDeMedida.find(u => u.id === idUnidadeDeMedida)
-                        ?.nome || 'Hora'
-                    }`}
-                    value={pontosPorUnidade}
-                    onChange={e => {
-                      this.setState({
-                        pontosPorUnidade: e.target.value,
-                      });
-                    }}
-                  />
-                </FormControl>
-              </GridItem>
 
-              <GridItem colSpan={3}>
-                <FormControl id="limite">
-                  <FormLabel>Limite da Pontuação</FormLabel>
-                  <Input
-                    type="number"
-                    placeholder="Limite da Pontuação"
-                    value={limiteDePontos}
-                    onChange={e => {
-                      this.setState({
-                        limiteDePontos: e.target.value,
-                      });
-                    }}
-                  />
+                  <NumberInput
+                    value={accVariants[0].points_per_unity}
+                    onChange={value => handlePointsPerUnity(Number(value))}
+                    min={0}
+                  >
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
                 </FormControl>
-              </GridItem>
-            </SimpleGrid>
-          </Box>
-          <Box marginBottom="3">
-            <FormControl id="descricao">
-              <FormLabel>Descrição</FormLabel>
-              <Textarea
-                value={descricao}
-                onChange={e => {
-                  this.setState({
-                    descricao: e.target.value,
-                  });
-                }}
-                placeholder="Limite da Pontuação"
-                rows={6}
-              />
-            </FormControl>
-          </Box>
-          <Flex justifyContent="center">
-            <Button
-              type="submit"
-              isLoading={isCreating}
-              loadingText="Editando"
+              )}
+            </GridItem>
+          </SimpleGrid>
+        </Box>
+        <Box marginBottom="3">
+          <FormControl display="flex" alignItems="center" isRequired>
+            <FormLabel htmlFor="email-alerts" mb="0">
+              Possui variações
+            </FormLabel>
+            <Switch
+              id="email-alerts"
               colorScheme="teal"
-            >
-              Editar
-            </Button>
-          </Flex>
-        </form>
-      </div>
-    );
-  }
+              checked={hasVariants}
+              onChange={e => setHasVariants(e.target.checked)}
+            />
+          </FormControl>
+        </Box>
+        {hasVariants && (
+          <Box marginBottom="3">
+            {accVariants.map((accVariant, index) => (
+              <Stack
+                key={accVariant.id}
+                direction="row"
+                spacing="3"
+                width="100%"
+                alignItems="flex-end"
+                marginBottom="3"
+              >
+                <Box width="100%">
+                  <FormControl
+                    id={`variant-description-${index}`}
+                    width="100%"
+                    isRequired
+                  >
+                    {!index && <FormLabel>Descrição</FormLabel>}
+                    <Input
+                      type="text"
+                      placeholder="Descrição"
+                      value={accVariant.description || ''}
+                      onChange={value => {
+                        setACCVariants(
+                          accVariants.map((accV, i) => {
+                            if (i === index)
+                              return {
+                                ...accV,
+                                description: String(value.target.value),
+                              };
+                            return accV;
+                          }),
+                        );
+                      }}
+                    />
+                  </FormControl>
+                </Box>
+                <Box width="100%">
+                  <FormControl id="variant-points-per-unity" isRequired>
+                    {!index && (
+                      <FormLabel>
+                        {`Pontos por ${
+                          unitsOfMeasurement
+                            .find(u => u.id === Number(unityOfMeasurement))
+                            ?.name.toLowerCase() || 'hora'
+                        }`}
+                      </FormLabel>
+                    )}
+                    <NumberInput
+                      value={accVariant.points_per_unity}
+                      onChange={value => {
+                        setACCVariants(
+                          accVariants.map((accV, i) => {
+                            if (i === index)
+                              return {
+                                ...accV,
+                                points_per_unity: Number(value),
+                              };
+                            return accV;
+                          }),
+                        );
+                      }}
+                      min={0}
+                    >
+                      <NumberInputField />
+                      <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                      </NumberInputStepper>
+                    </NumberInput>
+                  </FormControl>
+                </Box>
+                <Box>
+                  {(index === accVariants.length - 1 && (
+                    <Tooltip label="Adicionar mais uma variante" hasArrow>
+                      <IconButton
+                        aria-label="add variant"
+                        icon={<FiPlusCircle />}
+                        colorScheme="teal"
+                        isDisabled={
+                          !accVariant.description ||
+                          !accVariant.points_per_unity
+                        }
+                        onClick={() => {
+                          const accVariantsState = [...accVariants];
+                          accVariantsState.push({
+                            id: new Date().getTime(),
+                            points_per_unity: 0,
+                          });
+                          setACCVariants(accVariantsState);
+                        }}
+                      />
+                    </Tooltip>
+                  )) || (
+                    <Tooltip label="Excluir variante" hasArrow>
+                      <IconButton
+                        aria-label="add variant"
+                        icon={<FiTrash />}
+                        colorScheme="red"
+                        onClick={() => {
+                          setACCVariants(
+                            accVariants.filter((accV, i) => i !== index),
+                          );
+                        }}
+                      />
+                    </Tooltip>
+                  )}
+                </Box>
+              </Stack>
+            ))}
+          </Box>
+        )}
+        <Box marginBottom="3">
+          <FormControl id="descricao" isRequired>
+            <FormLabel>Descrição</FormLabel>
+            <Textarea
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              placeholder="Descrição"
+              rows={6}
+            />
+          </FormControl>
+        </Box>
+        <Flex justifyContent="center">
+          <Button
+            type="submit"
+            isLoading={isLoading}
+            loadingText="Editando"
+            colorScheme="teal"
+          >
+            Confirmar edição
+          </Button>
+        </Flex>
+      </form>
+    </div>
+  );
 }

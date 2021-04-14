@@ -333,6 +333,7 @@ export function RegisterACCType(): JSX.Element {
           <Button
             type="submit"
             isLoading={isLoading}
+            isDisabled={isLoading}
             loadingText="Cadastrando"
             colorScheme="teal"
           >
