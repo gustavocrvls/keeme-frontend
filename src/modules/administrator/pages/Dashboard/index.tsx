@@ -12,9 +12,9 @@ import {
   IconButton,
   Tooltip,
 } from '@chakra-ui/react';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FiTrash } from 'react-icons/fi';
-import { RouteComponentProps, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import PERFIS from '../../../../constants/Perfis';
 import api from '../../../../services/api';
 import {
@@ -94,7 +94,7 @@ export function Dashboard(): JSX.Element {
         <Button
           colorScheme="teal"
           size="sm"
-          onClick={() => history.push('/administrator/register-coordinator')}
+          onClick={() => history.push('/administrator/coordinator/new')}
         >
           Cadastrar coordenador
         </Button>

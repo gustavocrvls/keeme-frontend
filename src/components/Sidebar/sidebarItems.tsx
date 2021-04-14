@@ -5,9 +5,14 @@ export const SidebarItems = {
   [PERFIS.ADMIN]: {
     items: [
       {
-        label: 'Coordenadores',
+        label: 'Início',
         to: '/administrator/home',
         icon: FiHome,
+      },
+      {
+        label: 'Cadastrar Coordenador',
+        to: '/administrator/coordinator/new',
+        icon: FiPlus,
       },
       {
         label: 'Tipos de ACC',

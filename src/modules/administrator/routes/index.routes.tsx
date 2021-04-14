@@ -11,7 +11,7 @@ const Routes = (): JSX.Element => {
     <>
       <PrivateRoute path="/administrator/home" component={Dashboard} />
       <PrivateRoute
-        path="/administrator/register-coordinator"
+        path="/administrator/coordinator/new"
         component={RegisterCoordinator}
       />
       <PrivateRoute
