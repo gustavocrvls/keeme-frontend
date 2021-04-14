@@ -18,7 +18,7 @@ import {
   notifyError,
   notifySuccess,
 } from '../../../../components/Notifications';
-import { ICourse, ParamTypes } from './dtos';
+import { ICourse, IUser, ParamTypes } from './dtos';
 import PageTitle from '../../../../components/PageTitle';
 import { cpfMask } from '../../../../utils/masks';
 import { isValidCPF } from '../../../../utils/validations';
@@ -85,32 +85,37 @@ export function EditCoordinator(): JSX.Element {
       return;
     }
 
-    if (password.length < 8) {
+    if (hasNewPassword && password.length < 8) {
       notifyError('A senha deve ter mais de 8 caracteres!');
       return;
     }
 
-    if (password !== password2) {
+    if (hasNewPassword && password !== password2) {
       notifyError('As senhas não estão iguais!');
       return;
     }
 
     setIsCreating(true);
 
+    const data = {
+      name,
+      cpf: cpf.replace(/\D/g, ''),
+      email,
+      username,
+      profile: PERFIS.COORDENADOR,
+      course: Number(course),
+    } as IUser;
+
+    if (hasNewPassword) {
+      data.password = password;
+    }
+
     try {
-      await api.post('users', {
-        name,
-        cpf: cpf.replace(/\D/g, ''),
-        email,
-        username,
-        password,
-        profile: PERFIS.COORDENADOR,
-        course: Number(course),
-      });
-      notifySuccess('Novo coordenador cadastrado!');
-      history.push('/administrator/home');
+      await api.put(`users/${id}`, data);
+      notifySuccess('Usuário atualizado!');
+      // history.push('/administrator/home');
     } catch (err) {
-      notifyError('Não foi possível cadastrar o coordenador :(');
+      notifyError('Não foi possível atualizar o usuário :(');
     } finally {
       setIsCreating(false);
     }
