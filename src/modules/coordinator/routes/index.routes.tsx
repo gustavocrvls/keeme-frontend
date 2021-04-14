@@ -13,6 +13,7 @@ const Routes = (): JSX.Element => {
       <PrivateRoute
         path="/coordinator/search-student/"
         component={SearchStudent}
+        exact
       />
       <PrivateRoute
         path="/coordinator/search-student/:id"
