@@ -106,7 +106,7 @@ export default function MinhasACCs(): JSX.Element {
                   marginLeft="1"
                   textDecoration="underline"
                   onClick={() => {
-                    history.push('cadastrar-acc');
+                    history.push('new-acc');
                   }}
                 >
                   {` Nova ACC?`}

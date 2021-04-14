@@ -166,7 +166,7 @@ export default function Home(): JSX.Element {
           _hover={{ backgroundColor: '#f1f3f5' }}
         >
           <Link
-            to="/discente/cadastrar-acc"
+            to="/student/new-acc"
             color="primary"
             style={{ width: '30%', textDecoration: 'none' }}
           >
@@ -192,7 +192,7 @@ export default function Home(): JSX.Element {
           _hover={{ backgroundColor: '#f1f3f5' }}
         >
           <Link
-            to="/discente/minhas-accs"
+            to="/student/accs"
             color="primary"
             style={{ width: '30%', textDecoration: 'none' }}
           >
@@ -218,7 +218,7 @@ export default function Home(): JSX.Element {
           _hover={{ backgroundColor: '#f1f3f5' }}
         >
           <Link
-            to="/discente/tipos-de-acc"
+            to="/student/acc-types"
             color="primary"
             style={{ width: '30%', textDecoration: 'none' }}
           >

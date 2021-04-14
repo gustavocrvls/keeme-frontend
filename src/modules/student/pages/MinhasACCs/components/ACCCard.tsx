@@ -88,7 +88,7 @@ export function ACCCard({
         </Box>
       </Flex>
       <Flex alignItems="center" marginLeft="5">
-        <Link to={`minhas-accs/acc/${id}`}>
+        <Link to={`accs/${id}`}>
           <FiArrowRight size="20" />
         </Link>
       </Flex>

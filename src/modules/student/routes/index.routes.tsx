@@ -10,18 +10,15 @@ import TiposDeACC from '../pages/TiposDeACC';
 const Routes = (): JSX.Element => {
   return (
     <>
-      <PrivateRoute path="/discente/home" component={Dashboard} />
-      <PrivateRoute path="/discente/tipos-de-acc" component={TiposDeACC} />
-      <PrivateRoute path="/discente/cadastrar-acc" component={CadastrarAcc} />
+      <PrivateRoute path="/student/home" component={Dashboard} />
+      <PrivateRoute path="/student/acc-types" component={TiposDeACC} />
+      <PrivateRoute path="/student/new-acc" component={CadastrarAcc} />
       <PrivateRoute
-        path="/discente/minhas-accs"
+        path="/student/accs"
         exact
         component={DetalhesDaPontuacao}
       />
-      <PrivateRoute
-        path="/discente/minhas-accs/acc/:id"
-        component={DetalhesDaAcc}
-      />
+      <PrivateRoute path="/student/accs/:id" component={DetalhesDaAcc} />
     </>
   );
 };

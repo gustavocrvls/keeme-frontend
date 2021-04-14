@@ -44,17 +44,17 @@ export const SidebarItems = {
       },
       {
         label: 'Cadastrar ACC',
-        to: '/student/cadastrar-acc',
+        to: '/student/new-acc',
         icon: FiPlus,
       },
       {
         label: 'Minhas ACCs',
-        to: '/student/minhas-accs',
+        to: '/student/accs',
         icon: FiFile,
       },
       {
         label: 'Tipos de ACC',
-        to: '/student/tipos-de-acc',
+        to: '/student/acc-types',
         icon: FiPackage,
       },
     ],

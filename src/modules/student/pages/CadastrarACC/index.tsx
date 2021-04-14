@@ -88,7 +88,7 @@ export default function CadastrarAcc(): JSX.Element {
 
       if (response.status === 201) {
         notifySuccess('ACC cadastrada com sucesso!');
-        history.push('/discente/home');
+        history.push('/student/home');
       }
     } catch (err) {
       notifyError('Não foi possível cadastrar a ACC, tente novamente.');
