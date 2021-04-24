@@ -5,6 +5,8 @@ interface IProps {
   radius: number;
   stroke: number;
   progress: number;
+  obtained: number;
+  total: number;
 }
 
 interface IState {
@@ -42,7 +44,7 @@ export default class ProgressRing extends React.Component<IProps, IState> {
   }
 
   render(): JSX.Element {
-    const { radius, stroke, progress, children } = this.props;
+    const { radius, stroke, progress, total, obtained } = this.props;
     const { circumference, normalizedRadius } = this.state;
     const strokeDashoffset = circumference - (progress / 100) * circumference;
     const strokeDashoffset2 = circumference - 1 * circumference;
@@ -72,14 +74,18 @@ export default class ProgressRing extends React.Component<IProps, IState> {
           />
           <text
             fill="#000000"
-            // fontSize="18"
+            fontSize="24"
             fontFamily="Noto Sans, system-ui, sans-serif"
             x="50%"
             y="50%"
             dominantBaseline="middle"
             textAnchor="middle"
           >
-            {children}
+            <tspan fontSize="30">{obtained}</tspan>
+            <tspan fontSize="30">/</tspan>
+            <tspan fontSize="14" dominantBaseline="hanging">
+              {total}
+            </tspan>
           </text>
         </svg>
       </ProgressRingContainer>

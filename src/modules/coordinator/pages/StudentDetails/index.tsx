@@ -119,10 +119,13 @@ export function StudentDetails(): JSX.Element {
         </Box>
         <Box>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <ProgressRing stroke={10} radius={60} progress={progress}>
-              {summary.approved_points}
-              /51
-            </ProgressRing>
+            <ProgressRing
+              stroke={10}
+              radius={60}
+              progress={progress}
+              obtained={summary.approved_points}
+              total={51}
+            />
             <div
               style={{
                 display: 'flex',

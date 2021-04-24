@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FiFile, FiPlus } from 'react-icons/fi';
+import { FiFile, FiPackage, FiPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import {
   Box,
@@ -7,44 +7,19 @@ import {
   Grid,
   GridItem,
   Heading,
-  ListItem,
   SkeletonCircle,
-  UnorderedList,
 } from '@chakra-ui/react';
 import ProgressRing from '../../../../components/ProgressRing';
 import api from '../../../../services/api';
 import { USERID_KEY } from '../../../../services/auth';
 import { notifyError } from '../../../../components/Notifications';
-import { ACCCard } from '../MinhasACCs/components/ACCCard';
-
-interface IACC {
-  id: number;
-  points: number;
-  quantity: number;
-  description: string;
-  acc_status: {
-    id: number;
-    name: string;
-  };
-  acc_type: {
-    id: number;
-    name: string;
-    unity_of_measurement: {
-      id: number;
-      name: string;
-    };
-  };
-  acc_variant: {
-    id: number;
-    description: string;
-    points_per_unity: number;
-  };
-}
+import { IACC, IPoints } from './dtos';
+import { LastSends } from './components/LastSends';
 
 export default function Home(): JSX.Element {
   const [progress, setProgress] = useState(0);
   const [lastACCs, setLastACCs] = useState<Array<IACC>>([]);
-  const [summary, setSummary] = useState({
+  const [summary, setSummary] = useState<IPoints>({
     approved_points: 0,
     under_analysis: 0,
     failed_points: 0,
@@ -111,12 +86,15 @@ export default function Home(): JSX.Element {
         >
           <Flex justifyContent="space-between">
             {isLoadingData ? (
-              <SkeletonCircle size="25" />
+              <SkeletonCircle size="20" />
             ) : (
-              <ProgressRing stroke={10} radius={60} progress={progress}>
-                {summary.approved_points}
-                /51
-              </ProgressRing>
+              <ProgressRing
+                stroke={10}
+                radius={60}
+                progress={progress}
+                obtained={summary.approved_points}
+                total={51}
+              />
             )}
 
             <div
@@ -230,7 +208,7 @@ export default function Home(): JSX.Element {
               flexDirection="column"
             >
               <Box>
-                <FiFile />
+                <FiPackage />
               </Box>
               <Box>Tipos de ACC</Box>
             </Flex>
@@ -238,28 +216,7 @@ export default function Home(): JSX.Element {
         </GridItem>
       </Grid>
 
-      <Heading as="h2" size="md" marginBottom="5">
-        Últimos Envios
-      </Heading>
-
-      <UnorderedList styleType="none" margin="0">
-        {lastACCs.map((acc, index) => {
-          if (index <= 3)
-            return (
-              <ListItem key={acc.id} marginBottom="3">
-                <ACCCard
-                  id={acc.id}
-                  title={acc.acc_type.name}
-                  accType={acc.acc_type}
-                  points={acc.acc_variant.points_per_unity * acc.quantity}
-                  quantity={acc.quantity}
-                  status={acc.acc_status}
-                />
-              </ListItem>
-            );
-          return <></>;
-        })}
-      </UnorderedList>
+      <LastSends accs={lastACCs} isLoading={isLoadingData} />
     </>
   );
 }
