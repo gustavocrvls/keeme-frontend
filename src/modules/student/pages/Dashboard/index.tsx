@@ -7,7 +7,10 @@ import {
   Grid,
   GridItem,
   Heading,
+  ListItem,
   SkeletonCircle,
+  Text,
+  UnorderedList,
 } from '@chakra-ui/react';
 import ProgressRing from '../../../../components/ProgressRing';
 import api from '../../../../services/api';
@@ -15,6 +18,7 @@ import { USERID_KEY } from '../../../../services/auth';
 import { notifyError } from '../../../../components/Notifications';
 import { IACC, IPoints } from './dtos';
 import { LastSends } from './components/LastSends';
+import { StudentPoints } from '../../../../components/StudentPoints';
 
 export default function Home(): JSX.Element {
   const [progress, setProgress] = useState(0);
@@ -84,57 +88,11 @@ export default function Home(): JSX.Element {
           borderRadius="md"
           padding="4"
         >
-          <Flex justifyContent="space-between">
-            {isLoadingData ? (
-              <SkeletonCircle size="20" />
-            ) : (
-              <ProgressRing
-                stroke={10}
-                radius={60}
-                progress={progress}
-                obtained={summary.approved_points}
-                total={51}
-              />
-            )}
-
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                fontSize: '1rem',
-              }}
-            >
-              <ul style={{ listStyle: 'none' }}>
-                <li
-                  style={{ display: 'flex', justifyContent: 'space-between' }}
-                >
-                  <span style={{ marginRight: 10 }}>Aprovados: </span>
-                  <strong>
-                    {summary.approved_points}
-                    pts
-                  </strong>
-                </li>
-                <li
-                  style={{ display: 'flex', justifyContent: 'space-between' }}
-                >
-                  <span style={{ marginRight: 10 }}>Em análise: </span>
-                  <strong>
-                    {summary.under_analysis}
-                    pts
-                  </strong>
-                </li>
-                <li
-                  style={{ display: 'flex', justifyContent: 'space-between' }}
-                >
-                  <span style={{ marginRight: 10 }}>Reprovados: </span>
-                  <strong>
-                    {summary.failed_points}
-                    pts
-                  </strong>
-                </li>
-              </ul>
-            </div>
-          </Flex>
+          <StudentPoints
+            isLoading={isLoadingData}
+            progress={progress}
+            summary={summary}
+          />
         </GridItem>
 
         <GridItem
