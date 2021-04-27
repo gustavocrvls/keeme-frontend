@@ -12,7 +12,7 @@ export function About(): JSX.Element {
         flexDirection="column"
         justifyContent="space-between"
       >
-        <Box>
+        <Box marginBottom={[10, 0]}>
           <PageTitle>Sobre o Projeto</PageTitle>
 
           <Box marginTop="5">

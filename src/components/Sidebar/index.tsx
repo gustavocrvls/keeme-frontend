@@ -73,23 +73,28 @@ export function Sidebar(): JSX.Element {
         {handlePerfilItems()}
 
         <ListItem position="absolute" bottom="0" width="250px">
-          <Link style={{ padding: 0 }} to="/feedback">
-            <Box
-              padding="3"
-              fontSize="1"
-              display="flex"
-              alignItems="center"
-              transition="padding 0.2s"
-              _hover={{
-                backgroundColor: 'teal',
-                color: 'white',
-                paddingLeft: '4',
-              }}
-            >
-              <FiMessageSquare />
-              <span style={{ paddingLeft: 5 }}>Feedback</span>
-            </Box>
-          </Link>
+          {process.env.REACT_APP_FIREBASE__AUTH_DOMAIN &&
+          process.env.REACT_APP_FIREBASE__PROJECT_ID ? (
+            <Link style={{ padding: 0 }} to="/feedback">
+              <Box
+                padding="3"
+                fontSize="1"
+                display="flex"
+                alignItems="center"
+                transition="padding 0.2s"
+                _hover={{
+                  backgroundColor: 'teal',
+                  color: 'white',
+                  paddingLeft: '4',
+                }}
+              >
+                <FiMessageSquare />
+                <span style={{ paddingLeft: 5 }}>Feedback</span>
+              </Box>
+            </Link>
+          ) : (
+            <></>
+          )}
           <Link style={{ padding: 0 }} to="/about">
             <Box
               padding="3"

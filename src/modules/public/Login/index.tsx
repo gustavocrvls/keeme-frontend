@@ -1,23 +1,24 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
 import {
+  Link,
   Button,
   Flex,
   FormControl,
   FormLabel,
   Input,
-  Link,
+  Text,
+  Box,
 } from '@chakra-ui/react';
-import loginVector1 from '../../assets/images/login__vector_1.svg';
-import loginVector2 from '../../assets/images/login__vector_2.svg';
-import api from '../../services/api';
-import { login } from '../../services/auth';
-import PERFIS from '../../constants/Perfis';
-import { notifyError } from '../../components/Notifications';
-import { Footer } from '../../components/Footer';
+import loginVector1 from '../../../assets/images/login__vector_1.svg';
+import api from '../../../services/api';
+import { login } from '../../../services/auth';
+import PERFIS from '../../../constants/Perfis';
+import { notifyError } from '../../../components/Notifications';
 
 const LoginCard = styled.div`
   padding: 20px;
@@ -139,7 +140,37 @@ export default function Login(): JSX.Element {
           </Button>
         </Flex>
       </LoginCard>
-      <Footer />
+      <Flex
+        justifyContent="center"
+        position={['absolute']}
+        color={['white', 'black']}
+        bottom={[10, 0]}
+        right={['unset']}
+        margin="3"
+        fontSize="sm"
+      >
+        <Link href="/about">
+          sobre o projeto
+        </Link>
+      </Flex>
+      <Flex
+        justifyContent="center"
+        position={['absolute']}
+        color={['white', 'black']}
+        bottom="0"
+        right={['unset', 0]}
+        margin="3"
+        fontSize="sm"
+      >
+        developed with <del style={{ margin: '0 4px' }}>coffee</del> <Text as="span" color="red" marginRight="4px">❤ </Text> by
+        <Link
+          style={{ margin: '0 4px' }}
+          href="https://github.com/gustavocrvls"
+          isExternal
+        >
+          @gustavocrvls
+        </Link>
+      </Flex>
     </div>
   );
 }
