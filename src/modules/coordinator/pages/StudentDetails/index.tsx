@@ -8,6 +8,7 @@ import { IStudent, IACC, ParamTypes, ISummary } from './dtos';
 import PageTitle from '../../../../components/PageTitle';
 import { ACCList } from './components/ACCList';
 import { Pagination } from '../../../../components/Pagination';
+import { StudentPoints } from '../../../../components/StudentPoints';
 
 export function StudentDetails(): JSX.Element {
   const [student, setStudent] = useState<IStudent>();
@@ -118,52 +119,11 @@ export function StudentDetails(): JSX.Element {
           </Box>
         </Box>
         <Box>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <ProgressRing
-              stroke={10}
-              radius={60}
-              progress={progress}
-              obtained={summary.approved_points}
-              total={51}
-            />
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                fontSize: '1rem',
-              }}
-            >
-              <ul style={{ listStyle: 'none' }}>
-                <li
-                  style={{ display: 'flex', justifyContent: 'space-between' }}
-                >
-                  <span style={{ marginRight: 10 }}>Aprovados: </span>
-                  <strong>
-                    {summary.approved_points}
-                    pts
-                  </strong>
-                </li>
-                <li
-                  style={{ display: 'flex', justifyContent: 'space-between' }}
-                >
-                  <span style={{ marginRight: 10 }}>Em análise: </span>
-                  <strong>
-                    {summary.under_analysis}
-                    pts
-                  </strong>
-                </li>
-                <li
-                  style={{ display: 'flex', justifyContent: 'space-between' }}
-                >
-                  <span style={{ marginRight: 10 }}>Reprovados: </span>
-                  <strong>
-                    {summary.failed_points}
-                    pts
-                  </strong>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <StudentPoints
+            isLoading={isLoadingData}
+            progress={progress}
+            summary={summary}
+          />
         </Box>
       </Flex>
 
