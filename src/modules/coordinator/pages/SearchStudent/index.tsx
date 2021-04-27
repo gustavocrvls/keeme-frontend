@@ -8,6 +8,8 @@ import { notifyError } from '../../../../components/Notifications';
 import PageTitle from '../../../../components/PageTitle';
 import { IStudent } from './dto';
 import { SearchStudentsList } from './components/SearchStudentsList';
+import { USER_COURSE_KEY } from '../../../../services/auth';
+import Perfis from '../../../../constants/Perfis';
 
 export function SearchStudent(): JSX.Element {
   const [students, setStudents] = useState<IStudent[]>([]);
@@ -30,6 +32,8 @@ export function SearchStudent(): JSX.Element {
         const response = await api.get('users', {
           params: {
             search,
+            course: sessionStorage.getItem(USER_COURSE_KEY),
+            profile: Perfis.DISCENTE,
           },
         });
 
