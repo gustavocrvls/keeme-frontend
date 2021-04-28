@@ -1,8 +1,7 @@
-/* eslint-disable camelcase */
 import { Heading, Text } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { notifyError } from '../../../../components/Notifications';
-import STATUS_DA_ACC from '../../../../constants/StatusDaACC';
+import { ACC_STATUS } from '../../../../constants/ACCStatus';
 import api from '../../../../services/api';
 import { USER_COURSE_KEY } from '../../../../services/auth';
 import { ReceivedACCsList } from './components/ReceivedACCsList';
@@ -18,7 +17,7 @@ export function Dashboard(): JSX.Element {
       setIsLoading(true);
       const response = await api.get(`accs/`, {
         params: {
-          acc_status: STATUS_DA_ACC.EM_ANALISE,
+          acc_status: ACC_STATUS.UNDER_ANALYSIS,
           course: sessionStorage.getItem(USER_COURSE_KEY),
           page: currentPage,
           limit: 10,

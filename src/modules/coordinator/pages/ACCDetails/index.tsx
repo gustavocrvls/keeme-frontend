@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { FiArrowLeft, FiDownload } from 'react-icons/fi';
+import { FiDownload } from 'react-icons/fi';
 import {
   Box,
   Button,
@@ -24,7 +24,7 @@ import {
   Flex,
 } from '@chakra-ui/react';
 
-import STATUS_DA_ACC from '../../../../constants/StatusDaACC';
+import { ACC_STATUS } from '../../../../constants/ACCStatus';
 import api from '../../../../services/api';
 import {
   notifyError,
@@ -51,7 +51,7 @@ export function ACCDetails(): JSX.Element {
   const history = useHistory();
 
   async function handleAssessment(status: number) {
-    if (status === STATUS_DA_ACC.APROVADA) {
+    if (status === ACC_STATUS.APPROVED) {
       try {
         await api.put(`accs/update/${id}/status`, {
           new_status: status,
@@ -67,7 +67,7 @@ export function ACCDetails(): JSX.Element {
         notifyError('Não foi possível avaliar a ACC :(');
       }
     }
-    if (status === STATUS_DA_ACC.NEGADA) {
+    if (status === ACC_STATUS.FAILED) {
       try {
         if (!description.length) {
           notifyWarning('É necessário especificar o motivo da negação');
@@ -88,13 +88,13 @@ export function ACCDetails(): JSX.Element {
 
   function handleStatus() {
     switch (acc?.acc_status.id) {
-      case STATUS_DA_ACC.APROVADA:
+      case ACC_STATUS.APPROVED:
         return <strong style={{ color: 'teal' }}>{acc.acc_status.name}</strong>;
 
-      case STATUS_DA_ACC.EM_ANALISE:
+      case ACC_STATUS.UNDER_ANALYSIS:
         return <strong style={{ color: 'gray' }}>{acc.acc_status.name}</strong>;
 
-      case STATUS_DA_ACC.NEGADA:
+      case ACC_STATUS.FAILED:
         return (
           <strong style={{ color: 'tomato' }}>{acc.acc_status.name}</strong>
         );
@@ -226,8 +226,8 @@ export function ACCDetails(): JSX.Element {
           )}
         </Box>
 
-        {acc?.acc_status.id === STATUS_DA_ACC.APROVADA ||
-          (acc?.acc_status.id === STATUS_DA_ACC.NEGADA && (
+        {acc?.acc_status.id === ACC_STATUS.APPROVED ||
+          (acc?.acc_status.id === ACC_STATUS.FAILED && (
             <SimpleGrid columns={[1, 2]}>
               <Box>
                 <Box width="100%" color="gray.500">
@@ -246,7 +246,7 @@ export function ACCDetails(): JSX.Element {
             </SimpleGrid>
           ))}
 
-        {acc?.acc_status.id === STATUS_DA_ACC.NEGADA && (
+        {acc?.acc_status.id === ACC_STATUS.FAILED && (
           <Box>
             <Box width="100%" color="gray.500">
               Motivo da Reprovação
@@ -275,8 +275,8 @@ export function ACCDetails(): JSX.Element {
         baixar
       </a>
 
-      {acc?.acc_status.id === STATUS_DA_ACC.APROVADA ||
-      acc?.acc_status.id === STATUS_DA_ACC.NEGADA ||
+      {acc?.acc_status.id === ACC_STATUS.APPROVED ||
+      acc?.acc_status.id === ACC_STATUS.FAILED ||
       isLoading ? (
         <></>
       ) : (
@@ -322,7 +322,7 @@ export function ACCDetails(): JSX.Element {
               <Button
                 colorScheme="teal"
                 onClick={() => {
-                  handleAssessment(STATUS_DA_ACC.APROVADA);
+                  handleAssessment(ACC_STATUS.APPROVED);
                 }}
                 ml={3}
               >
@@ -361,7 +361,7 @@ export function ACCDetails(): JSX.Element {
             </Button>
             <Button
               colorScheme="red"
-              onClick={() => handleAssessment(STATUS_DA_ACC.NEGADA)}
+              onClick={() => handleAssessment(ACC_STATUS.FAILED)}
             >
               Confirmar
             </Button>

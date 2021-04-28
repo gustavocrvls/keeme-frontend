@@ -1,9 +1,7 @@
-/* eslint-disable camelcase */
 import { Box, Flex, IconButton, SimpleGrid, Tooltip } from '@chakra-ui/react';
-import React from 'react';
 import { FiArrowRight } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-import statusDaAcc from '../../../../../../../../constants/StatusDaACC';
+import { ACC_STATUS } from '../../../../../../../../constants/ACCStatus';
 import { ACCCardProps } from './dtos';
 
 export function ACCCard({
@@ -18,13 +16,13 @@ export function ACCCard({
 
   function handleStatus() {
     switch (status.id) {
-      case statusDaAcc.APROVADA:
+      case ACC_STATUS.APPROVED:
         return <strong style={{ color: 'teal' }}>{status.name}</strong>;
 
-      case statusDaAcc.EM_ANALISE:
+      case ACC_STATUS.UNDER_ANALYSIS:
         return <strong style={{ color: 'gray' }}>{status.name}</strong>;
 
-      case statusDaAcc.NEGADA:
+      case ACC_STATUS.FAILED:
         return <strong style={{ color: 'tomato' }}>{status.name}</strong>;
       default:
         return <></>;
