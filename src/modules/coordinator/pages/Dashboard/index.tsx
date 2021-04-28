@@ -16,18 +16,16 @@ export function Dashboard(): JSX.Element {
   async function loadACCs(): Promise<void> {
     try {
       setIsLoading(true);
-      const response = await api.get(
-        `accs/status/${STATUS_DA_ACC.EM_ANALISE}`,
-        {
-          params: {
-            course_id: sessionStorage.getItem(USER_COURSE_KEY),
-            page: currentPage,
-            limit: 10,
-            sortField: 'created_at',
-            sortOrder: 'DESC',
-          },
+      const response = await api.get(`accs/`, {
+        params: {
+          acc_status: STATUS_DA_ACC.EM_ANALISE,
+          course: sessionStorage.getItem(USER_COURSE_KEY),
+          page: currentPage,
+          limit: 10,
+          sortField: 'created_at',
+          sortOrder: 'DESC',
         },
-      );
+      });
 
       setACCs(response.data.data);
     } catch (err) {

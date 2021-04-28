@@ -69,7 +69,7 @@ const Routes = (): JSX.Element => {
         <Route path="/coordinator" component={CoordenadorRoutes} />
         <Route path="/administrator" component={AdministratorRoutes} />
 
-        {/* <Redirect to="/login" /> */}
+        <Redirect to="/login" />
       </Switch>
     </BrowserRouter>
   );
