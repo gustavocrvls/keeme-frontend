@@ -5,6 +5,6 @@ const SUPORTED_TYPES = [
   'application/pdf',
 ];
 
-const SIZE = 2000000;
+const SIZE = 2000000; // 2MB
 
 export { SUPORTED_TYPES, SIZE };

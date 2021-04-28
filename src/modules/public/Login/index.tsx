@@ -12,12 +12,11 @@ import {
   FormLabel,
   Input,
   Text,
-  Box,
 } from '@chakra-ui/react';
 import loginVector1 from '../../../assets/images/login__vector_1.svg';
 import api from '../../../services/api';
 import { login } from '../../../services/auth';
-import PERFIS from '../../../constants/Perfis';
+import { PROFILES } from '../../../constants/Profiles';
 import { notifyError } from '../../../components/Notifications';
 
 const LoginCard = styled.div`
@@ -71,13 +70,13 @@ export default function Login(): JSX.Element {
           result.data.user.course ? result.data.user.course.id : 0,
         );
 
-        if (result.data.user.profile.id === PERFIS.DISCENTE) {
+        if (result.data.user.profile.id === PROFILES.STUDENT) {
           history.push('/student/home');
         }
-        if (result.data.user.profile.id === PERFIS.COORDENADOR) {
+        if (result.data.user.profile.id === PROFILES.COORDINATOR) {
           history.push('/coordinator/home');
         }
-        if (result.data.user.profile.id === PERFIS.ADMIN) {
+        if (result.data.user.profile.id === PROFILES.ADMINISTRATOR) {
           history.push('/administrator/home');
         }
       } else {

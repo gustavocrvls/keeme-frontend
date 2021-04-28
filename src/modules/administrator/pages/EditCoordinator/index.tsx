@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { FormEvent, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import PERFIS from '../../../../constants/Perfis';
+import { PROFILES } from '../../../../constants/Profiles';
 import api from '../../../../services/api';
 import {
   notifyError,
@@ -102,7 +102,7 @@ export function EditCoordinator(): JSX.Element {
       cpf: cpf.replace(/\D/g, ''),
       email,
       username,
-      profile: PERFIS.COORDENADOR,
+      profile: PROFILES.COORDINATOR,
       course: Number(course),
     } as IUser;
 

@@ -6,19 +6,13 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-  Box,
   Button,
   Flex,
   Heading,
-  IconButton,
-  Stack,
-  Text,
-  Tooltip,
 } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
-import { FiEdit, FiTrash } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-import PERFIS from '../../../../constants/Perfis';
+import { PROFILES } from '../../../../constants/Profiles';
 import api from '../../../../services/api';
 import {
   notifyError,
@@ -42,7 +36,7 @@ export function Dashboard(): JSX.Element {
     try {
       setIsLoading(true);
       const response = await api.get(
-        `users/perfil/${PERFIS.COORDENADOR}/cursos`,
+        `users/perfil/${PROFILES.COORDINATOR}/cursos`,
       );
       setCourses(response.data.cursos);
     } catch (err) {

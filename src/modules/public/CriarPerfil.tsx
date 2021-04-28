@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
 import {
-  Box,
   Button,
   Flex,
   FormControl,
@@ -16,7 +15,7 @@ import {
 import loginVector1 from '../../assets/images/login__vector_1.svg';
 import api from '../../services/api';
 import { login } from '../../services/auth';
-import PERFIS from '../../constants/Perfis';
+import { PROFILES } from '../../constants/Profiles';
 import { notifyError, notifySuccess } from '../../components/Notifications';
 import { isValidCPF } from '../../utils/validations';
 import { cpfMask } from '../../utils/masks';
@@ -121,7 +120,7 @@ export default function CriarPerfil(): JSX.Element {
 
         notifySuccess('Usuário criado com sucesso!');
 
-        if (resultLogin.data.user.profile.id === PERFIS.DISCENTE) {
+        if (resultLogin.data.user.profile.id === PROFILES.STUDENT) {
           history.push('/student/home');
         }
       }

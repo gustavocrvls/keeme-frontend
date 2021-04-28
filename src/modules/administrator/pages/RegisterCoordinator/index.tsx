@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import React, { FormEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import PERFIS from '../../../../constants/Perfis';
+import { PROFILES } from '../../../../constants/Profiles';
 import api from '../../../../services/api';
 import {
   notifyError,
@@ -85,7 +85,7 @@ export function RegisterCoordinator(): JSX.Element {
         email: coordinatorEmail,
         username: coordinatorUsername,
         password: coordinatorPassword,
-        profile: PERFIS.COORDENADOR,
+        profile: PROFILES.COORDINATOR,
         course: Number(coordinatorCourse),
       });
       notifySuccess('Novo coordenador cadastrado!');

@@ -1,7 +1,7 @@
 import { Box, Flex, UnorderedList, ListItem } from '@chakra-ui/react';
 
 import { Progress } from '../../../../../components/Progress';
-import { calcularProgresso } from '../../../../../utils/calculos';
+import { calculateProgress } from '../../../../../utils/calculations';
 
 interface AccDetails {
   name: string;
@@ -69,7 +69,7 @@ const CardTipoDeACC = ({
           <strong>{` ${completed}/${limit}`}</strong>
         </div>
       </Flex>
-      <Progress completed={calcularProgresso(limit, completed)} />
+      <Progress completed={calculateProgress(limit, completed)} />
     </Box>
   );
 };

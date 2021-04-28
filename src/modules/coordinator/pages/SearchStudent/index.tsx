@@ -8,7 +8,7 @@ import PageTitle from '../../../../components/PageTitle';
 import { IStudent } from './dto';
 import { SearchStudentsList } from './components/SearchStudentsList';
 import { USER_COURSE_KEY } from '../../../../services/auth';
-import Perfis from '../../../../constants/Perfis';
+import { PROFILES } from '../../../../constants/Profiles';
 
 export function SearchStudent(): JSX.Element {
   const [students, setStudents] = useState<IStudent[]>([]);
@@ -32,7 +32,7 @@ export function SearchStudent(): JSX.Element {
           params: {
             search,
             course: sessionStorage.getItem(USER_COURSE_KEY),
-            profile: Perfis.DISCENTE,
+            profile: PROFILES.STUDENT,
             sortField: 'name',
           },
         });

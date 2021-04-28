@@ -3,7 +3,7 @@ import React, { ChangeEvent, useState } from 'react';
 import { FiFile } from 'react-icons/fi';
 
 import { Button } from '@chakra-ui/react';
-import { SIZE, SUPORTED_TYPES } from '../../../../../constants/Certificado';
+import { SIZE, SUPORTED_TYPES } from '../../../../../constants/Certificate';
 import { notifyError } from '../../../../../components/Notifications';
 
 interface Props {

@@ -1,8 +1,8 @@
 import { FiFile, FiHome, FiPackage, FiPlus, FiSearch } from 'react-icons/fi';
-import PERFIS from '../../constants/Perfis';
+import { PROFILES } from '../../constants/Profiles';
 
 export const SidebarItems = {
-  [PERFIS.ADMIN]: {
+  [PROFILES.ADMINISTRATOR]: {
     items: [
       {
         label: 'Início',
@@ -21,7 +21,7 @@ export const SidebarItems = {
       },
     ],
   },
-  [PERFIS.COORDENADOR]: {
+  [PROFILES.COORDINATOR]: {
     items: [
       {
         label: 'Início',
@@ -35,7 +35,7 @@ export const SidebarItems = {
       },
     ],
   },
-  [PERFIS.DISCENTE]: {
+  [PROFILES.STUDENT]: {
     items: [
       {
         label: 'Início',
