@@ -49,7 +49,6 @@ export function SidebarProvider({
       if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
         setIsSidebarOpen(false);
       }
-      // console.log(sidebarRef.current);
     });
   }, [sidebarRef]);
 
