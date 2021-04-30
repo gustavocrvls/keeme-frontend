@@ -1,6 +1,15 @@
-# KeeMe (Keep It To Me)
+<p align="center">
+  <img src="https://github.com/gustavocrvls/icons/blob/f9f809ad6c69d21ca1c5149f2b910ea9e294d43a/keeme.png" width="50"/>
+</p>
 
-![](https://github.com/gustavocrvls/gestor-de-accs-frontend/blob/aa6dbbc5032f42100187cbec8a8d4621ddc05dba/docs/screenshots/login_screen_v2.png)
+# KeeMe
+
+<p align="center">
+  <a href="https://rocketseat.com.br">
+    <img alt="Made by Gustavo Carvalho Silva" src="https://img.shields.io/badge/made%20by-Gustavo%20Carvalho%20Silva-008080">
+  </a>
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-008080">
+</p>
 
 ## 💡 Sobre o Projeto
 
