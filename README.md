@@ -13,9 +13,15 @@
 
 ## 💡 Sobre o Projeto
 
-O [[]] é um projeto que está sendo desenvolvido no meu Trabalho de Conclusão de Curso (TCC 😱), e partiu de uma necessidade da <a href="https://faceel.unifesspa.edu.br/">FACEEL</a> em automatizar o controle das Atividades Curriculares Complementares (Minicursos, Participações em Congressos, Estágios, etc) que os alunos fazem durante o curso. Esse processo até então era todo manual, exigindo que os alunos enviassem os certificados por e-mail para que os coordenadores pudessem então contabilizar as horas e os pontos. O [[]] serve para guardar esses certificados, e fazer a contagem dos pontos de cada uma, facilitando a vida dos alunos e dos coordenadores.
+O projeto foi desenvolvido durante um Trabalho de Conclusão de Curso do curso de Sistemas de Informação da UNIFESSPA.
 
-Você pode dar uma olhada no protótipo do projeto: <a href="https://www.figma.com/file/28fcRaEdbWgQkIAw6Pnfwh/ACCGen-Web?node-id=0%3A1" target="_blank">KeeMe</a>
+O KeeMe é uma aplicação de gerenciamento das Atividades Curriculares Complementares dos discentes da Faculdade de Computação e Engenharia Elétrica da UNIFESSPA, criado com o foco em tornar simples e transparente o processo de avaliação.
+
+O projeto está dividido em duas partes:
+- [Front-end](https://github.com/gustavocrvls/keeme-frontend)
+- [Back-end](https://github.com/gustavocrvls/keeme-backend)
+
+Você também pode dar uma olhada no protótipo do projeto em: <a href="https://www.figma.com/file/28fcRaEdbWgQkIAw6Pnfwh/ACCGen-Web?node-id=0%3A1" target="_blank">KeeMe</a>
 
 ## 🛠 Tecnologias Usadas
 - HTML5
