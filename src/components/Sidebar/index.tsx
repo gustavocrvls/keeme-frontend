@@ -1,8 +1,8 @@
-import React, { ReactNode, useContext, useEffect, useRef } from 'react';
+import { ReactNode, useContext, useEffect } from 'react';
 import { Box, ListItem, UnorderedList } from '@chakra-ui/react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { FiInfo, FiMessageSquare } from 'react-icons/fi';
-import { SidebarItems } from './sidebarItems';
+import { modules } from './modules';
 import { USER_PERFIL_KEY } from '../../services/auth';
 import { SidebarContext } from '../../contexts/SidebarProvider';
 
@@ -19,7 +19,7 @@ export function Sidebar(): JSX.Element {
   function handlePerfilItems(): ReactNode {
     const idPerfil = Number(sessionStorage.getItem(USER_PERFIL_KEY));
 
-    return SidebarItems[idPerfil].items.map(item => (
+    return modules[idPerfil].items.map(item => (
       <ListItem key={`sidebar-item-${item.label}`}>
         <Link style={{ padding: 0 }} to={item.to}>
           <Box

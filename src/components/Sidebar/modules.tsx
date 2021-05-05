@@ -1,7 +1,7 @@
 import { FiFile, FiHome, FiPackage, FiPlus, FiSearch } from 'react-icons/fi';
 import { PROFILES } from '../../constants/Profiles';
 
-export const SidebarItems = {
+export const modules = {
   [PROFILES.ADMINISTRATOR]: {
     items: [
       {

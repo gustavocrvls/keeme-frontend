@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiList, FiLogOut } from 'react-icons/fi';
-
 import { Flex, IconButton, Tooltip } from '@chakra-ui/react';
 import { logout, USER_NAME_KEY, USER_PERFIL_KEY } from '../../services/auth';
 import { PROFILES } from '../../constants/Profiles';

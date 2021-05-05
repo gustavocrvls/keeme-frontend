@@ -53,9 +53,6 @@ export function ACCDetails(): JSX.Element {
   async function handleAssessment(status: number) {
     if (status === ACC_STATUS.APPROVED) {
       try {
-        await api.put(`accs/update/${id}/status`, {
-          new_status: status,
-        });
         await api.post(`accs-assessments`, {
           acc_status: status,
           user: sessionStorage.getItem(USERID_KEY),
@@ -343,6 +340,8 @@ export function ACCDetails(): JSX.Element {
           <ModalHeader>Motivo da Reprovação</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
+            <p>Deseja realmente aprovar essa ACC?</p>
+            <p>Essa ação não pode ser desfeita.</p>
             <Textarea
               placeholder="Motivo da Reprovação"
               value={description}
