@@ -22,7 +22,7 @@ import {
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
 import { FiPlusCircle, FiTrash } from 'react-icons/fi';
-import api from '../../../../services/api';
+import { api } from '../../../../services/api';
 import {
   notifyError,
   notifySuccess,

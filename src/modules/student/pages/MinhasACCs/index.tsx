@@ -8,7 +8,7 @@ import {
   UnorderedList,
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
-import api from '../../../../services/api';
+import { api } from '../../../../services/api';
 import { USERID_KEY } from '../../../../services/auth';
 import PageTitle from '../../../../components/PageTitle';
 import { ACCCard } from './components/ACCCard';

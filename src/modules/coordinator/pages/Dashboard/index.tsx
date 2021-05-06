@@ -2,7 +2,7 @@ import { Heading, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { notifyError } from '../../../../components/Notifications';
 import { ACC_STATUS } from '../../../../constants/ACCStatus';
-import api from '../../../../services/api';
+import { api } from '../../../../services/api';
 import { USER_COURSE_KEY } from '../../../../services/auth';
 import { ReceivedACCsList } from './components/ReceivedACCsList';
 import { IReceivedACC } from './dtos';

@@ -9,10 +9,10 @@ import {
   Select,
   SimpleGrid,
 } from '@chakra-ui/react';
-import React, { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { PROFILES } from '../../../../constants/Profiles';
-import api from '../../../../services/api';
+import { api } from '../../../../services/api';
 import {
   notifyError,
   notifySuccess,

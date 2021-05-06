@@ -1,19 +1,8 @@
 import { useEffect, useState } from 'react';
 import { FiFile, FiPackage, FiPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import {
-  Box,
-  Flex,
-  Grid,
-  GridItem,
-  Heading,
-  ListItem,
-  SkeletonCircle,
-  Text,
-  UnorderedList,
-} from '@chakra-ui/react';
-import ProgressRing from '../../../../components/ProgressRing';
-import api from '../../../../services/api';
+import { Box, Flex, Grid, GridItem, Heading } from '@chakra-ui/react';
+import { api } from '../../../../services/api';
 import { USERID_KEY } from '../../../../services/auth';
 import { notifyError } from '../../../../components/Notifications';
 import { IACC, IPoints } from './dtos';

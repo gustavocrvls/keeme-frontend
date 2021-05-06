@@ -10,7 +10,7 @@ import {
 } from '../../../../components/Notifications';
 import PageTitle from '../../../../components/PageTitle';
 import { Pagination } from '../../../../components/Pagination';
-import api from '../../../../services/api';
+import {api} from '../../../../services/api';
 import { ACCTypesList } from './components/ACCTypesList';
 import { AlertDeleteACCType } from './components/AlertDeleteACCType';
 import { IACCType } from './dtos';

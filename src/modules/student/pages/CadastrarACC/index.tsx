@@ -14,7 +14,7 @@ import {
   Stack,
   Radio,
 } from '@chakra-ui/react';
-import api from '../../../../services/api';
+import { api } from '../../../../services/api';
 import FileUploader from './components/FileUploader';
 import {
   notifyError,

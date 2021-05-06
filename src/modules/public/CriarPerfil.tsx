@@ -13,7 +13,7 @@ import {
   SimpleGrid,
 } from '@chakra-ui/react';
 import loginVector1 from '../../assets/images/login__vector_1.svg';
-import api from '../../services/api';
+import { api } from '../../services/api';
 import { login } from '../../services/auth';
 import { PROFILES } from '../../constants/Profiles';
 import { notifyError, notifySuccess } from '../../components/Notifications';

@@ -23,4 +23,4 @@ api.interceptors.response.use(async response => {
   return response;
 });
 
-export default api;
+export { api };

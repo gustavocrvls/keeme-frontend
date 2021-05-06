@@ -2,7 +2,7 @@
 import { Flex, IconButton, Input, Text, Tooltip } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
-import api from '../../../../services/api';
+import { api } from '../../../../services/api';
 import { notifyError } from '../../../../components/Notifications';
 import PageTitle from '../../../../components/PageTitle';
 import { IStudent } from './dto';

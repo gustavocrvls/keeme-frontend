@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Box, Flex, SkeletonText } from '@chakra-ui/react';
-import ProgressRing from '../../../../components/ProgressRing';
-import api from '../../../../services/api';
+import { api } from '../../../../services/api';
 import { notifyError } from '../../../../components/Notifications';
 import { IStudent, IACC, ParamTypes, ISummary } from './dtos';
 import PageTitle from '../../../../components/PageTitle';

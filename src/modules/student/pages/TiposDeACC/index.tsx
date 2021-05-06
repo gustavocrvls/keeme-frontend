@@ -4,7 +4,7 @@ import { ListItem, Skeleton, Stack, UnorderedList } from '@chakra-ui/react';
 import PageTitle from '../../../../components/PageTitle';
 
 import { USERID_KEY } from '../../../../services/auth';
-import api from '../../../../services/api';
+import { api } from '../../../../services/api';
 import CardTipoDeACC from './components/CardTipoDeACC';
 import { notifyError } from '../../../../components/Notifications';
 import { Pagination } from '../../../../components/Pagination';

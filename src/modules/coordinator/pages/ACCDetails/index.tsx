@@ -25,7 +25,7 @@ import {
 } from '@chakra-ui/react';
 
 import { ACC_STATUS } from '../../../../constants/ACCStatus';
-import api from '../../../../services/api';
+import { api } from '../../../../services/api';
 import {
   notifyError,
   notifySuccess,

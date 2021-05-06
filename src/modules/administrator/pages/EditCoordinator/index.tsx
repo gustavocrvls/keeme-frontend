@@ -13,7 +13,7 @@ import {
 import { FormEvent, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { PROFILES } from '../../../../constants/Profiles';
-import api from '../../../../services/api';
+import { api } from '../../../../services/api';
 import {
   notifyError,
   notifySuccess,

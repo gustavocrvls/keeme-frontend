@@ -19,7 +19,7 @@ import {
   Tooltip,
 } from '@chakra-ui/react';
 import { ACC_STATUS } from '../../../../constants/ACCStatus';
-import api from '../../../../services/api';
+import { api } from '../../../../services/api';
 import PageTitle from '../../../../components/PageTitle';
 import {
   notifyError,
