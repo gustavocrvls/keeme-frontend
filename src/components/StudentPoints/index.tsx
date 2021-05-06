@@ -31,21 +31,27 @@ export function StudentPoints({
       <Box display="flex" alignItems="center">
         <UnorderedList listStyleType="none">
           <ListItem display="flex" justifyContent="space-between">
-            <Text as="span">Aprovados:</Text>
+            <Text as="span" marginRight="2">
+              Aprovados:
+            </Text>
             <strong>
               {summary.approved_points}
               pts
             </strong>
           </ListItem>
           <ListItem display="flex" justifyContent="space-between">
-            <Text as="span">Em análise: </Text>
+            <Text as="span" marginRight="2">
+              Em análise:
+            </Text>
             <strong>
               {summary.under_analysis}
               pts
             </strong>
           </ListItem>
           <ListItem display="flex" justifyContent="space-between">
-            <Text as="span">Reprovados: </Text>
+            <Text as="span" marginRight="2">
+              Reprovados:
+            </Text>
             <strong>
               {summary.failed_points}
               pts

@@ -63,7 +63,7 @@ export default function Login(): JSX.Element {
 
       if (result.data.auth) {
         login(
-          result.data.token,
+          result.headers['access-token'],
           result.data.user.id,
           result.data.user.profile.id,
           result.data.user.name,

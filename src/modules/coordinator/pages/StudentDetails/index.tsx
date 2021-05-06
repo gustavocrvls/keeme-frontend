@@ -85,6 +85,7 @@ export function StudentDetails(): JSX.Element {
         padding="3"
         marginBottom="5"
         justifyContent="space-between"
+        direction={['column', 'row']}
       >
         <Box>
           <Box>

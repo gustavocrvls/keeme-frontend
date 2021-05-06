@@ -78,7 +78,7 @@ export default function CadastrarAcc(): JSX.Element {
       formData.append('certificate', file);
       formData.append('acc_variant', String(accVariantId));
 
-      const response = await api.post('accs/create', formData, {
+      const response = await api.post('accs', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${sessionStorage.getItem(TOKEN_KEY)}`,
