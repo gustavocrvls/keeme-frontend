@@ -13,7 +13,7 @@ import {
   SimpleGrid,
 } from '@chakra-ui/react';
 import loginVector1 from '../../assets/images/login__vector_1.svg';
-import { api } from '../../services/api';
+import { publicApi } from '../../services/api';
 import { login } from '../../services/auth';
 import { PROFILES } from '../../constants/Profiles';
 import { notifyError, notifySuccess } from '../../components/Notifications';
@@ -94,7 +94,7 @@ export default function CriarPerfil(): JSX.Element {
       return;
     }
 
-    const result = await api.post('users/register-student', {
+    const result = await publicApi.post('users/register-student', {
       name: nome,
       username,
       cpf,
@@ -104,7 +104,7 @@ export default function CriarPerfil(): JSX.Element {
     });
 
     if (result.status === 201) {
-      const resultLogin = await api.post('users/login', {
+      const resultLogin = await publicApi.post('users/login', {
         username,
         password: senha,
       });
@@ -128,7 +128,7 @@ export default function CriarPerfil(): JSX.Element {
   };
 
   async function loadCursos() {
-    const response = await api.get('courses');
+    const response = await publicApi.get('courses');
 
     setCursos(response.data.data);
   }

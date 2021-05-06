@@ -14,7 +14,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import loginVector1 from '../../../assets/images/login__vector_1.svg';
-import { api } from '../../../services/api';
+import { publicApi } from '../../../services/api';
 import { login } from '../../../services/auth';
 import { PROFILES } from '../../../constants/Profiles';
 import { notifyError } from '../../../components/Notifications';
@@ -56,7 +56,7 @@ export default function Login(): JSX.Element {
     setIsLoading(true);
 
     try {
-      const result = await api.post('users/login', {
+      const result = await publicApi.post('users/login', {
         username,
         password,
       });

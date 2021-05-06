@@ -23,4 +23,11 @@ api.interceptors.response.use(async response => {
   return response;
 });
 
-export { api };
+/**
+ * api without token validation
+ */
+const publicApi = axios.create({
+  baseURL: process.env.REACT_APP_API,
+});
+
+export { api, publicApi };
