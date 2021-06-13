@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import {
   AlertDialog,
   AlertDialogBody,
@@ -35,10 +34,12 @@ export function Dashboard(): JSX.Element {
   async function loadData(): Promise<void> {
     try {
       setIsLoading(true);
-      const response = await api.get(
-        `users/perfil/${PROFILES.COORDINATOR}/cursos`,
-      );
-      setCourses(response.data.cursos);
+      const response = await api.get(`courses/users`, {
+        params: {
+          profileId: PROFILES.COORDINATOR,
+        },
+      });
+      setCourses(response.data.data);
     } catch (err) {
       notifyError('Não foi possível carregar os dados :(');
     } finally {
