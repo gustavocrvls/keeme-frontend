@@ -44,6 +44,22 @@ const LoginCardTitle = styled.h1`
   font-size: 36px;
 `;
 
+interface LoginResponse {
+  auth: boolean;
+  data: {
+    course?: {
+      id: number;
+      name: string;
+    },
+    profile: {
+      id: number;
+      name: string;
+    },
+    name: string;
+    id: number;
+  }
+}
+
 export default function Login(): JSX.Element {
   const [username, setUsername] = useState('');
   const [password, setSenha] = useState('');
@@ -56,28 +72,35 @@ export default function Login(): JSX.Element {
     setIsLoading(true);
 
     try {
-      const result = await publicApi.post('users/login', {
+      const response = await publicApi.post<LoginResponse>('users/login', {
         username,
         password,
       });
 
-      if (result.data.auth) {
+      if (response.data.auth) {
+        const { data: user } = response.data;
+
         login(
-          result.headers['access-token'],
-          result.data.user.id,
-          result.data.user.profile.id,
-          result.data.user.name,
-          result.data.user.course ? result.data.user.course.id : 0,
+          response.headers['access-token'],
+          String(user.id),
+          String(user.profile.id),
+          user.name,
+          user.course ? String(user.course.id) : '0',
         );
 
-        if (result.data.user.profile.id === PROFILES.STUDENT) {
-          history.push('/student/home');
-        }
-        if (result.data.user.profile.id === PROFILES.COORDINATOR) {
-          history.push('/coordinator/home');
-        }
-        if (result.data.user.profile.id === PROFILES.ADMINISTRATOR) {
-          history.push('/administrator/home');
+        switch(user.profile.id) {
+          case PROFILES.STUDENT:
+            history.push('/student/home');
+            break;
+          case PROFILES.COORDINATOR:
+            history.push('/coordinator/home');
+            break;
+          case PROFILES.ADMINISTRATOR:
+            history.push('/administrator/home');
+            break;
+          default:
+            history.push('/');
+            break;
         }
       } else {
         notifyError('Usuário e/ou senha incorretos!');
