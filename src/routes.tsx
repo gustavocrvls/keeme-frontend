@@ -1,58 +1,12 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
-import { isAuthenticated } from './services/auth';
-import { notifyError } from './components/Notifications';
-
-import { Container } from './components/Containers';
-import Header from './components/Header';
+import StudentRoutes from './modules/student/routes/index.routes';
+import CoordinatorRoutes from './modules/coordinator/routes/index.routes';
+import AdministratorRoutes from './modules/administrator/routes/index.routes';
 
 import Login from './modules/public/Login';
-import CriarPerfil from './modules/public/CriarPerfil';
-
-import DiscenteRoutes from './modules/student/routes/index.routes';
-import CoordenadorRoutes from './modules/coordinator/routes/index.routes';
-import AdministratorRoutes from './modules/administrator/routes/index.routes';
-import { Sidebar } from './components/Sidebar';
 import { About } from './modules/public/About';
 import { Feedback } from './modules/public/Feedback';
-
-interface PrivateRouteProps {
-  path: string;
-  component: React.ComponentClass | any;
-  exact?: boolean;
-}
-
-export function PrivateRoute(props: PrivateRouteProps): JSX.Element {
-  const { component: Component, exact, path } = props;
-  return (
-    <Route
-      path={path}
-      exact={exact}
-      render={routeProps =>
-        isAuthenticated() ? (
-          <>
-            <Sidebar />
-            <Header />
-            <Container>
-              <Component {...routeProps} />
-            </Container>
-          </>
-        ) : (
-          <>
-            {notifyError('Ops! Você precisa fazer login no sistema!')}
-            <Redirect to={{ pathname: '/' }} />
-          </>
-        )}
-    />
-  );
-}
-
-PrivateRoute.defaultProps = {
-  exact: false,
-};
 
 const Routes = (): JSX.Element => {
   return (
@@ -60,13 +14,12 @@ const Routes = (): JSX.Element => {
       <Switch>
         <Route path="/" exact component={Login} />
         <Route path="/login" component={Login} />
-        <Route path="/criar-perfil" component={CriarPerfil} />
 
         <Route path="/about" component={About} />
         <Route path="/feedback" component={Feedback} />
 
-        <Route path="/student" component={DiscenteRoutes} />
-        <Route path="/coordinator" component={CoordenadorRoutes} />
+        <Route path="/student" component={StudentRoutes} />
+        <Route path="/coordinator" component={CoordinatorRoutes} />
         <Route path="/administrator" component={AdministratorRoutes} />
 
         <Redirect to="/login" />

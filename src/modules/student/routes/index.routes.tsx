@@ -1,5 +1,5 @@
 import React from 'react';
-import { PrivateRoute } from '../../../routes';
+import { PrivateRoute } from '../../../components/PrivateRoute';
 
 import CadastrarAcc from '../pages/CadastrarACC';
 import Dashboard from '../pages/Dashboard';

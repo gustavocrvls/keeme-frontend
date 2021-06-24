@@ -1,4 +1,4 @@
-import { PrivateRoute } from '../../../routes';
+import { PrivateRoute } from '../../../components/PrivateRoute';
 
 import { Dashboard } from '../pages/Dashboard';
 import { RegisterCoordinator } from '../pages/RegisterCoordinator';

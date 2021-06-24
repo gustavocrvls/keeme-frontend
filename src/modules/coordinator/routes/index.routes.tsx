@@ -1,5 +1,4 @@
-import React from 'react';
-import { PrivateRoute } from '../../../routes';
+import { PrivateRoute } from '../../../components/PrivateRoute';
 
 import { Dashboard } from '../pages/Dashboard';
 import { SearchStudent } from '../pages/SearchStudent';
