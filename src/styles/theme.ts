@@ -6,6 +6,23 @@ const theme = extendTheme({
     heading: 'Noto Sans, system-ui, sans-serif',
     mono: 'Noto Sans, system-ui, sans-serif',
   },
+  components: {
+    Input: {
+      defaultProps: {
+        focusBorderColor: 'teal.500',
+      },
+    },
+    NumberInput: {
+      defaultProps: {
+        focusBorderColor: 'teal.500',
+      },
+    },
+    Select: {
+      defaultProps: {
+        focusBorderColor: 'teal.500',
+      },
+    },
+  },
   styles: {
     global: {
       '*::-webkit-scrollbar-track': {

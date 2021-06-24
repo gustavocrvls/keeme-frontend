@@ -12,53 +12,24 @@ import {
   FormLabel,
   Input,
   Text,
+  Box,
+  Img,
+  Grid,
 } from '@chakra-ui/react';
-import loginVector1 from '../../../assets/images/login__vector_1.svg';
 import { publicApi } from '../../../services/api';
 import { login } from '../../../services/auth';
 import { PROFILES } from '../../../constants/Profiles';
 import { notifyError } from '../../../components/Notifications';
+import { LoginResponse } from './dtos';
 
-const LoginCard = styled.div`
-  padding: 20px;
-  margin: 10px;
-
-  box-sizing: border-box;
-  background: #ffffff;
-  border-radius: 5px;
-  z-index: 10;
-
-  min-height: 400px;
-  width: 100%;
-  max-width: 500px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
+import reviewedDocsImg from '../../../assets/images/reviewed_docs.svg';
+import { Footer } from '../../../components/Footer';
 
 const LoginCardTitle = styled.h1`
   text-align: center;
   color: #4d6f80;
   font-size: 36px;
 `;
-
-interface LoginResponse {
-  auth: boolean;
-  data: {
-    course?: {
-      id: number;
-      name: string;
-    },
-    profile: {
-      id: number;
-      name: string;
-    },
-    name: string;
-    id: number;
-  }
-}
 
 export default function Login(): JSX.Element {
   const [username, setUsername] = useState('');
@@ -88,7 +59,7 @@ export default function Login(): JSX.Element {
           user.course ? String(user.course.id) : '0',
         );
 
-        switch(user.profile.id) {
+        switch (user.profile.id) {
           case PROFILES.STUDENT:
             history.push('/student/home');
             break;
@@ -114,19 +85,37 @@ export default function Login(): JSX.Element {
   }
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        backgroundImage: `url("${loginVector1}")`,
-        backgroundColor: '#f0f0f0',
-        backgroundRepeat: 'no-repeat',
-      }}
+    <Grid
+      templateColumns="1fr 1fr"
+      height="100vh"
+      maxW={980}
+      margin="0 auto"
+      gap="20"
     >
-      <LoginCard>
-        <LoginCardTitle>KeeMe</LoginCardTitle>
+      <Flex
+        background="teal"
+        backgroundColor="white"
+        height="100vh"
+        align="center"
+        justifyContent="center"
+        display={['none', 'none', 'none', 'flex']}
+        direction="column"
+      >
+        <Img src={reviewedDocsImg} width="100%" />
+        <Text textAlign="center" fontSize="3xl" color="teal">
+          Bem-vindo ao KeeMe!
+        </Text>
+        <Text textAlign="center" color="gray.700">
+          Uma aplicação de gestão de Atividades Curriculares Complementares
+        </Text>
+      </Flex>
+      <Flex justifyContent="center" direction="column">
+        <Text as="h1" fontSize="5xl" color="teal" textAlign="center">
+          KeeMe
+        </Text>
+        <Text fontSize="sm" color="gray.500" textAlign="center">
+          (Utilize o seu usuário do Sigaa)
+        </Text>
         <form onSubmit={handleLogin} style={{ width: '100%' }}>
           <FormControl id="username">
             <FormLabel color="gray.500">Usuário</FormLabel>
@@ -135,6 +124,7 @@ export default function Login(): JSX.Element {
               placeholder="Usuário"
               value={username}
               onChange={e => setUsername(e.target.value)}
+              focusBorderColor="pink.500"
             />
           </FormControl>
           <FormControl id="password" marginTop="1">
@@ -156,13 +146,13 @@ export default function Login(): JSX.Element {
             Entrar
           </Button>
         </form>
-        <Flex justifyContent="flex-end" width="100%" marginTop="10">
-          <Button onClick={() => history.push('/criar-perfil')} variant="link">
-            Não possui perfil ainda?
-          </Button>
-        </Flex>
-      </LoginCard>
-      <Flex
+      </Flex>
+    </Grid>
+  );
+}
+
+/**
+ * <Flex
         justifyContent="center"
         position={['absolute']}
         color={['white', 'black']}
@@ -193,6 +183,4 @@ export default function Login(): JSX.Element {
           @gustavocrvls
         </Link>
       </Flex>
-    </div>
-  );
-}
+ */
