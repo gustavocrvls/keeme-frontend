@@ -1,6 +1,6 @@
-import React, { ReactNode, useContext } from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
-import { SidebarContext } from '../contexts/SidebarProvider';
+import { useSidebar } from '../hooks/useSidebar';
 
 const BaseContainer = styled.div`
   max-width: 1024px;
@@ -15,7 +15,7 @@ interface ContainerProps {
 }
 
 const Container = ({ children }: ContainerProps): JSX.Element => {
-  const { isSidebarAwaysShowed } = useContext(SidebarContext);
+  const { isSidebarAwaysShowed } = useSidebar();
 
   return (
     <div style={isSidebarAwaysShowed ? { marginLeft: 250 } : {}}>

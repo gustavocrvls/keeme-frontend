@@ -1,10 +1,10 @@
-import { ReactNode, useContext, useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { Box, ListItem, UnorderedList } from '@chakra-ui/react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { FiInfo, FiMessageSquare } from 'react-icons/fi';
 import { modules } from './modules';
 import { USER_PERFIL_KEY } from '../../services/auth';
-import { SidebarContext } from '../../contexts/SidebarProvider';
+import { useSidebar } from '../../hooks/useSidebar';
 
 export function Sidebar(): JSX.Element {
   const {
@@ -12,7 +12,7 @@ export function Sidebar(): JSX.Element {
     isSidebarOpen,
     sidebarRef,
     toggleSidebarOpen,
-  } = useContext(SidebarContext);
+  } = useSidebar();
   const history = useHistory();
   const location = useLocation();
 

@@ -1,7 +1,6 @@
-import React from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import Routes from './routes';
-import { SidebarProvider } from './contexts/SidebarProvider';
+import { SidebarProvider } from './hooks/useSidebar';
 
 import theme from './styles/theme';
 

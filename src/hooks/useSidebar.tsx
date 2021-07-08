@@ -1,4 +1,11 @@
-import { createContext, ReactNode, useEffect, useRef, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 interface SidebarContextData {
   isSidebarOpen: boolean;
@@ -59,4 +66,10 @@ export function SidebarProvider({
       {children}
     </SidebarContext.Provider>
   );
+}
+
+export function useSidebar(): SidebarContextData {
+  const context = useContext(SidebarContext);
+
+  return context;
 }

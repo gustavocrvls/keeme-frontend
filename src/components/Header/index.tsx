@@ -1,19 +1,17 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiList, FiLogOut } from 'react-icons/fi';
 import { Flex, IconButton, Tooltip } from '@chakra-ui/react';
 import { logout, USER_NAME_KEY, USER_PERFIL_KEY } from '../../services/auth';
 import { PROFILES } from '../../constants/Profiles';
 import { HeaderStyle } from './styles';
-import { SidebarContext } from '../../contexts/SidebarProvider';
+import { useSidebar } from '../../hooks/useSidebar';
 
 export default function Header(): JSX.Element {
   const [perfil, setPerfil] = useState('');
   const history = useHistory();
 
-  const { isSidebarAwaysShowed, toggleSidebarOpen } = useContext(
-    SidebarContext,
-  );
+  const { isSidebarAwaysShowed, toggleSidebarOpen } = useSidebar();
 
   useEffect(() => {
     const sessionPerfil = sessionStorage.getItem(USER_PERFIL_KEY);
