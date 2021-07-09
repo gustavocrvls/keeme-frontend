@@ -3,7 +3,7 @@ import { Box, ListItem, UnorderedList } from '@chakra-ui/react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { FiInfo, FiMessageSquare } from 'react-icons/fi';
 import { modules } from './modules';
-import { USER_PERFIL_KEY } from '../../services/auth';
+import { USER_PROFILE_KEY } from '../../services/auth';
 import { useSidebar } from '../../hooks/useSidebar';
 
 export function Sidebar(): JSX.Element {
@@ -17,7 +17,7 @@ export function Sidebar(): JSX.Element {
   const location = useLocation();
 
   function handlePerfilItems(): ReactNode {
-    const idPerfil = Number(sessionStorage.getItem(USER_PERFIL_KEY));
+    const idPerfil = Number(sessionStorage.getItem(USER_PROFILE_KEY));
 
     return modules[idPerfil].items.map(item => (
       <ListItem key={`sidebar-item-${item.label}`}>

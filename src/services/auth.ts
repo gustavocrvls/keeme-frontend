@@ -1,6 +1,6 @@
 export const TOKEN_KEY = '@keeme:token';
 export const USERID_KEY = '@keeme:user-id';
-export const USER_PERFIL_KEY = '@keeme:user-perfil';
+export const USER_PROFILE_KEY = '@keeme:user-perfil';
 export const USER_NAME_KEY = '@keeme:user-name';
 export const USER_COURSE_KEY = '@keeme:user-course';
 
@@ -16,7 +16,7 @@ export const login = (
 ): void => {
   sessionStorage.setItem(TOKEN_KEY, token);
   sessionStorage.setItem(USERID_KEY, userId);
-  sessionStorage.setItem(USER_PERFIL_KEY, userPerfil);
+  sessionStorage.setItem(USER_PROFILE_KEY, userPerfil);
   sessionStorage.setItem(USER_NAME_KEY, userName);
   sessionStorage.setItem(USER_COURSE_KEY, userCourse);
 };

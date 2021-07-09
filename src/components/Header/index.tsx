@@ -2,29 +2,29 @@ import { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiList, FiLogOut } from 'react-icons/fi';
 import { Flex, IconButton, Tooltip } from '@chakra-ui/react';
-import { logout, USER_NAME_KEY, USER_PERFIL_KEY } from '../../services/auth';
+
 import { PROFILES } from '../../constants/Profiles';
-import { HeaderStyle } from './styles';
 import { useSidebar } from '../../hooks/useSidebar';
+import { logout, USER_NAME_KEY, USER_PROFILE_KEY } from '../../services/auth';
 
 export default function Header(): JSX.Element {
-  const [perfil, setPerfil] = useState('');
+  const [profile, setProfile] = useState('');
   const history = useHistory();
 
   const { isSidebarAwaysShowed, toggleSidebarOpen } = useSidebar();
 
   useEffect(() => {
-    const sessionPerfil = sessionStorage.getItem(USER_PERFIL_KEY);
+    const sessionPerfil = sessionStorage.getItem(USER_PROFILE_KEY);
 
     switch (Number(sessionPerfil)) {
       case PROFILES.ADMINISTRATOR:
-        setPerfil('administrator');
+        setProfile('administrator');
         break;
       case PROFILES.COORDINATOR:
-        setPerfil('coordinator');
+        setProfile('coordinator');
         break;
       case PROFILES.STUDENT:
-        setPerfil('student');
+        setProfile('student');
         break;
       default:
         break;
@@ -37,7 +37,17 @@ export default function Header(): JSX.Element {
   }
 
   return (
-    <HeaderStyle>
+    <Flex
+      as="header"
+      w="100%"
+      justify="space-between"
+      background="teal.500"
+      p="2"
+      top="0"
+      pos="sticky"
+      zIndex="100"
+      color="white"
+    >
       <Flex alignItems="center">
         {!isSidebarAwaysShowed && (
           <IconButton
@@ -49,7 +59,7 @@ export default function Header(): JSX.Element {
             size="sm"
           />
         )}
-        <Link to={`/${perfil}/home`}>KeeMe</Link>
+        <Link to={`/${profile}/home`}>KeeMe</Link>
       </Flex>
 
       <Flex alignItems="center">
@@ -68,6 +78,6 @@ export default function Header(): JSX.Element {
           />
         </Tooltip>
       </Flex>
-    </HeaderStyle>
+    </Flex>
   );
 }
