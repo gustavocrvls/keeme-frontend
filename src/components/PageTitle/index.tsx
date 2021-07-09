@@ -28,15 +28,13 @@ function PageTitle({ children, actions }: PageTitleProps): JSX.Element {
           {children}
         </Heading>
       </Flex>
-      <Stack direction="row" spacing="2">
-        {actions}
-      </Stack>
+      {actions && (
+        <Stack direction="row" spacing="2">
+          {actions}
+        </Stack>
+      )}
     </Flex>
   );
 }
-
-PageTitle.defaultProps = {
-  actions: <></>,
-};
 
 export default PageTitle;

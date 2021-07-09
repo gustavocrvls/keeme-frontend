@@ -18,7 +18,7 @@ export function UsersList({
   return (
     <UnorderedList listStyleType="none" margin="0" marginBottom="6">
       {users.map(user => (
-        <li>
+        <li key={user.id}>
           <Flex
             boxShadow="md"
             marginBottom="3"

@@ -3,7 +3,6 @@ import { Redirect, Route } from 'react-router-dom';
 import { Container } from '../Containers';
 import Header from '../Header';
 import { Sidebar } from '../Sidebar';
-
 import { isAuthenticated } from '../../services/auth';
 import { notifyError } from '../Notifications';
 
@@ -13,8 +12,11 @@ interface PrivateRouteProps {
   exact?: boolean;
 }
 
-export function PrivateRoute(props: PrivateRouteProps): JSX.Element {
-  const { component: Component, exact, path } = props;
+export function PrivateRoute({
+  component: Component,
+  exact = false,
+  path,
+}: PrivateRouteProps): JSX.Element {
   return (
     <Route
       path={path}
@@ -40,7 +42,3 @@ export function PrivateRoute(props: PrivateRouteProps): JSX.Element {
     />
   );
 }
-
-PrivateRoute.defaultProps = {
-  exact: false,
-};

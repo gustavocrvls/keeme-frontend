@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -50,7 +51,15 @@ export default class ProgressRing extends React.Component<IProps, IState> {
     const strokeDashoffset2 = circumference - 1 * circumference;
 
     return (
-      <ProgressRingContainer>
+      <Box
+        css="
+        circle {
+          transition: stroke-dashoffset 0.9s;
+          transform: rotate(-90deg);
+          transform-origin: 50% 50%;
+          stroke-linecap: round;
+        }"
+      >
         <svg height={radius * 2} width={radius * 2}>
           <circle
             stroke="#cacaca"
@@ -88,7 +97,7 @@ export default class ProgressRing extends React.Component<IProps, IState> {
             </tspan>
           </text>
         </svg>
-      </ProgressRingContainer>
+      </Box>
     );
   }
 }
