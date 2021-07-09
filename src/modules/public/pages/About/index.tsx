@@ -1,8 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
-import { LimitedContainer } from '../../../components/Containers';
-import PageTitle from '../../../components/PageTitle';
-import { PublicFooter } from '../../../components/PublicFooter';
+import { LimitedContainer } from '../../../../components/Containers';
+import PageTitle from '../../../../components/PageTitle';
+import { PublicFooter } from '../../../../components/PublicFooter';
 
 export function About(): JSX.Element {
   return (

@@ -1,4 +1,3 @@
-import React from 'react';
 import { PrivateRoute } from '../../../components/PrivateRoute';
 
 import CadastrarAcc from '../pages/CadastrarACC';
