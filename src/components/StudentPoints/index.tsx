@@ -6,7 +6,7 @@ import {
   Text,
   UnorderedList,
 } from '@chakra-ui/react';
-import ProgressRing from '../ProgressRing';
+import { ProgressRing } from '../ProgressRing';
 import { StudentPointsProps } from './dto';
 
 export function StudentPoints({

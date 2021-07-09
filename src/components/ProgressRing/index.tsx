@@ -1,8 +1,7 @@
+import { useEffect, useState } from 'react';
 import { Box } from '@chakra-ui/react';
-import React from 'react';
-import styled from 'styled-components';
 
-interface IProps {
+interface ProgressRingProps {
   radius: number;
   stroke: number;
   progress: number;
@@ -10,94 +9,72 @@ interface IProps {
   total: number;
 }
 
-interface IState {
-  normalizedRadius: number;
-  circumference: number;
-}
+export function ProgressRing({
+  radius,
+  stroke,
+  obtained,
+  progress,
+  total,
+}: ProgressRingProps): JSX.Element {
+  const [normalizedRadius, setNormalizedRadius] = useState(radius - stroke * 2);
+  const [circumference, setCircumference] = useState(0);
 
-const ProgressRingContainer = styled.div`
-  circle {
-    transition: stroke-dashoffset 0.9s;
-    transform: rotate(-90deg);
-    transform-origin: 50% 50%;
-    stroke-linecap: round;
-  }
-`;
+  useEffect(() => {
+    setCircumference(normalizedRadius * 2 * Math.PI);
+  }, []);
 
-export default class ProgressRing extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
+  const strokeDashoffset = circumference - (progress / 100) * circumference;
+  const strokeDashoffset2 = circumference - 1 * circumference;
 
-    const { radius, stroke } = this.props;
-
-    this.state = {
-      normalizedRadius: radius - stroke * 2,
-      circumference: 0,
-    };
-  }
-
-  componentDidMount(): void {
-    const { normalizedRadius } = this.state;
-
-    this.setState({
-      circumference: normalizedRadius * 2 * Math.PI,
-    });
-  }
-
-  render(): JSX.Element {
-    const { radius, stroke, progress, total, obtained } = this.props;
-    const { circumference, normalizedRadius } = this.state;
-    const strokeDashoffset = circumference - (progress / 100) * circumference;
-    const strokeDashoffset2 = circumference - 1 * circumference;
-
-    return (
-      <Box
-        css="
-        circle {
-          transition: stroke-dashoffset 0.9s;
-          transform: rotate(-90deg);
-          transform-origin: 50% 50%;
-          stroke-linecap: round;
-        }"
-      >
-        <svg height={radius * 2} width={radius * 2}>
-          <circle
-            stroke="#cacaca"
-            fill="transparent"
-            strokeWidth={stroke}
-            strokeDasharray={`${circumference} ${circumference}`}
-            style={{ strokeDashoffset: `${strokeDashoffset2}` }}
-            r={normalizedRadius}
-            cx={radius}
-            cy={radius}
-          />
-          <circle
-            stroke="#31878C"
-            fill="transparent"
-            strokeWidth={stroke}
-            strokeDasharray={`${circumference} ${circumference}`}
-            style={{ strokeDashoffset }}
-            r={normalizedRadius}
-            cx={radius}
-            cy={radius}
-          />
-          <text
-            fill="#000000"
-            fontSize="24"
-            fontFamily="Noto Sans, system-ui, sans-serif"
-            x="50%"
-            y="50%"
-            dominantBaseline="middle"
-            textAnchor="middle"
-          >
-            <tspan fontSize="30">{obtained}</tspan>
-            <tspan fontSize="30">/</tspan>
-            <tspan fontSize="14" dominantBaseline="hanging">
-              {total}
-            </tspan>
-          </text>
-        </svg>
-      </Box>
-    );
-  }
+  return (
+    <Box>
+      <svg height={radius * 2} width={radius * 2}>
+        <Box
+          as="circle"
+          strokeLinecap="round"
+          transition="stroke-dashoffset 0.9s"
+          transform="rotate(-90deg)"
+          transformOrigin="50% 50%"
+          stroke="#cacaca"
+          fill="transparent"
+          strokeWidth={stroke}
+          strokeDasharray={`${circumference} ${circumference}`}
+          style={{ strokeDashoffset: `${strokeDashoffset2}` }}
+          r={normalizedRadius}
+          cx={radius}
+          cy={radius}
+        />
+        <Box
+          as="circle"
+          strokeLinecap="round"
+          transition="stroke-dashoffset 0.9s"
+          transform="rotate(-90deg)"
+          transformOrigin="50% 50%"
+          stroke="#31878C"
+          fill="transparent"
+          strokeWidth={stroke}
+          strokeDasharray={`${circumference} ${circumference}`}
+          style={{ strokeDashoffset }}
+          r={normalizedRadius}
+          cx={radius}
+          cy={radius}
+        />
+        <text
+          fill="#000000"
+          fontSize="24"
+          fontFamily="Noto Sans, system-ui, sans-serif"
+          x="50%"
+          y="50%"
+          dominantBaseline="middle"
+          textAnchor="middle"
+        >
+          <tspan fontSize="30">{obtained}</tspan>
+          <tspan fontSize="30">/</tspan>
+          <tspan fontSize="14" dominantBaseline="hanging">
+            {total}
+          </tspan>
+        </text>
+      </svg>
+    </Box>
+  );
 }

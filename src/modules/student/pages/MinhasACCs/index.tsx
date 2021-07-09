@@ -68,10 +68,6 @@ export default function MinhasACCs(): JSX.Element {
     }
   }
 
-  // useEffect(() => {
-  //   loadACCs();
-  // }, []);
-
   useEffect(() => {
     loadACCs();
   }, [currentPage]);

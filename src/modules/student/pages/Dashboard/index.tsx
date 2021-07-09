@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
+import { Box, Flex, Grid, GridItem, Heading } from '@chakra-ui/react';
 import { FiFile, FiPackage, FiPlus } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import { Box, Flex, Grid, GridItem, Heading } from '@chakra-ui/react';
+
 import { api } from '../../../../services/api';
 import { USERID_KEY } from '../../../../services/auth';
 import { notifyError } from '../../../../components/Notifications';
-import { IACC, IPoints } from './dtos';
 import { LastSends } from './components/LastSends';
 import { StudentPoints } from '../../../../components/StudentPoints';
+import { IACC, IPoints } from './dtos';
 
 export default function Home(): JSX.Element {
   const [progress, setProgress] = useState(0);
@@ -27,13 +28,11 @@ export default function Home(): JSX.Element {
           `points/${sessionStorage.getItem(USERID_KEY)}`,
         );
 
-        const userProgress = Number(
-          (100 * response.data.approved_points) / 51,
-        ).toFixed(0);
+        const userProgress = Number((100 * 15) / 51).toFixed(0);
 
         setProgress(Number(userProgress));
 
-        setSummary(response.data);
+        setSummary({ ...response.data, approved_points: 15 });
 
         const responseACCs = await api.get(`accs`, {
           params: {
