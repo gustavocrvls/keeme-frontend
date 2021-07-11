@@ -1,12 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
-import { LimitedContainer } from '../../../../components/Containers';
+import { BaseContainer } from '../../../../components/Container/BaseContainer';
 import PageTitle from '../../../../components/PageTitle';
 import { PublicFooter } from '../../../../components/PublicFooter';
 
 export function About(): JSX.Element {
   return (
-    <LimitedContainer>
+    <BaseContainer>
       <Flex
         minHeight="calc(100vh - 10px)"
         flexDirection="column"
@@ -53,6 +53,6 @@ export function About(): JSX.Element {
         </Box>
         <PublicFooter />
       </Flex>
-    </LimitedContainer>
+    </BaseContainer>
   );
 }
