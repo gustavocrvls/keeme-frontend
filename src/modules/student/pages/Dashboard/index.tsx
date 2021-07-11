@@ -28,11 +28,13 @@ export default function Home(): JSX.Element {
           `points/${sessionStorage.getItem(USERID_KEY)}`,
         );
 
-        const userProgress = Number((100 * 15) / 51).toFixed(0);
+        const userProgress = Number(
+          (100 * response.data.approved_points) / 51,
+        ).toFixed(0);
 
         setProgress(Number(userProgress));
 
-        setSummary({ ...response.data, approved_points: 15 });
+        setSummary(response.data);
 
         const responseACCs = await api.get(`accs`, {
           params: {

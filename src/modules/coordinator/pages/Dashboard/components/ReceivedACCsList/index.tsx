@@ -25,7 +25,7 @@ export function ReceivedACCsList({
           <UnorderedList listStyleType="none" margin="0">
             {accs.length &&
               accs.map(acc => (
-                <li>
+                <li key={acc.id}>
                   <Flex
                     backgroundColor="white"
                     padding="3"

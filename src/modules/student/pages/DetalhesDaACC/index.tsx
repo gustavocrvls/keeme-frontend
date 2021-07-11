@@ -226,19 +226,16 @@ export function DetalhesDaAcc(): JSX.Element {
 
         <Box display="flex" justifyContent="center">
           <Button
+            as="a"
+            href={acc?.certificate_url}
+            download
+            target="_blank"
             colorScheme="gray"
             onClick={() => downloadRef.current?.click()}
           >
             <FiDownload style={{ marginRight: 10 }} />
             Baixar Certificado
           </Button>
-          <a
-            style={{ visibility: 'hidden' }}
-            href={`${process.env.REACT_APP_API}/certificates/${acc?.certificate.id}`}
-            ref={downloadRef}
-          >
-            baixar
-          </a>
         </Box>
       </Stack>
 

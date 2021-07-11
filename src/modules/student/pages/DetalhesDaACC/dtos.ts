@@ -4,6 +4,8 @@ export interface IACC {
   quantity: number;
   description: string;
   created_at: Date;
+  certificate: string;
+  certificate_url: string;
   acc_status: {
     id: number;
     name: string;
@@ -20,9 +22,6 @@ export interface IACC {
     id: number;
     description: string;
     points_per_unity: number;
-  };
-  certificate: {
-    id: number;
   };
   acc_assessment: {
     id: number;

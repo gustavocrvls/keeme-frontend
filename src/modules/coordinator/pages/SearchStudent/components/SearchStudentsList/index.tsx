@@ -24,7 +24,7 @@ export function SearchStudentsList({
       {!isLoading ? (
         <UnorderedList listStyleType="none" margin="0">
           {students.map(student => (
-            <li>
+            <li key={student.id}>
               <Flex
                 backgroundColor="white"
                 padding="3"
