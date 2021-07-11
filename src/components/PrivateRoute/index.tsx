@@ -1,6 +1,6 @@
 import { Redirect, Route } from 'react-router-dom';
 
-import { Container } from '../Containers';
+import { Container } from '../Container';
 import Header from '../Header';
 import { Sidebar } from '../Sidebar';
 import { isAuthenticated } from '../../services/auth';
