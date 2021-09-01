@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useParams, withRouter } from 'react-router-dom';
 import { FiDownload, FiTrash } from 'react-icons/fi';
@@ -26,13 +25,13 @@ import {
   notifySuccess,
 } from '../../../../components/Notifications';
 import { IACC, ParamTypes } from './dtos';
+import { DownloadButton } from '../../../../components/DownloadButton';
 
 export function DetalhesDaAcc(): JSX.Element {
   const [acc, setACC] = useState<IACC>();
   const [pontos, setPontos] = useState<number>(0);
   const [isAlertDeleteOpen, setIsAlertDeleteOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const downloadRef = useRef<HTMLAnchorElement>(null);
   const cancelRef = useRef<any>();
 
   const history = useHistory();
@@ -88,21 +87,18 @@ export function DetalhesDaAcc(): JSX.Element {
   return (
     <>
       <PageTitle
+        // eslint-disable-next-line prettier/prettier
         actions={(
-          <>
-            {/* <Tooltip label="Editar" aria-label="Editar" hasArrow>
-              <IconButton aria-label="edit" icon={<FiEdit />} size="sm" />
-            </Tooltip> */}
-            <Tooltip label="Excluir" aria-label="Excluir" hasArrow>
-              <IconButton
-                colorScheme="red"
-                aria-label="delete"
-                icon={<FiTrash />}
-                onClick={() => setIsAlertDeleteOpen(true)}
-                size="sm"
-              />
-            </Tooltip>
-          </>
+          <Tooltip label="Excluir" aria-label="Excluir" hasArrow>
+            <IconButton
+              colorScheme="red"
+              aria-label="delete"
+              icon={<FiTrash />}
+              onClick={() => setIsAlertDeleteOpen(true)}
+              size="sm"
+            />
+          </Tooltip>
+          // eslint-disable-next-line prettier/prettier
         )}
       >
         Detalhes da ACC
@@ -225,17 +221,11 @@ export function DetalhesDaAcc(): JSX.Element {
         )}
 
         <Box display="flex" justifyContent="center">
-          <Button
-            as="a"
-            href={acc?.certificate_url}
-            download
-            target="_blank"
-            colorScheme="gray"
-            onClick={() => downloadRef.current?.click()}
-          >
-            <FiDownload style={{ marginRight: 10 }} />
-            Baixar Certificado
-          </Button>
+          <DownloadButton
+            fileUrl={acc?.certificate_url || ''}
+            filename={acc?.certificate || ''}
+            label="Baixar Certificado"
+          />
         </Box>
       </Stack>
 
