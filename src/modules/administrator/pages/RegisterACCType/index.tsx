@@ -28,7 +28,7 @@ import {
   notifySuccess,
 } from '../../../../components/Notifications';
 import { IACCVariant, IUnityOfMeasurement } from './dtos';
-import PageTitle from '../../../../components/PageTitle';
+import { PageTitle } from '../../../../components/PageTitle';
 
 export function RegisterACCType(): JSX.Element {
   const [unitsOfMeasurement, setUnitsOfMeasurement] = useState<

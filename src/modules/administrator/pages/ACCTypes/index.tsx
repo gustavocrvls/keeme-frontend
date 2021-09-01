@@ -8,7 +8,7 @@ import {
   notifyError,
   notifySuccess,
 } from '../../../../components/Notifications';
-import PageTitle from '../../../../components/PageTitle';
+import { PageTitle } from '../../../../components/PageTitle';
 import { Pagination } from '../../../../components/Pagination';
 import {api} from '../../../../services/api';
 import { ACCTypesList } from './components/ACCTypesList';

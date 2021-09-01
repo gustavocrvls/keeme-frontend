@@ -19,7 +19,7 @@ import {
   notifySuccess,
 } from '../../../../components/Notifications';
 import { ICourse, IUser, ParamTypes } from './dtos';
-import PageTitle from '../../../../components/PageTitle';
+import { PageTitle } from '../../../../components/PageTitle';
 import { cpfMask } from '../../../../utils/masks';
 import { isValidCPF } from '../../../../utils/validations';
 

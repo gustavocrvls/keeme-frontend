@@ -10,7 +10,7 @@ import { LastSends } from './components/LastSends';
 import { StudentPoints } from '../../../../components/StudentPoints';
 import { IACC, IPoints } from './dtos';
 
-export default function Home(): JSX.Element {
+export function Dashboard(): JSX.Element {
   const [progress, setProgress] = useState(0);
   const [lastACCs, setLastACCs] = useState<Array<IACC>>([]);
   const [summary, setSummary] = useState<IPoints>({

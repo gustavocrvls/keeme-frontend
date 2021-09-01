@@ -32,7 +32,7 @@ import {
   notifyWarning,
 } from '../../../../components/Notifications';
 import { IACCWithUser, ParamTypes } from './dtos';
-import PageTitle from '../../../../components/PageTitle';
+import { PageTitle } from '../../../../components/PageTitle';
 import { USERID_KEY } from '../../../../services/auth';
 
 export function ACCDetails(): JSX.Element {

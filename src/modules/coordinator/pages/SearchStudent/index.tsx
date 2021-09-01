@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { api } from '../../../../services/api';
 import { notifyError } from '../../../../components/Notifications';
-import PageTitle from '../../../../components/PageTitle';
+import { PageTitle } from '../../../../components/PageTitle';
 import { IStudent } from './dto';
 import { SearchStudentsList } from './components/SearchStudentsList';
 import { USER_COURSE_KEY } from '../../../../services/auth';

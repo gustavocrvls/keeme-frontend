@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ListItem, Skeleton, Stack, UnorderedList } from '@chakra-ui/react';
 
-import PageTitle from '../../../../components/PageTitle';
+import { PageTitle } from '../../../../components/PageTitle';
 
 import { USERID_KEY } from '../../../../services/auth';
 import { api } from '../../../../services/api';
@@ -10,7 +10,7 @@ import { notifyError } from '../../../../components/Notifications';
 import { Pagination } from '../../../../components/Pagination';
 import { ACCType } from './dtos';
 
-export default function ACCTypes(): JSX.Element {
+export function ACCTypes(): JSX.Element {
   const [accTypes, setACCTypes] = useState<Array<ACCType>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);

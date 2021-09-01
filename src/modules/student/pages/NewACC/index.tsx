@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
@@ -21,16 +20,16 @@ import {
   notifySuccess,
 } from '../../../../components/Notifications';
 import { TOKEN_KEY, USERID_KEY } from '../../../../services/auth';
-import PageTitle from '../../../../components/PageTitle';
+import { PageTitle } from '../../../../components/PageTitle';
 import { ACCType } from './dtos';
 
 export function NewAcc(): JSX.Element {
-  const [tiposDeAcc, setTiposDeAcc] = useState(new Array<ACCType>());
-  const [idTipoDeAcc, setIdTipoDeAcc] = useState<string>('');
-  const [quantidade, setQuantidade] = useState<string>('');
-  const [descricao, setDescricao] = useState<string>('');
-  const [certificado, setCertificado] = useState<Blob>();
+  const [accTypes, setACCTypes] = useState(new Array<ACCType>());
   const [accVariantId, setACCVariantId] = useState<string | number>();
+  const [accTypeId, setACCTypeId] = useState<string>('');
+  const [quantity, setQuantity] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [certificate, setCertificate] = useState<Blob>();
   const [points, setPoints] = useState<number>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
@@ -38,7 +37,7 @@ export function NewAcc(): JSX.Element {
   const history = useHistory();
 
   const handleFile = (files: Blob) => {
-    setCertificado(files);
+    setCertificate(files);
   };
 
   const handleForm = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -46,20 +45,20 @@ export function NewAcc(): JSX.Element {
     const formData = new FormData();
 
     try {
-      const file = certificado || new Blob();
+      const file = certificate || new Blob();
       const userID = sessionStorage.getItem(USERID_KEY) || '';
 
       if (!file.size) {
-        notifyError('Anexe um certificado!');
+        notifyError('Anexe um certificate!');
         return;
       }
 
       setIsSending(true);
 
-      formData.append('description', descricao);
-      formData.append('quantity', quantidade);
+      formData.append('description', description);
+      formData.append('quantity', quantity);
       formData.append('user', userID);
-      formData.append('acc_type', idTipoDeAcc);
+      formData.append('acc_type', accTypeId);
       formData.append('certificate', file);
       formData.append('acc_variant', String(accVariantId));
 
@@ -79,7 +78,7 @@ export function NewAcc(): JSX.Element {
     }
   };
 
-  const loadTiposDeAcc = async () => {
+  const loadACCTypes = async () => {
     try {
       setIsLoading(true);
       const response = await api.get('acc-types', {
@@ -88,7 +87,7 @@ export function NewAcc(): JSX.Element {
           sortOrder: 'ASC',
         },
       });
-      setTiposDeAcc(response.data.data);
+      setACCTypes(response.data.data);
       setIsLoading(false);
     } catch (err) {
       notifyError('Não foi possível carregar os tipos de acc :(');
@@ -96,28 +95,27 @@ export function NewAcc(): JSX.Element {
   };
 
   function handleACCTypeId(e: ChangeEvent<HTMLSelectElement>) {
-    setIdTipoDeAcc(e.target.value);
+    setACCTypeId(e.target.value);
     setACCVariantId(
       String(
-        tiposDeAcc.find(t => t.id === Number(e.target.value))?.acc_variants[0]
-          .id,
+        accTypes.find(t => t.id === Number(e.target.value))?.acc_variants[0].id,
       ),
     );
   }
 
   useEffect(() => {
-    loadTiposDeAcc();
+    loadACCTypes();
   }, []);
 
   useEffect(() => {
     const pt =
-      tiposDeAcc
-        .find(t => t.id === Number(idTipoDeAcc))
+      accTypes
+        .find(t => t.id === Number(accTypeId))
         ?.acc_variants.find(variant => variant.id === Number(accVariantId))
         ?.points_per_unity || 0;
 
-    setPoints(pt * Number(quantidade));
-  }, [accVariantId, quantidade]);
+    setPoints(pt * Number(quantity));
+  }, [accVariantId, quantity]);
 
   return (
     <>
@@ -129,10 +127,10 @@ export function NewAcc(): JSX.Element {
             <FormLabel>Tipo de ACC</FormLabel>
             <Select
               placeholder="Tipo de ACC"
-              value={idTipoDeAcc}
+              value={accTypeId}
               onChange={handleACCTypeId}
             >
-              {tiposDeAcc.map(tipoDeAcc => (
+              {accTypes.map(tipoDeAcc => (
                 <option key={tipoDeAcc.id} value={tipoDeAcc.id}>
                   {tipoDeAcc.name}
                 </option>
@@ -147,11 +145,11 @@ export function NewAcc(): JSX.Element {
           value={accVariantId}
         >
           <Stack>
-            {tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))?.acc_variants &&
-              tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))?.acc_variants
+            {accTypes.find(t => t.id === Number(accTypeId))?.acc_variants &&
+              accTypes.find(t => t.id === Number(accTypeId))?.acc_variants
                 .length !== 1 &&
-              tiposDeAcc
-                .find(t => t.id === Number(idTipoDeAcc))
+              accTypes
+                .find(t => t.id === Number(accTypeId))
                 ?.acc_variants.map(variant => (
                   <Radio
                     key={variant.id}
@@ -166,21 +164,21 @@ export function NewAcc(): JSX.Element {
         </RadioGroup>
 
         <Stack direction={['column', 'row']} spacing="2" marginBottom="3">
-          <FormControl id="quantidade" isRequired>
+          <FormControl id="quantity" isRequired>
             <FormLabel>
               {`Quantidade de ${
-                tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))
+                accTypes.find(t => t.id === Number(accTypeId))
                   ?.unity_of_measurement.name || 'Hora'
               }s`}
             </FormLabel>
             <Input
-              type="quantidade"
+              type="number"
               placeholder={`${
-                tiposDeAcc.find(t => t.id === Number(idTipoDeAcc))
+                accTypes.find(t => t.id === Number(accTypeId))
                   ?.unity_of_measurement.name || 'Hora'
               }s`}
-              value={quantidade}
-              onChange={e => setQuantidade(e.target.value)}
+              value={quantity}
+              onChange={e => setQuantity(e.target.value)}
             />
           </FormControl>
           <FormControl
@@ -196,11 +194,11 @@ export function NewAcc(): JSX.Element {
         </Stack>
 
         <Box marginBottom="3">
-          <FormControl id="descricao" isRequired>
+          <FormControl id="description" isRequired>
             <FormLabel>Descrição</FormLabel>
             <Textarea
-              value={descricao}
-              onChange={e => setDescricao(e.target.value)}
+              value={description}
+              onChange={e => setDescription(e.target.value)}
               placeholder="Descrição"
               rows={6}
             />
@@ -208,27 +206,11 @@ export function NewAcc(): JSX.Element {
         </Box>
 
         <Box marginBottom="3">
-          <div style={{ width: '100%' }}>
-            <label htmlFor="certificado">
-              <Flex justifyContent="space-between">
-                <Box>
-                  Certificado:
-                  <span
-                    style={{
-                      marginLeft: '0.25rem',
-                      color: '#E53E3E',
-                    }}
-                  >
-                    *
-                  </span>
-                </Box>
-                <Box color="gray.400" fontSize="sm">
-                  (Tipos suportados: jpeg, jpg, png e pdf)
-                </Box>
-              </Flex>
-              <FileUploader id="certificado" handleFile={handleFile} />
-            </label>
-          </div>
+          <FileUploader
+            label="Certificado:"
+            handleFile={handleFile}
+            isRequired
+          />
         </Box>
         <Flex justifyContent="center">
           <Button

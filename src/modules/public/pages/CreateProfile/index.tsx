@@ -17,7 +17,7 @@ import {
   notifyError,
   notifySuccess,
 } from '../../../../components/Notifications';
-import PageTitle from '../../../../components/PageTitle';
+import { PageTitle } from '../../../../components/PageTitle';
 import { PROFILES } from '../../../../constants/Profiles';
 import { useSession } from '../../../../hooks/useSession';
 import { api } from '../../../../services/api';

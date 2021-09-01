@@ -4,7 +4,7 @@ import { Box, Flex, SkeletonText } from '@chakra-ui/react';
 import { api } from '../../../../services/api';
 import { notifyError } from '../../../../components/Notifications';
 import { IStudent, IACC, ParamTypes, ISummary } from './dtos';
-import PageTitle from '../../../../components/PageTitle';
+import { PageTitle } from '../../../../components/PageTitle';
 import { ACCList } from './components/ACCList';
 import { Pagination } from '../../../../components/Pagination';
 import { StudentPoints } from '../../../../components/StudentPoints';

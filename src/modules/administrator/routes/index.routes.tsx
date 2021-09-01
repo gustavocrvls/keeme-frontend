@@ -1,11 +1,11 @@
 import { PrivateRoute } from '../../../components/PrivateRoute';
 
-import { Dashboard } from '../pages/Dashboard';
-import { RegisterCoordinator } from '../pages/RegisterCoordinator';
-import { EditCoordinator } from '../pages/EditCoordinator';
 import { ACCTypes } from '../pages/ACCTypes';
-import { RegisterACCType } from '../pages/RegisterACCType';
+import { Dashboard } from '../pages/Dashboard';
 import { EditACCType } from '../pages/EditACCType';
+import { EditCoordinator } from '../pages/EditCoordinator';
+import { RegisterACCType } from '../pages/RegisterACCType';
+import { RegisterCoordinator } from '../pages/RegisterCoordinator';
 
 const Routes = (): JSX.Element => {
   return (

@@ -3,7 +3,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 import { PageTitleProps } from './dtos';
 
-function PageTitle({ children, actions }: PageTitleProps): JSX.Element {
+export function PageTitle({ children, actions }: PageTitleProps): JSX.Element {
   const history = useHistory();
 
   return (
@@ -31,5 +31,3 @@ function PageTitle({ children, actions }: PageTitleProps): JSX.Element {
     </Flex>
   );
 }
-
-export default PageTitle;

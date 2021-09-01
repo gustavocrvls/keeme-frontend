@@ -2,13 +2,14 @@ import React, { ChangeEvent, useState } from 'react';
 
 import { FiFile } from 'react-icons/fi';
 
-import { Button } from '@chakra-ui/react';
+import { Box, Button, Flex, Input } from '@chakra-ui/react';
 import { SIZE, SUPORTED_TYPES } from '../../constants/Certificate';
 import { notifyError } from '../Notifications';
 import { FileUploaderProps } from './dtos';
 
 export function FileUploader({
-  id,
+  label,
+  isRequired = false,
   handleFile,
 }: FileUploaderProps): JSX.Element {
   const [fileName, setFileName] = useState('');
@@ -50,6 +51,24 @@ export function FileUploader({
 
   return (
     <>
+      <Flex justifyContent="space-between">
+        <Box>
+          {label}
+          {isRequired && (
+            <span
+              style={{
+                marginLeft: '0.25rem',
+                color: '#E53E3E',
+              }}
+            >
+              *
+            </span>
+          )}
+        </Box>
+        <Box color="gray.400" fontSize="sm">
+          (Arquivos suportados: jpeg, jpg, png e pdf até 2Mb)
+        </Box>
+      </Flex>
       <Button
         width="100%"
         onClick={handleButton}
@@ -62,12 +81,12 @@ export function FileUploader({
       >
         {fileName || 'Escolher um Arquivo'}
       </Button>
-      <input
-        id={id}
+      <Input
         type="file"
         ref={hiddenFileInput}
         onChange={handleChange}
-        style={{ display: 'none' }}
+        display="none"
+        isRequired
       />
     </>
   );

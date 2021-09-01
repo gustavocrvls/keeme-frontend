@@ -1,8 +1,8 @@
 import { PrivateRoute } from '../../../components/PrivateRoute';
 
+import { ACCDetails } from '../pages/ACCDetails';
 import { Dashboard } from '../pages/Dashboard';
 import { SearchStudent } from '../pages/SearchStudent';
-import { ACCDetails } from '../pages/ACCDetails';
 import { StudentDetails } from '../pages/StudentDetails';
 
 const Routes = (): JSX.Element => {
