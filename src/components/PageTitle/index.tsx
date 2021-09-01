@@ -1,12 +1,7 @@
-import { ReactNode } from 'react';
 import { Flex, Heading, IconButton, Stack, Tooltip } from '@chakra-ui/react';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-
-interface PageTitleProps {
-  children: ReactNode;
-  actions?: ReactNode;
-}
+import { PageTitleProps } from './dtos';
 
 function PageTitle({ children, actions }: PageTitleProps): JSX.Element {
   const history = useHistory();

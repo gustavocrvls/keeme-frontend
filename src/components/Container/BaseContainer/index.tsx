@@ -1,9 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import { ReactNode } from 'react';
-
-interface BaseContainerProps {
-  children: ReactNode;
-}
+import { BaseContainerProps } from './dtos';
 
 export const BaseContainer = (props: BaseContainerProps): JSX.Element => {
   const { children } = props;

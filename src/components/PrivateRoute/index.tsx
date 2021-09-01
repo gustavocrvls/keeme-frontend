@@ -5,12 +5,7 @@ import Header from '../Header';
 import { Sidebar } from '../Sidebar';
 import { isAuthenticated } from '../../services/auth';
 import { notifyError } from '../Notifications';
-
-interface PrivateRouteProps {
-  path: string;
-  component: React.ElementType;
-  exact?: boolean;
-}
+import { PrivateRouteProps } from './dtos';
 
 export function PrivateRoute({
   component: Component,

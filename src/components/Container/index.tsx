@@ -1,10 +1,6 @@
 import { Box } from '@chakra-ui/react';
-import { ReactNode } from 'react';
 import { useSidebar } from '../../hooks/useSidebar';
-
-interface ContainerProps {
-  children: ReactNode;
-}
+import { ContainerProps } from './dtos';
 
 export const Container = ({ children }: ContainerProps): JSX.Element => {
   const { isSidebarAwaysShowed } = useSidebar();

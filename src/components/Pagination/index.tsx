@@ -1,11 +1,6 @@
 import { Stack, Button, IconButton, Tooltip } from '@chakra-ui/react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-
-interface PaginationProps {
-  totalPages: number;
-  currentPage: number;
-  setCurrentPage: (newValue: number) => void;
-}
+import { PaginationProps } from './dtos';
 
 export function Pagination({
   totalPages,

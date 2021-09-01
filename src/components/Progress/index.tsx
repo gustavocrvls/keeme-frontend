@@ -1,8 +1,5 @@
 import { Box } from '@chakra-ui/react';
-
-interface ProgressProps {
-  completed: number;
-}
+import { ProgressProps } from './dtos';
 
 const Progress = (props: ProgressProps): JSX.Element => {
   const { completed } = props;

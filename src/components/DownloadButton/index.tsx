@@ -1,12 +1,7 @@
 import { Button, Icon } from '@chakra-ui/react';
 import { useState } from 'react';
 import { FiDownload } from 'react-icons/fi';
-
-interface DownloadButtonProps {
-  filename: string;
-  fileUrl: string;
-  label?: string;
-}
+import { DownloadButtonProps } from './dtos';
 
 export function DownloadButton({
   filename,

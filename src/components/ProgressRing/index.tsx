@@ -1,13 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Box } from '@chakra-ui/react';
-
-interface ProgressRingProps {
-  radius: number;
-  stroke: number;
-  progress: number;
-  obtained: number;
-  total: number;
-}
+import { ProgressRingProps } from './dtos';
 
 export function ProgressRing({
   radius,
