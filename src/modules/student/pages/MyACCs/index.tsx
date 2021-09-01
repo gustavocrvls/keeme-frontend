@@ -11,9 +11,9 @@ import { useHistory } from 'react-router-dom';
 import { api } from '../../../../services/api';
 import { USERID_KEY } from '../../../../services/auth';
 import PageTitle from '../../../../components/PageTitle';
-import { ACCCard } from './components/ACCCard';
 import { notifyError } from '../../../../components/Notifications';
 import { Pagination } from '../../../../components/Pagination';
+import { ACCCard } from '../../../../components/ACCCard';
 
 interface IACC {
   id: number;

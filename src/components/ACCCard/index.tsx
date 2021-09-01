@@ -1,26 +1,8 @@
 import { Box, Flex, SimpleGrid } from '@chakra-ui/react';
 import { FiArrowRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import { ACC_STATUS } from '../../../../../constants/ACCStatus';
-
-interface ACCCardProps {
-  id: number;
-  title: string;
-  accType: {
-    id: number;
-    name: string;
-    unity_of_measurement: {
-      id: number;
-      name: string;
-    };
-  };
-  points: number;
-  quantity: number;
-  status: {
-    id: number;
-    name: string;
-  };
-}
+import { ACC_STATUS } from '../../constants/ACCStatus';
+import { ACCCardProps } from './dtos';
 
 export function ACCCard({
   id,
@@ -69,9 +51,6 @@ export function ACCCard({
             </Box>
             <Box>
               <span>{`Status: `}</span>
-              {/* <span style={{ color: 'red' }}>
-                <GiPlainCircle />
-              </span> */}
               {handleStatus()}
             </Box>
           </SimpleGrid>

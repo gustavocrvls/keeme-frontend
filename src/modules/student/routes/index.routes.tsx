@@ -1,9 +1,9 @@
 import { PrivateRoute } from '../../../components/PrivateRoute';
 
-import CadastrarAcc from '../pages/CadastrarACC';
+import { NewAcc } from '../pages/NewACC';
 import Dashboard from '../pages/Dashboard';
 import { ACCDetails } from '../pages/ACCDetails';
-import DetalhesDaPontuacao from '../pages/MinhasACCs';
+import DetalhesDaPontuacao from '../pages/MyACCs';
 import TiposDeACC from '../pages/TiposDeACC';
 
 const Routes = (): JSX.Element => {
@@ -11,7 +11,7 @@ const Routes = (): JSX.Element => {
     <>
       <PrivateRoute path="/student/home" component={Dashboard} />
       <PrivateRoute path="/student/acc-types" component={TiposDeACC} />
-      <PrivateRoute path="/student/new-acc" component={CadastrarAcc} />
+      <PrivateRoute path="/student/new-acc" component={NewAcc} />
       <PrivateRoute
         path="/student/accs"
         exact

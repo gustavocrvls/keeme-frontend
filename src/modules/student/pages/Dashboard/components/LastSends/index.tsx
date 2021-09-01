@@ -8,7 +8,7 @@ import {
   UnorderedList,
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
-import { ACCCard } from '../../../MinhasACCs/components/ACCCard';
+import { ACCCard } from '../../../../../../components/ACCCard';
 import { LastSendsProps } from './dtos';
 
 export function LastSends({ accs, isLoading }: LastSendsProps): JSX.Element {
