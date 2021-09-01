@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-
 import {
   Button,
   Flex,
@@ -10,8 +9,8 @@ import {
   Text,
   Img,
   Grid,
-  Box,
 } from '@chakra-ui/react';
+
 import { publicApi } from '../../../../services/api';
 import { login } from '../../../../services/auth';
 import { PROFILES } from '../../../../constants/Profiles';
@@ -20,11 +19,14 @@ import { LoginResponse } from './dtos';
 
 import reviewedDocsImg from '../../../../assets/images/reviewed_docs.svg';
 import { Footer } from '../../../../components/Footer';
+import { useSession } from '../../../../hooks/useSession';
 
 export function Login(): JSX.Element {
   const [username, setUsername] = useState('');
   const [password, setSenha] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const { setUserUsername } = useSession();
 
   const history = useHistory();
 
@@ -40,6 +42,12 @@ export function Login(): JSX.Element {
 
       if (response.data.auth) {
         const { data: user } = response.data;
+
+        if (!user?.id) {
+          setUserUsername(username);
+          history.push('/create-profile');
+          return;
+        }
 
         login(
           response.headers['access-token'],
@@ -75,13 +83,13 @@ export function Login(): JSX.Element {
   }
 
   return (
-    <Box height="100vh" padding="5">
+    <Flex height="100vh" padding="5" direction="column">
       <Grid
         templateColumns={['1fr', '1fr', '1fr', '1fr 1fr']}
         maxW={980}
-        margin="0 auto"
-        height={['85vh', '88vh']}
+        margin={['0', '0', '0', '0 auto']}
         gap="20"
+        flex="1"
       >
         <Flex
           background="teal"
@@ -114,7 +122,6 @@ export function Login(): JSX.Element {
                 placeholder="Usuário"
                 value={username}
                 onChange={e => setUsername(e.target.value)}
-                focusBorderColor="pink.500"
               />
             </FormControl>
             <FormControl id="password" marginTop="1">
@@ -139,40 +146,6 @@ export function Login(): JSX.Element {
         </Flex>
       </Grid>
       <Footer />
-    </Box>
+    </Flex>
   );
 }
-
-/**
- * <Flex
-        justifyContent="center"
-        position={['absolute']}
-        color={['white', 'black']}
-        bottom={[10, 0]}
-        right={['unset']}
-        margin="3"
-        fontSize="sm"
-      >
-        <Link href="/about">
-          sobre o projeto
-        </Link>
-      </Flex>
-      <Flex
-        justifyContent="center"
-        position={['absolute']}
-        color={['white', 'black']}
-        bottom="0"
-        right={['unset', 0]}
-        margin="3"
-        fontSize="sm"
-      >
-        developed with <del style={{ margin: '0 4px' }}>coffee</del> <Text as="span" color="red" marginRight="4px">❤ </Text> by
-        <Link
-          style={{ margin: '0 4px' }}
-          href="https://github.com/gustavocrvls"
-          isExternal
-        >
-          @gustavocrvls
-        </Link>
-      </Flex>
- */
