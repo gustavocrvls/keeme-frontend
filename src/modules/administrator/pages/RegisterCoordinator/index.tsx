@@ -3,38 +3,37 @@ import {
   Button,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormHelperText,
   FormLabel,
   Input,
   Select,
   SimpleGrid,
 } from '@chakra-ui/react';
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import { PROFILES } from '../../../../constants/Profiles';
 import { api } from '../../../../services/api';
 import {
   notifyError,
   notifySuccess,
 } from '../../../../components/Notifications';
-import { ICourse } from './dtos';
+import { Course, FormData } from './dtos';
 import { PageTitle } from '../../../../components/PageTitle';
-import { cpfMask } from '../../../../utils/masks';
-import { isValidCPF } from '../../../../utils/validations';
 
 export function RegisterCoordinator(): JSX.Element {
-  const [courses, setCourses] = useState<Array<ICourse>>([]);
-
-  const [coordinatorName, setCoordinatorName] = useState('');
-  const [coordinatorUsername, setCoordinatorUsername] = useState('');
-  const [coordinatorEmail, setCoordinatorEmail] = useState('');
-  const [coordinatorCPF, setCoordinatorCPF] = useState('');
-  const [coordinatorCourse, setCoordinatorCourse] = useState('');
-  const [coordinatorPassword, setCoordinatorPassword] = useState('');
-  const [coordinatorPassword2, setCoordinatorPassword2] = useState('');
-
+  const [courses, setCourses] = useState<Array<Course>>([]);
   const [isCreating, setIsCreating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const password = useRef<any>({});
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  password.current = watch('password', '');
 
   const history = useHistory();
 
@@ -58,35 +57,16 @@ export function RegisterCoordinator(): JSX.Element {
     loadCursos();
   }, []);
 
-  async function handleForm(e: FormEvent): Promise<void> {
-    e.preventDefault();
-
-    if (!isValidCPF(coordinatorCPF.replace(/\D/g, ''))) {
-      notifyError('CPF inválido!');
-      return;
-    }
-
-    if (coordinatorPassword.length < 8) {
-      notifyError('A senha deve ter mais de 8 caracteres!');
-      return;
-    }
-
-    if (coordinatorPassword !== coordinatorPassword2) {
-      notifyError('As senhas não estão iguais!');
-      return;
-    }
-
+  async function handleForm(data: FormData): Promise<void> {
     setIsCreating(true);
-
     try {
       await api.post('users', {
-        name: coordinatorName,
-        cpf: coordinatorCPF.replace(/\D/g, ''),
-        email: coordinatorEmail,
-        username: coordinatorUsername,
-        password: coordinatorPassword,
+        name: data.name,
+        username: data.username,
+        course: data.course,
+        email: data.email,
+        password: data.password,
         profile: PROFILES.COORDINATOR,
-        course: Number(coordinatorCourse),
       });
       notifySuccess('Novo coordenador cadastrado!');
       history.push('/administrator/home');
@@ -101,41 +81,18 @@ export function RegisterCoordinator(): JSX.Element {
     <div>
       <PageTitle>Cadastrar Coordenador</PageTitle>
 
-      <form onSubmit={handleForm}>
+      <Box as="form" onSubmit={handleSubmit(handleForm)}>
         <Box marginBottom="3">
-          <FormControl id="nome" isRequired>
+          <FormControl id="name" isRequired>
             <FormLabel>Nome</FormLabel>
-            <Input
-              type="text"
-              placeholder="Nome"
-              value={coordinatorName}
-              onChange={e => setCoordinatorName(e.target.value)}
-            />
+            <Input type="text" placeholder="Nome" {...register('name')} />
           </FormControl>
-        </Box>
-        <Box marginBottom="3">
-          <SimpleGrid columns={[1, 2]} spacing={2}>
-            <FormControl id="cpf" isRequired>
-              <FormLabel>CPF</FormLabel>
-              <Input
-                type="text"
-                placeholder="CPF"
-                value={cpfMask(coordinatorCPF)}
-                onChange={e => setCoordinatorCPF(e.target.value)}
-              />
-            </FormControl>
-          </SimpleGrid>
         </Box>
         <Box marginBottom="3">
           <SimpleGrid columns={[1, 2]} spacing={2}>
             <FormControl id="email" isRequired>
               <FormLabel>E-mail</FormLabel>
-              <Input
-                type="email"
-                placeholder="E-mail"
-                value={coordinatorEmail}
-                onChange={e => setCoordinatorEmail(e.target.value)}
-              />
+              <Input type="email" placeholder="E-mail" {...register('email')} />
             </FormControl>
 
             <FormControl id="usuario" isRequired>
@@ -143,23 +100,18 @@ export function RegisterCoordinator(): JSX.Element {
               <Input
                 type="text"
                 placeholder="Usuário"
-                value={coordinatorUsername}
-                onChange={e => setCoordinatorUsername(e.target.value)}
+                {...register('username')}
               />
             </FormControl>
           </SimpleGrid>
         </Box>
         <Box marginBottom="3">
-          <FormControl id="curso" isRequired>
+          <FormControl id="course" isRequired>
             <FormLabel>Curso</FormLabel>
-            <Select
-              placeholder="Curso"
-              value={coordinatorCourse}
-              onChange={e => setCoordinatorCourse(e.target.value)}
-            >
-              {courses.map(curso => (
-                <option key={curso.id} value={curso.id}>
-                  {curso.name}
+            <Select placeholder="Curso" {...register('course')}>
+              {courses.map(course => (
+                <option key={course.id} value={course.id}>
+                  {course.name}
                 </option>
               ))}
             </Select>
@@ -167,26 +119,42 @@ export function RegisterCoordinator(): JSX.Element {
         </Box>
         <Box marginBottom="3">
           <SimpleGrid columns={2} spacing={2}>
-            <FormControl id="senha" isRequired>
+            <FormControl id="password" isRequired isInvalid={errors.password}>
               <FormLabel>Senha</FormLabel>
               <Input
                 type="password"
-                value={coordinatorPassword}
-                onChange={e => setCoordinatorPassword(e.target.value)}
-                placeholder="Nome"
+                placeholder="Senha"
+                {...register('password', {
+                  required: 'Senha é obrigatória',
+                  minLength: {
+                    value: 8,
+                    message: 'Mínimo de 8 caracteres',
+                  },
+                })}
               />
-              <FormHelperText>Mínimo de 8 caracteres</FormHelperText>
+              {errors.password ? (
+                <FormErrorMessage>{errors.password.message}</FormErrorMessage>
+              ) : (
+                <FormHelperText>Mínimo de 8 caracteres</FormHelperText>
+              )}
             </FormControl>
 
-            <FormControl id="senha2" isRequired>
+            <FormControl id="password2" isRequired isInvalid={errors.password2}>
               <FormLabel>Confirmar Senha</FormLabel>
               <Input
                 type="password"
-                placeholder="Nome"
-                value={coordinatorPassword2}
-                onChange={e => setCoordinatorPassword2(e.target.value)}
+                placeholder="Senha"
+                {...register('password2', {
+                  validate: value =>
+                    value === password.current ||
+                    'As senhas precisam ser iguais',
+                })}
               />
-              <FormHelperText>Mínimo de 8 caracteres</FormHelperText>
+              {errors.password2 ? (
+                <FormErrorMessage>{errors.password2.message}</FormErrorMessage>
+              ) : (
+                <FormHelperText>Mínimo de 8 caracteres</FormHelperText>
+              )}
             </FormControl>
           </SimpleGrid>
         </Box>
@@ -199,7 +167,7 @@ export function RegisterCoordinator(): JSX.Element {
             Cadastrar
           </Button>
         </Flex>
-      </form>
+      </Box>
     </div>
   );
 }

@@ -1,13 +1,13 @@
-export interface ICourse {
+export type Course = {
   id: number;
   name: string;
-}
+};
 
-export interface ParamTypes {
+export type ParamTypes = {
   id: string;
-}
+};
 
-export interface IUser {
+export type User = {
   id: number;
   name?: string;
   cpf?: string;
@@ -16,4 +16,12 @@ export interface IUser {
   password?: string;
   profile?: number;
   course?: number;
-}
+};
+
+export type FormData = {
+  name: string;
+  username: string;
+  email: string;
+  course: string;
+  password: string;
+};

@@ -46,7 +46,7 @@ export function NewAcc(): JSX.Element {
 
     try {
       const file = certificate || new Blob();
-      const userID = sessionStorage.getItem(USERID_KEY) || '';
+      const userId = sessionStorage.getItem(USERID_KEY) || '';
 
       if (!file.size) {
         notifyError('Anexe um certificate!');
@@ -57,7 +57,7 @@ export function NewAcc(): JSX.Element {
 
       formData.append('description', description);
       formData.append('quantity', quantity);
-      formData.append('user', userID);
+      formData.append('user', userId);
       formData.append('acc_type', accTypeId);
       formData.append('certificate', file);
       formData.append('acc_variant', String(accVariantId));

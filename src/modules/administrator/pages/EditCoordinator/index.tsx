@@ -3,6 +3,7 @@ import {
   Button,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormHelperText,
   FormLabel,
   Input,
@@ -10,36 +11,37 @@ import {
   SimpleGrid,
   Switch,
 } from '@chakra-ui/react';
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import { PROFILES } from '../../../../constants/Profiles';
 import { api } from '../../../../services/api';
 import {
   notifyError,
   notifySuccess,
 } from '../../../../components/Notifications';
-import { ICourse, IUser, ParamTypes } from './dtos';
+import { Course, ParamTypes, FormData } from './dtos';
 import { PageTitle } from '../../../../components/PageTitle';
-import { cpfMask } from '../../../../utils/masks';
-import { isValidCPF } from '../../../../utils/validations';
 
 export function EditCoordinator(): JSX.Element {
-  const [courses, setCourses] = useState<Array<ICourse>>([]);
-  const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [cpf, setCPF] = useState('');
-  const [course, setCourse] = useState('');
-  const [password, setPassword] = useState('');
-  const [password2, setPassword2] = useState('');
+  const [courses, setCourses] = useState<Array<Course>>([]);
   const [isCreating, setIsCreating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasNewPassword, setHasNewPassword] = useState(false);
+  const password = useRef<any>({});
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  password.current = watch('password', '');
 
   const history = useHistory();
   const { id } = useParams<ParamTypes>();
 
-  async function loadCursos(): Promise<void> {
+  async function loadCourses(): Promise<void> {
     try {
       setIsLoading(true);
       const response = await api.get('courses', {
@@ -60,11 +62,10 @@ export function EditCoordinator(): JSX.Element {
       setIsLoading(true);
       const response = await api.get(`users/${id}`);
 
-      setName(response.data.name);
-      setCPF(response.data.cpf);
-      setEmail(response.data.email);
-      setUsername(response.data.username);
-      setCourse(response.data.course.id);
+      setValue('name', response.data.name);
+      setValue('email', response.data.email);
+      setValue('username', response.data.username);
+      setValue('course', response.data.course.id);
     } catch (err) {
       notifyError('Não foi possível carregar os cursos :(');
     } finally {
@@ -73,45 +74,27 @@ export function EditCoordinator(): JSX.Element {
   }
 
   useEffect(() => {
-    loadCursos();
+    loadCourses();
     loadData();
   }, []);
 
-  async function handleForm(e: FormEvent): Promise<void> {
-    e.preventDefault();
-
-    if (!isValidCPF(cpf.replace(/\D/g, ''))) {
-      notifyError('CPF inválido!');
-      return;
-    }
-
-    if (hasNewPassword && password.length < 8) {
-      notifyError('A senha deve ter mais de 8 caracteres!');
-      return;
-    }
-
-    if (hasNewPassword && password !== password2) {
-      notifyError('As senhas não estão iguais!');
-      return;
-    }
-
+  async function handleForm(data: FormData): Promise<void> {
     setIsCreating(true);
 
-    const data = {
-      name,
-      cpf: cpf.replace(/\D/g, ''),
-      email,
-      username,
+    let user = {
+      ...data,
       profile: PROFILES.COORDINATOR,
-      course: Number(course),
-    } as IUser;
+    };
 
     if (hasNewPassword) {
-      data.password = password;
+      user = {
+        ...user,
+        password: data.password,
+      };
     }
 
     try {
-      await api.put(`users/${id}`, data);
+      await api.put(`users/${id}`, user);
       notifySuccess('Usuário atualizado!');
       history.push('/administrator/home');
     } catch (err) {
@@ -125,41 +108,18 @@ export function EditCoordinator(): JSX.Element {
     <div>
       <PageTitle>Editar Coordenador</PageTitle>
 
-      <form onSubmit={handleForm}>
+      <Box as="form" onSubmit={handleSubmit(handleForm)}>
         <Box marginBottom="3">
           <FormControl id="nome" isRequired>
             <FormLabel>Nome</FormLabel>
-            <Input
-              type="text"
-              placeholder="Nome"
-              value={name}
-              onChange={e => setName(e.target.value)}
-            />
+            <Input type="text" placeholder="Nome" {...register('name')} />
           </FormControl>
-        </Box>
-        <Box marginBottom="3">
-          <SimpleGrid columns={[1, 2]} spacing={2}>
-            <FormControl id="cpf" isRequired>
-              <FormLabel>CPF</FormLabel>
-              <Input
-                type="text"
-                placeholder="CPF"
-                value={cpfMask(cpf)}
-                onChange={e => setCPF(e.target.value)}
-              />
-            </FormControl>
-          </SimpleGrid>
         </Box>
         <Box marginBottom="3">
           <SimpleGrid columns={[1, 2]} spacing={2}>
             <FormControl id="email" isRequired>
               <FormLabel>E-mail</FormLabel>
-              <Input
-                type="email"
-                placeholder="E-mail"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
+              <Input type="email" placeholder="E-mail" {...register('email')} />
             </FormControl>
 
             <FormControl id="usuario" isRequired>
@@ -167,8 +127,7 @@ export function EditCoordinator(): JSX.Element {
               <Input
                 type="text"
                 placeholder="Usuário"
-                value={username}
-                onChange={e => setUsername(e.target.value)}
+                {...register('username')}
               />
             </FormControl>
           </SimpleGrid>
@@ -176,14 +135,10 @@ export function EditCoordinator(): JSX.Element {
         <Box marginBottom="3">
           <FormControl id="curso" isRequired>
             <FormLabel>Curso</FormLabel>
-            <Select
-              placeholder="Curso"
-              value={course}
-              onChange={e => setCourse(e.target.value)}
-            >
-              {courses.map(curso => (
-                <option key={curso.id} value={curso.id}>
-                  {curso.name}
+            <Select placeholder="Curso" {...register('course')}>
+              {courses.map(course => (
+                <option key={course.id} value={course.id}>
+                  {course.name}
                 </option>
               ))}
             </Select>
@@ -209,21 +164,40 @@ export function EditCoordinator(): JSX.Element {
                 <FormLabel>Senha</FormLabel>
                 <Input
                   type="password"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  placeholder="Nome"
+                  placeholder="Senha"
+                  {...register('password', {
+                    required: 'Senha é obrigatória',
+                    minLength: {
+                      value: 8,
+                      message: 'Mínimo de 8 caracteres',
+                    },
+                  })}
                 />
-                <FormHelperText>Mínimo de 8 caracteres</FormHelperText>
+                {errors.password ? (
+                  <FormErrorMessage>{errors.password.message}</FormErrorMessage>
+                ) : (
+                  <FormHelperText>Mínimo de 8 caracteres</FormHelperText>
+                )}
               </FormControl>
 
               <FormControl id="senha2" isRequired>
                 <FormLabel>Confirmar Senha</FormLabel>
                 <Input
                   type="password"
-                  placeholder="Nome"
-                  value={password2}
-                  onChange={e => setPassword2(e.target.value)}
+                  placeholder="Senha"
+                  {...register('password2', {
+                    validate: value =>
+                      value === password.current ||
+                      'As senhas precisam ser iguais',
+                  })}
                 />
+                {errors.password2 ? (
+                  <FormErrorMessage>
+                    {errors.password2.message}
+                  </FormErrorMessage>
+                ) : (
+                  <FormHelperText>Mínimo de 8 caracteres</FormHelperText>
+                )}
               </FormControl>
             </SimpleGrid>
           </Box>
@@ -237,7 +211,7 @@ export function EditCoordinator(): JSX.Element {
             Confirmar edição
           </Button>
         </Flex>
-      </form>
+      </Box>
     </div>
   );
 }
