@@ -1,5 +1,5 @@
-function calculateProgress(total: number, completado: number): number {
-  return completado < total ? (100 * completado) / total : 100;
+function calculateProgress(total: number, completed: number): number {
+  return completed < total ? (100 * completed) / total : 100;
 }
 
 export { calculateProgress };

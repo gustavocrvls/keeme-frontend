@@ -11,15 +11,15 @@ const Progress = (props: ProgressProps): JSX.Element => {
     <Box pos="relative" pt="10">
       <Box
         position="absolute"
-        h={5}
+        h="5px"
         w="100%"
-        borderRadius={16}
+        borderRadius="16px"
         bgColor="#d3e2e5"
       />
       <Box
         pos="absolute"
-        h={5}
-        borderRadius={16}
+        h="5px"
+        borderRadius="16px"
         bgColor="#31878c"
         w={completed}
       />
