@@ -15,32 +15,17 @@ import {
   Radio,
 } from '@chakra-ui/react';
 import { api } from '../../../../services/api';
-import FileUploader from './components/FileUploader';
+import { FileUploader } from '../../../../components/FileUploader';
 import {
   notifyError,
   notifySuccess,
 } from '../../../../components/Notifications';
 import { TOKEN_KEY, USERID_KEY } from '../../../../services/auth';
 import PageTitle from '../../../../components/PageTitle';
-
-interface TipoDeAcc {
-  id: number;
-  name: string;
-  point_limit: number;
-  unity_of_measurement: {
-    id: number;
-    name: string;
-  };
-  points_per_unity: number;
-  acc_variants: {
-    id: number;
-    description: string;
-    points_per_unity: 0;
-  }[];
-}
+import { ACCType } from './dtos';
 
 export function NewAcc(): JSX.Element {
-  const [tiposDeAcc, setTiposDeAcc] = useState(new Array<TipoDeAcc>());
+  const [tiposDeAcc, setTiposDeAcc] = useState(new Array<ACCType>());
   const [idTipoDeAcc, setIdTipoDeAcc] = useState<string>('');
   const [quantidade, setQuantidade] = useState<string>('');
   const [descricao, setDescricao] = useState<string>('');
