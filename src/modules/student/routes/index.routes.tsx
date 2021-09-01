@@ -2,7 +2,7 @@ import { PrivateRoute } from '../../../components/PrivateRoute';
 
 import CadastrarAcc from '../pages/CadastrarACC';
 import Dashboard from '../pages/Dashboard';
-import DetalhesDaAcc from '../pages/DetalhesDaACC';
+import { ACCDetails } from '../pages/ACCDetails';
 import DetalhesDaPontuacao from '../pages/MinhasACCs';
 import TiposDeACC from '../pages/TiposDeACC';
 
@@ -17,7 +17,7 @@ const Routes = (): JSX.Element => {
         exact
         component={DetalhesDaPontuacao}
       />
-      <PrivateRoute path="/student/accs/:id" component={DetalhesDaAcc} />
+      <PrivateRoute path="/student/accs/:id" component={ACCDetails} />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { useHistory, useParams, withRouter } from 'react-router-dom';
-import { FiDownload, FiTrash } from 'react-icons/fi';
+import { useHistory, useParams } from 'react-router-dom';
+import { FiTrash } from 'react-icons/fi';
 
 import {
   AlertDialog,
@@ -27,7 +27,7 @@ import {
 import { IACC, ParamTypes } from './dtos';
 import { DownloadButton } from '../../../../components/DownloadButton';
 
-export function DetalhesDaAcc(): JSX.Element {
+export function ACCDetails(): JSX.Element {
   const [acc, setACC] = useState<IACC>();
   const [pontos, setPontos] = useState<number>(0);
   const [isAlertDeleteOpen, setIsAlertDeleteOpen] = useState<boolean>(false);
@@ -268,5 +268,3 @@ export function DetalhesDaAcc(): JSX.Element {
     </>
   );
 }
-
-export default withRouter(DetalhesDaAcc);
