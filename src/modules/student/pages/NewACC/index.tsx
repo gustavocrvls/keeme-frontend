@@ -39,7 +39,7 @@ interface TipoDeAcc {
   }[];
 }
 
-export default function CadastrarAcc(): JSX.Element {
+export function NewAcc(): JSX.Element {
   const [tiposDeAcc, setTiposDeAcc] = useState(new Array<TipoDeAcc>());
   const [idTipoDeAcc, setIdTipoDeAcc] = useState<string>('');
   const [quantidade, setQuantidade] = useState<string>('');
