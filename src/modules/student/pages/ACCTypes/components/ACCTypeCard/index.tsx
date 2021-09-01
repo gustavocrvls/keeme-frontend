@@ -1,29 +1,16 @@
 import { Box, Flex, UnorderedList, ListItem } from '@chakra-ui/react';
+import { Progress } from '../../../../../../components/Progress';
+import { calculateProgress } from '../../../../../../utils/calculations';
+import { ACCTypeCardProps } from './dtos';
 
-import { Progress } from '../../../../../components/Progress';
-import { calculateProgress } from '../../../../../utils/calculations';
-
-interface AccDetails {
-  name: string;
-  description: string;
-  limit: number;
-  measurementUnity: string;
-  completed: number;
-  variants: {
-    id: number;
-    description: string;
-    points_per_unity: number;
-  }[];
-}
-
-const CardTipoDeACC = ({
+export function ACCTypeCard({
   name,
   description,
   limit,
   measurementUnity,
   completed,
   variants,
-}: AccDetails): JSX.Element => {
+}: ACCTypeCardProps): JSX.Element {
   return (
     <Box backgroundColor="white" boxShadow="lg" padding="3" borderRadius="md">
       <Box>
@@ -63,7 +50,6 @@ const CardTipoDeACC = ({
             </li>
           )}
         </UnorderedList>
-
         <div>
           Quantidade Utilizada:
           <strong>{` ${completed}/${limit}`}</strong>
@@ -72,6 +58,4 @@ const CardTipoDeACC = ({
       <Progress completed={calculateProgress(limit, completed)} />
     </Box>
   );
-};
-
-export default CardTipoDeACC;
+}

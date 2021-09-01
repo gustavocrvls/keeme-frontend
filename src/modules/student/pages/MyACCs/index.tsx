@@ -14,32 +14,9 @@ import PageTitle from '../../../../components/PageTitle';
 import { notifyError } from '../../../../components/Notifications';
 import { Pagination } from '../../../../components/Pagination';
 import { ACCCard } from '../../../../components/ACCCard';
+import { IACC } from './dtos';
 
-interface IACC {
-  id: number;
-  points: number;
-  quantity: number;
-  description: string;
-  acc_status: {
-    id: number;
-    name: string;
-  };
-  acc_type: {
-    id: number;
-    name: string;
-    unity_of_measurement: {
-      id: number;
-      name: string;
-    };
-  };
-  acc_variant: {
-    id: number;
-    description: string;
-    points_per_unity: number;
-  };
-}
-
-export default function MinhasACCs(): JSX.Element {
+export function MyACCs(): JSX.Element {
   const [accs, setACCs] = useState<IACC[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [totalPages, setTotalPages] = useState<number>(0);

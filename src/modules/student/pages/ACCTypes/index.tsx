@@ -5,29 +5,13 @@ import PageTitle from '../../../../components/PageTitle';
 
 import { USERID_KEY } from '../../../../services/auth';
 import { api } from '../../../../services/api';
-import CardTipoDeACC from './components/CardTipoDeACC';
+import { ACCTypeCard } from './components/ACCTypeCard';
 import { notifyError } from '../../../../components/Notifications';
 import { Pagination } from '../../../../components/Pagination';
-
-interface ACCTypes {
-  id: number;
-  name: string;
-  description: string;
-  approved_points: number;
-  points_under_analisys: number;
-  unit_of_measurement: {
-    name: string;
-  };
-  point_limit: number;
-  acc_variants: {
-    id: number;
-    description: string;
-    points_per_unity: number;
-  }[];
-}
+import { ACCType } from './dtos';
 
 export default function ACCTypes(): JSX.Element {
-  const [accTypes, setACCTypes] = useState<Array<ACCTypes>>([]);
+  const [accTypes, setACCTypes] = useState<Array<ACCType>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -66,7 +50,7 @@ export default function ACCTypes(): JSX.Element {
         <UnorderedList margin="0" listStyleType="none">
           {accTypes.map(type => (
             <ListItem marginBottom="3" key={type.id}>
-              <CardTipoDeACC
+              <ACCTypeCard
                 name={type.name}
                 limit={type.point_limit}
                 completed={type.approved_points}
