@@ -99,10 +99,10 @@ export function StudentDetails(): JSX.Element {
           </Box>
           <Box>
             <Box width="100%" color="gray.500">
-              CPF
+              Matrícula
             </Box>
             {!isLoadingData ? (
-              <Box width="100%">{student?.cpf}</Box>
+              <Box width="100%">{student?.registration}</Box>
             ) : (
               <SkeletonText noOfLines={1} />
             )}

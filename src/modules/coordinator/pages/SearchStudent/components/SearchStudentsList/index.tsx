@@ -10,7 +10,6 @@ import {
 } from '@chakra-ui/react';
 import { FiArrowRight } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
-import { cpfMask } from '../../../../../../utils/masks';
 import { SearchStudentsListProps } from './dtos';
 
 export function SearchStudentsList({
@@ -36,7 +35,7 @@ export function SearchStudentsList({
               >
                 <Box>
                   <strong>{student.name}</strong>
-                  <Text fontSize="sm">{cpfMask(student.cpf)}</Text>
+                  <Text fontSize="sm">{student.registration}</Text>
                 </Box>
 
                 <Tooltip label="Detalhes do discente" hasArrow>

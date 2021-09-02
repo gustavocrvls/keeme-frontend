@@ -1,6 +1,15 @@
-import { IStudent } from '../../dto';
+export type Student = {
+  id: number;
+  name: string;
+  username: string;
+  registration: string;
+  course: {
+    id: number;
+    name: string;
+  };
+};
 
 export interface SearchStudentsListProps {
-  students: IStudent[];
+  students: Student[];
   isLoading: boolean;
 }

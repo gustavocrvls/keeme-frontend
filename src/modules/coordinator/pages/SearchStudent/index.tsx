@@ -5,13 +5,13 @@ import { FiSearch } from 'react-icons/fi';
 import { api } from '../../../../services/api';
 import { notifyError } from '../../../../components/Notifications';
 import { PageTitle } from '../../../../components/PageTitle';
-import { IStudent } from './dto';
+import { Student } from './dto';
 import { SearchStudentsList } from './components/SearchStudentsList';
 import { USER_COURSE_KEY } from '../../../../services/auth';
 import { PROFILES } from '../../../../constants/Profiles';
 
 export function SearchStudent(): JSX.Element {
-  const [students, setStudents] = useState<IStudent[]>([]);
+  const [students, setStudents] = useState<Student[]>([]);
   const [search, setSearch] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSearched, setIsSearched] = useState<boolean>(false);
@@ -59,7 +59,7 @@ export function SearchStudent(): JSX.Element {
           <Input
             value={search}
             id="student-name"
-            placeholder="Nome ou CPF do Discente"
+            placeholder="Nome ou Matrícula do Discente"
             onChange={e => setSearch(e.target.value)}
             width="100%"
             marginRight="2"
@@ -78,13 +78,13 @@ export function SearchStudent(): JSX.Element {
 
       {search.length > 0 && isSearched && !isLoading && !students.length && (
         <Text fontSize="sm" color="gray.600">
-          Não foram encontrados discentes com esse CPF/Nome
+          Não foram encontrados discentes com essa Matrícula ou Nome
         </Text>
       )}
 
       {!search.length && !students.length && (
         <Text fontSize="sm" color="gray.600">
-          Escreva algum Nome ou CPF para buscar
+          Escreva algum Nome ou Matrícula para buscar
         </Text>
       )}
 

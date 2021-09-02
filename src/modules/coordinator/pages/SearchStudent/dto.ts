@@ -1,10 +1,10 @@
-export interface IStudent {
+export type Student = {
   id: number;
   name: string;
-  cpf: string;
   username: string;
+  registration: string;
   course: {
     id: number;
     name: string;
   };
-}
+};

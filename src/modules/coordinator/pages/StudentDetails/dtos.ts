@@ -2,7 +2,7 @@ export interface IStudent {
   id: number;
   name: string;
   email: string;
-  cpf: string;
+  registration: string;
   username: string;
   course: {
     id: number;
