@@ -5,7 +5,7 @@ import {
   Stack,
   UnorderedList,
 } from '@chakra-ui/react';
-import { ACCCard } from './components/ACCCard';
+import { ACCCard } from '../../../../../../components/ACCCard';
 import { ACCListProps } from './dtos';
 
 export function ACCList({ accs, isLoading }: ACCListProps): JSX.Element {

@@ -1,4 +1,4 @@
-import { Box, Flex, SimpleGrid } from '@chakra-ui/react';
+import { Box, Flex, IconButton, SimpleGrid, Tooltip } from '@chakra-ui/react';
 import { FiArrowRight } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { ACC_STATUS } from '../../constants/ACCStatus';
@@ -11,6 +11,7 @@ export function ACCCard({
   points,
   quantity,
   status,
+  to,
 }: ACCCardProps): JSX.Element {
   function handleStatus() {
     switch (status.id) {
@@ -57,9 +58,13 @@ export function ACCCard({
         </Box>
       </Flex>
       <Flex alignItems="center" marginLeft="5">
-        <Link to={`accs/${id}`}>
-          <FiArrowRight size="20" />
-        </Link>
+        <IconButton
+          as={Link}
+          to={to || `accs/${id}`}
+          aria-label="choose-acc"
+          icon={<FiArrowRight size={20} />}
+          variant="ghost"
+        />
       </Flex>
     </Flex>
   );

@@ -15,4 +15,5 @@ export interface ACCCardProps {
     id: number;
     name: string;
   };
+  to?: string;
 }
