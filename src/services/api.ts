@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getToken } from './auth';
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API,
+  baseURL: import.meta.env.VITE_API,
 });
 
 api.interceptors.request.use(async config => {
@@ -27,7 +27,7 @@ api.interceptors.response.use(async response => {
  * api without token validation
  */
 const publicApi = axios.create({
-  baseURL: process.env.REACT_APP_API,
+  baseURL: import.meta.env.VITE_API,
 });
 
 export { api, publicApi };

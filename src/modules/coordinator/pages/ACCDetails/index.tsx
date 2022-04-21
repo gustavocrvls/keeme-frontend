@@ -266,7 +266,7 @@ export function ACCDetails(): JSX.Element {
       )}
       <a
         style={{ visibility: 'hidden' }}
-        href={`${process.env.REACT_APP_API}/certificates/${acc?.certificate.id}`}
+        href={`${import.meta.env.VITE_API}/certificates/${acc?.certificate.id}`}
         ref={downloadRef}
       >
         baixar

@@ -5,5 +5,8 @@
     "eslint.format.enable": true,
     "[typescriptreact]": {
         "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
     }
 }
