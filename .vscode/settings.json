@@ -4,6 +4,6 @@
     "eslint.alwaysShowStatus": true,
     "eslint.format.enable": true,
     "[typescriptreact]": {
-        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+        "editor.defaultFormatter": "vscode.typescript-language-features"
     }
 }
