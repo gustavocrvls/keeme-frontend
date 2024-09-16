@@ -23,6 +23,8 @@ O projeto está dividido em duas partes:
 
 Você também pode dar uma olhada no protótipo do projeto em: <a href="https://www.figma.com/file/28fcRaEdbWgQkIAw6Pnfwh/ACCGen-Web?node-id=0%3A1" target="_blank">KeeMe</a>
 
+Você também pode ver o trabalho completo aqui: <a href="https://drive.google.com/file/d/1LVLTeqy_KWP8bVT_fXP6muVqlh3brkWh/view?usp=sharing" target="_blank">Trabalho de Conclusão de Curso</a>
+
 ## 🛠 Tecnologias Usadas
 - HTML5
 - CSS3
